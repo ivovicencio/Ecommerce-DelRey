@@ -1,0 +1,91 @@
+/* --- Estilo del Footer Premium --- */
+
+.footer-premium {
+  /* Fondo sólido claro inspirado en el fondo del logo */
+  background-color: #F9F7F9; 
+  /* Borde superior con el Malva del logo suavizado */
+  border-top: 1px solid rgba(163, 128, 164, 0.2);
+}
+
+/* 1. TEXTO DE MARCA: Usamos el degradado del logo */
+.brand-text {
+  font-weight: 800;
+  background: linear-gradient(45deg, #4A304D, #A380A4); /* Ciruela a Malva Logo */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+/* 2. ICONOS SOCIALES: Diseño circular */
+.social-icon {
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: white;
+  color: #4A304D; /* Color ciruela del logo */
+  text-decoration: none;
+  font-size: 1.2rem;
+  /* Sombra sutil con el tono del logo */
+  box-shadow: 0 4px 10px rgba(163, 128, 164, 0.15);
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+  color: white;
+}
+
+.whatsapp:hover { background-color: #25D366; box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3); }
+.facebook:hover { background-color: #1877F2; box-shadow: 0 6px 15px rgba(24, 119, 242, 0.3); }
+.instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+
+/* 3. FORMULARIO DE RESEÑAS */
+.form-control {
+  padding: 0.8rem 1.2rem;
+  background-color: white;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  color: #4A304D;
+}
+
+/* Efecto al hacer clic: Usamos el Dorado de la corona */
+.form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(197, 164, 71, 0.2); /* Sombra dorada */
+  border-color: #C5A447; /* Borde dorado */
+}
+
+/* Botón de envío */
+.btn-send-review {
+  background-color: #4A304D; /* Ciruela profundo */
+  color: white;
+  border: 1px solid transparent;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.btn-send-review:hover {
+  background-color: #A380A4; /* Cambia al Malva del logo */
+  border-color: #C5A447;     /* Borde dorado al hacer hover */
+  transform: scale(1.02);
+  color: white;
+}
+
+/* 4. RESPONSIVE: Ajustes para pantallas pequeñas */
+@media (max-width: 767.98px) {
+  .footer-premium {
+    text-align: center;
+  }
+  
+  .d-flex.gap-3 {
+    justify-content: center;
+  }
+
+  .col-lg-5 {
+    margin-top: 2rem;
+  }
+}

@@ -1,0 +1,164 @@
+
+:root {
+  --mauve-logo: #A380A4;      
+  --gold-corona: #C5A447;     /* Dorado de la corona, ideal para bordes y brillos */
+  --plum-dark: #4A304D;       /* Color ciruela de 'Calzados', da profundidad */
+  --tienda-dark: #1A1A1A;     /* Negro de respaldo para el fondo */
+}
+
+/* 2. CONTENEDOR PRINCIPAL
+   - Controla el espacio total que ocupa el Hero en pantalla.
+*/
+.hero-container {
+  position: relative;         /* Permite posicionar el video y el texto encima */
+  width: 100%;
+  height: 100vh;              /* Altura: 100% de la pantalla. Ajustar a 80vh si quieres que se vea el inicio de la siguiente sección */
+  display: flex;
+  align-items: center;        /* Centrado vertical del contenido */
+  overflow: hidden;           /* Evita que el video se salga del contenedor */
+  background-color: var(--tienda-dark);
+}
+
+/* RESPONSIVE: Ajustes de altura para que en tablets y celulares no quede tan largo el scroll */
+@media (max-width: 991.98px) {
+  .hero-container { height: 70vh; } 
+}
+
+@media (max-width: 576px) {
+  .hero-container { height: 85vh; } /* Un poco más alto en móviles para evitar gaps con el footer */
+}
+
+/* 3. ESTILO DEL VIDEO DE FONDO
+   - Maneja cómo se ve el video 'loop.mp4'.
+*/
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+
+ 
+  animation: videoFadeIn 2s ease-in-out; /* El video aparece en 2 segundos */
+}
+/* 4. CAPA OSCURA (OVERLAY)
+   - Es el filtro que hace que el texto se pueda leer.
+*/
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Gradiente radial: centro más claro (ciruela) a bordes más oscuros. 
+     Aumenta el 0.85 si el video es muy brillante y el texto no se lee bien.
+  */
+  background: radial-gradient(circle, rgba(74, 48, 77, 0.4) 0%, rgba(26, 26, 26, 0.85) 100%);
+  z-index: 2;                 /* Encima del video, debajo del texto */
+}
+
+/* 5. CONTENEDOR DE CONTENIDO
+   - Maneja el texto y el botón.
+*/
+.hero-content {
+  position: relative;
+  z-index: 3;                 /* Encima de todo */
+  /* Animación 'fadeInUp': duración de 1 segundo con curva de velocidad suave */
+  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;                 /* Empieza invisible hasta que arranca la animación */
+}
+
+/* AJUSTES DE TEXTO RESPONSIVE
+   - Cambia los 'font-size' aquí si el título queda muy grande o chico en celulares.
+*/
+@media (max-width: 991.98px) {
+  .hero-content .display-1 { font-size: 2.5rem; letter-spacing: -0.5px; }
+  .hero-content .lead { font-size: 1.15rem; }
+  .hero-btn { padding: 0.75rem 2rem !important; font-size: 0.95rem; }
+}
+
+@media (max-width: 767.98px) {
+  .hero-content .display-1 { font-size: 2rem; margin-bottom: 1.5rem !important; }
+  .hero-content .lead { font-size: 1rem; margin-bottom: 2rem !important; }
+}
+
+@media (max-width: 576px) {
+  .hero-content .display-1 { font-size: 1.5rem; margin-bottom: 1rem !important; }
+  .hero-content .lead { font-size: 0.95rem; }
+  .hero-btn { padding: 0.6rem 1.5rem !important; font-size: 0.85rem; }
+}
+
+/* 6. BOTÓN PERSONALIZADO (Estilo Premium)
+   - El corazón del llamado a la acción.
+*/
+.hero-btn {
+  /* Fondo degradado: usa los colores Plum y Mauve del logo */
+  background: linear-gradient(45deg, var(--plum-dark), var(--mauve-logo));
+  color: #FFFFFF !important;
+  border: 1px solid var(--gold-corona); /* Borde dorado inspirado en la corona */
+  border-radius: 50px;         /* Forma de cápsula */
+  font-weight: 700;
+  letter-spacing: 1.5px;       /* Espaciado entre letras pro */
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Sombra suave con tinte ciruela para dar profundidad */
+  box-shadow: 0 4px 15px rgba(74, 48, 77, 0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+/* EFECTO HOVER
+   - Cambia el comportamiento cuando el cliente pone el mouse encima.
+*/
+.hero-btn:hover {
+  transform: translateY(-3px) scale(1.02); /* Sube un poquito y se agranda */
+  border-color: #FFFFFF;       /* El borde se vuelve blanco para destacar */
+  box-shadow: 0 8px 25px rgba(197, 164, 71, 0.4); /* La sombra se vuelve dorada */
+  letter-spacing: 2px;         /* Las letras se separan un toque más */
+}
+
+/* EFECTO DE BRILLO (SHINE)
+   - Es esa luz que cruza el botón al hacer hover.
+*/
+.hero-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  /* Gradiente transparente con una franja dorada en el medio */
+  background: linear-gradient(90deg, transparent, rgba(197, 164, 71, 0.3), transparent);
+  transition: 0.6s;            /* Velocidad del destello */
+}
+
+.hero-btn:hover::after {
+  left: 100%;                  /* Mueve el brillo de izquierda a derecha */
+}
+
+/* 7. ANIMACIÓN DE ENTRADA
+   - Define el movimiento del texto al cargar la página.
+*/
+@keyframes fadeInUp {
+  from { 
+    opacity: 0; 
+    transform: translateY(30px); /* Empieza 30px más abajo */
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);    /* Termina en su posición original */
+  }
+}
+
+@keyframes videoFadeIn {
+  from {
+    opacity: 0;
+    filter: brightness(0.5); /* Empieza un poco oscuro */
+  }
+  to {
+    opacity: 1;
+    filter: brightness(1);   /* Termina en su brillo normal */
+  }
+}

@@ -1,0 +1,34 @@
+<section class="catalogo-section py-5">
+  <div class="container">
+    <h2 class="display-5 fw-bold text-center mb-2 brand-title">NUESTROS PRODUCTOS</h2>
+    <p class="text-center text-muted mb-5">Calidad garantizada en cada par</p>
+
+    <div class="d-flex justify-content-center gap-2 mb-5 flex-wrap">
+      <button (click)="filtrar('todos')" [class.active]="categoriaActual === 'todos'" class="btn btn-filter">Todos</button>
+      <button (click)="filtrar('masculino')" [class.active]="categoriaActual === 'masculino'" class="btn btn-filter">Masculino</button>
+      <button (click)="filtrar('femenino')" [class.active]="categoriaActual === 'femenino'" class="btn btn-filter">Femenino</button>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados">
+        <div class="product-card">
+          <div class="product-img-container">
+            <img [src]="producto.imagen" [alt]="producto.nombre" class="product-img">
+            <span class="badge-category">{{ producto.categoria }}</span>
+          </div>
+          
+          <div class="product-info p-3">
+            <h5 class="product-name">{{ producto.nombre }}</h5>
+            <p class="product-desc">{{ producto.descripcion }}</p>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <span class="product-price">${{ producto.precio | number }}</span>
+              <button (click)="agregarAlCarrito(producto)" class="btn-add-cart">
+                <i class="bi bi-bag-plus"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+/* --- Sección About: Estilo Boutique --- */
+
+.about-section {
+  background-color: #fdfbff; /* Fondo casi blanco con tinte malva */
+  position: relative;
+  overflow: hidden;
+}
+
+/* 1. CONTENEDOR DE IMAGEN Y EFECTO CÍRCULO */
+.about-image-wrapper {
+  position: relative;
+  display: inline-block;
+  padding: 20px;
+  margin: 0 auto; /* Centra el wrapper horizontalmente */
+}
+
+.image-bg-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 280px; /* Tamaño del círculo de fondo */
+  height: 280px;
+  background: linear-gradient(135deg, rgba(163, 128, 164, 0.2), rgba(197, 164, 71, 0.1));
+  border-radius: 50%; /* Lo hace redondo */
+  z-index: 1; /* Queda atrás de la imagen */
+}
+
+.about-img {
+  position: relative;
+  z-index: 2; /* Encima del círculo */
+  max-width: 250px; /* Tamaño máximo de tu imagen palabras.png */
+  filter: drop-shadow(0 10px 20px rgba(74, 48, 77, 0.15)); /* Sombra suave ciruela */
+  transition: transform 0.5s ease;
+  transform-origin: center; /* Asegura que la transformación se aplique desde el centro */
+}
+
+.about-img:hover {
+  transform: scale(1.05) rotate(2deg); /* Pequeño movimiento al pasar el mouse */
+}
+
+/* 2. TIPOGRAFÍA Y COLORES */
+.ls-2 { letter-spacing: 2px; } /* Espaciado entre letras para el subtítulo */
+
+.gold-text {
+  color: #C5A447; /* Dorado de la corona del logo */
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.brand-title {
+  color: #4A304D; /* Ciruela profundo del logo */
+  font-family: 'Great Vibes', cursive; /* Reutilizamos la fuente del logo si quieres un toque extra */
+}
+
+/* 3. NOTA PERSONAL (Efecto Glassmorphism) */
+.personal-note {
+  background: rgba(163, 128, 164, 0.05); /* Fondo malva muy transparente */
+  border-left: 4px solid #A380A4; /* Línea lateral del color 'Del Rey' */
+  color: #555;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+/* 4. BOTÓN ESTILO BOUTIQUE */
+.about-btn {
+  background-color: #4A304D; /* Color base Ciruela */
+  color: white !important;
+  font-weight: 700;
+  border: 1px solid transparent;
+  box-shadow: 0 4px 15px rgba(74, 48, 77, 0.2);
+  transition: all 0.3s ease;
+}
+
+.about-btn:hover {
+  background-color: transparent;
+  color: #4A304D !important;
+  border-color: #C5A447; /* Borde dorado en hover */
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(197, 164, 71, 0.2);
+}
+
+/* 5. RESPONSIVE: Ajustes para celular */
+@media (max-width: 767.98px) {
+  .about-text-content {
+    text-align: center; /* Centra el texto en móviles */
+    padding-top: 2rem;
+  }
+
+  .personal-note {
+    border-left: none;
+    border-top: 4px solid #A380A4; /* Cambia la línea a la parte superior */
+  }
+
+  .image-bg-circle {
+    width: 220px;
+    height: 220px; /* Círculo más chico en mobile */
+  }
+
+  .about-img {
+    max-width: 200px; /* Reduce el tamaño para mejor ajuste en el círculo más pequeño */
+    display: block; /* Para que margin: 0 auto funcione */
+    margin: 0 auto; /* Centra la imagen horizontalmente dentro del wrapper */
+  }
+
+  .about-img:hover {
+    transform: scale(1.03) rotate(1deg); /* Movimiento más sutil en mobile para mantener centrado */
+  }
+
+  .about-image-wrapper {
+    display: block; /* Cambia a block para mejor centrado en mobile */
+    text-align: center; /* Centra el contenido del wrapper */
+    padding: 15px; /* Reduce el padding en mobile */
+  }
+}

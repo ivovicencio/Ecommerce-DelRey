@@ -1,0 +1,192 @@
+/* --- Variables de Paleta (Basadas en el nuevo Logo) --- */
+:root {
+  --mauve-logo: #A380A4;      /* El color de 'Del Rey' */
+  --gold-corona: #C5A447;     /* El dorado de la corona (Premium) */
+  --plum-dark: #4A304D;       /* El color de 'Calzados' */
+  --mauve-light: #F2EBF2;     /* Versión muy clara para fondos */
+}
+
+/* --- Header General --- */
+.navbar {
+  backdrop-filter: blur(15px);
+  background-color: transparent !important;
+  background-image: linear-gradient(135deg,
+    rgba(163, 128, 164, 0.95),
+    rgba(242, 235, 242, 0.85)
+  ) !important;
+  border-bottom: 2px solid rgba(163, 128, 164, 0.2);
+  transition: all 0.4s ease;
+}
+/* --- Fuentes y Colores --- */
+.brand-wrapper {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-del-rey {
+  font-family: 'Great Vibes', cursive; /* La fuente del logo */
+  font-size: 1.8rem;
+  color: var(--mauve-logo);
+  /* Eliminamos el background-clip de aquí para evitar que desaparezca */
+}
+
+.brand-calzados {
+  font-family: sans-serif;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--plum-dark);
+  font-weight: bold;
+}
+
+/* FIX: Icono de pasos ahora con color sólido forzado */
+.brand-icon {
+  color: var(--plum-dark) !important;
+  font-size: 1.5rem;
+  -webkit-text-fill-color: initial !important; /* Resetea el clipping del padre */
+}
+
+/* FIX: Botón Carrito que no se veía */
+.btn-cart-premium {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid var(--gold-corona);
+  transition: all 0.3s ease;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.btn-cart-premium i {
+  color: #ffffff !important;
+  font-size: 1.1rem;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+.btn-cart-premium:hover {
+  background-color: #4A304D !important; /* morado oscuro intenso */
+  border-color: var(--gold-corona) !important;
+  transform: translateY(-2px);
+}
+
+.cart-icon-btn {
+  min-width: unset;
+}
+
+.btn-cart-premium:hover {
+  background: linear-gradient(135deg, var(--mauve-logo), var(--plum-dark)) !important;
+  transform: translateY(-2px);
+}
+
+/* --- (Gradiente de navbar ya definido al inicio) --- */
+
+/* Logo e Icono */
+.brand-icon {
+  /* El icono ahora usa el malva del logo para coherencia total */
+  color: var(--mauve-logo) !important;
+  -webkit-text-fill-color: var(--mauve-logo) !important; 
+  font-size: 1.8rem;
+  filter: drop-shadow(0 2px 4px rgba(74, 48, 77, 0.2));
+}
+
+.brand-text {
+  /* Texto con el degradado del Plum Dark al Malva Logo */
+  background: linear-gradient(45deg, var(--plum-dark), var(--mauve-logo));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Links de Navegación */
+.nav-link {
+  position: relative;
+  font-weight: 600;
+  color: var(--plum-dark) !important; /* Texto en el tono oscuro del logo */
+  transition: 0.3s;
+}
+
+/* --- Lógica de Animación Fluida (Mobile) --- */
+@media (max-width: 991.98px) {
+  .collapse.navbar-collapse {
+    display: block !important; 
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: 
+      max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .collapse.navbar-collapse.show {
+    max-height: 450px; 
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .navbar-nav {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.7); /* Un poco más de blanco para legibilidad */
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 1px solid var(--mauve-logo); /* Borde con el malva del logo */
+  }
+
+  .nav-item {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.4s ease;
+  }
+
+  .show .nav-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .show .nav-item:nth-child(1) { transition-delay: 0.1s; }
+  .show .nav-item:nth-child(2) { transition-delay: 0.15s; }
+  .show .nav-item:nth-child(3) { transition-delay: 0.2s; }
+  .show .nav-item:nth-child(4) { transition-delay: 0.25s; }
+
+  .nav-link::after { display: none; }
+}
+
+/* --- Estilo Desktop --- */
+@media (min-width: 992px) {
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    /* La rayita de selección ahora es DORADA, como la corona */
+    background-color: var(--gold-corona);
+    transition: 0.3s ease;
+    transform: translateX(-50%);
+  }
+  .nav-link:hover::after, .active-link::after { width: 70%; }
+}
+
+/* Botón Carrito */
+.btn-dark.rounded-pill {
+  /* Fondo ciruela profundo */
+  background: var(--plum-dark);
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 48, 77, 0.2);
+}
+
+.btn-dark.rounded-pill:hover {
+  /* Al pasar el mouse, se vuelve Malva con borde Dorado */
+  background: var(--mauve-logo);
+  border-color: var(--gold-corona);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(163, 128, 164, 0.4);
+}
