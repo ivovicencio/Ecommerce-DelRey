@@ -32,3 +32,25 @@
     </div>
   </div>
 </section>
+
+<!-- Modal de confirmación al agregar al carrito -->
+<div *ngIf="productoAgregado()" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" (click)="productoAgregado.set(null)">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 rounded-4 shadow-lg">
+      <div class="modal-header bg-success text-white border-0 rounded-top-4">
+        <h5 class="modal-title fw-bold">
+          <i class="bi bi-check-circle-fill me-2"></i>¡Producto agregado!
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="productoAgregado.set(null)"></button>
+      </div>
+      <div class="modal-body text-center p-4">
+        <img *ngIf="productoAgregado()" [src]="productoAgregado()!.imagen" class="rounded-3 mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+        <h6 class="fw-bold">{{ productoAgregado()!.nombre }}</h6>
+        <p class="text-muted mb-0">Se ha agregado correctamente a tu carrito.</p>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center p-4">
+        <button type="button" class="btn btn-primary rounded-pill px-4" (click)="productoAgregado.set(null)">¡Genial!</button>
+      </div>
+    </div>
+  </div>
+</div>

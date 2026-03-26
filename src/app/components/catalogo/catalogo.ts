@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import { Carrito } from '../../services/carrito/carrito';
 //definimos temporalmente los datos del producto
 interface Producto{
   id: number;
@@ -21,6 +21,10 @@ interface Producto{
 })
 export class Catalogo {
 
+    public carrito = inject(Carrito); 
+
+    productoAgregado = signal<Producto | null>(null);
+
 // 1. LISTA DE PRODUCTOS (Datos inventados en assets)
   productos: Producto[] = [
     { id: 1, nombre: 'Zapatilla Urban Gold', categoria: 'masculino', precio: 45000, imagen: 'assets/images/zapa1.jpg', descripcion: 'Estilo urbano con detalles dorados.' },
@@ -29,25 +33,18 @@ export class Catalogo {
     { id: 4, nombre: 'Sandalias Mauve', categoria: 'femenino', precio: 32000, imagen: 'assets/images/zapa4.jpg', descripcion: 'Frescura con nuestro color insignia.' },
   ];
 
-  // 2. VARIABLES DE ESTADO
-  productosFiltrados: Producto[] = [...this.productos]; // Lo que se ve en pantalla
-  categoriaActual: string = 'todos';
+  productosFiltrados = [...this.productos];
+  categoriaActual = 'todos';
 
-  // 3. FUNCIÓN DE FILTRADO
-  // Recibe la categoría (ej: 'masculino') y actualiza la lista visible
-  filtrar(categoria: string) {
-    this.categoriaActual = categoria;
-    if (categoria === 'todos') {
-      this.productosFiltrados = [...this.productos];
-    } else {
-      this.productosFiltrados = this.productos.filter(p => p.categoria === categoria);
-    }
+  filtrar(cat: string) {
+    this.categoriaActual = cat;
+    this.productosFiltrados = cat === 'todos' ? [...this.productos] : this.productos.filter(p => p.categoria === cat);
   }
 
   // 4. FUNCIÓN AGREGAR AL CARRITO
-  // Por ahora, solo lanzamos una alerta para confirmar que funciona
   agregarAlCarrito(producto: Producto) {
-    alert(`¡${producto.nombre} agregado al carrito!`);
-    // Aquí luego conectaremos con el servicio del carrito
+    this.carrito.agregar(producto);
+    this.productoAgregado.set(producto);
+    // El modal se mostrará automáticamente con *ngIf
   }
 }
