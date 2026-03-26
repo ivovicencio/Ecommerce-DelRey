@@ -12,14 +12,20 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     
-    <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed" id="navbarNav">
+    <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed">
       <ul class="navbar-nav ms-auto gap-lg-3 py-3 py-lg-0 align-items-center">
         <li class="nav-item"><a class="nav-link" routerLink="/inicio" routerLinkActive="active-link" (click)="closeMenu()">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/catalogo" routerLinkActive="active-link" (click)="closeMenu()">Catálogo</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/sobre-nosotros" routerLinkActive="active-link" (click)="closeMenu()">Bio</a></li>
+        
         <li class="nav-item">
-          <button class="btn btn-cart-premium cart-icon-btn ms-lg-2 shadow-sm" aria-label="Abrir carrito" data-bs-toggle="modal" data-bs-target="#cartModal" (click)="closeMenu()">
+          <button type="button" class="btn btn-cart-premium position-relative ms-lg-2" 
+                  (click)="openCart(); closeMenu()">
             <i class="bi bi-cart3"></i>
+            <span *ngIf="carrito.cantidadTotal() > 0" 
+                  class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow-sm badge-cart">
+              {{ carrito.cantidadTotal() }}
+            </span>
           </button>
         </li>
       </ul>

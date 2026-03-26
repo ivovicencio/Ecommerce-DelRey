@@ -1,0 +1,38 @@
+<div *ngIf="open" class="modal fade show d-block" style="background-color: rgba(0,0,0,0.5);" tabindex="-1" aria-modal="true">
+  <div class="modal-dialog modal-dialog-centered" (click)="closeModal()">
+    <div class="modal-content border-0 rounded-4 shadow-lg" (click)="$event.stopPropagation()">
+      <div class="modal-header border-0 bg-mauve-light py-4">
+        <h5 class="modal-title fw-bold plum-text">Mi Carrito</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body px-4">
+        <div *ngIf="carrito.cantidadTotal() === 0" class="text-center py-5">
+          <i class="bi bi-bag-x display-1 text-muted opacity-25"></i>
+          <p class="mt-3 text-muted">Tu bolsa de compras está vacía.</p>
+        </div>
+
+        <div *ngFor="let item of carrito.carritoItems()" class="d-flex align-items-center py-3 border-bottom">
+          <img [src]="item.imagen" class="rounded-3 me-3 shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+          <div class="flex-grow-1">
+            <h6 class="mb-0 fw-bold plum-text">{{ item.nombre }}</h6>
+              <small class="text-muted">Precio unitario: ${{ item.precio | number }} | Cantidad: {{ item.cantidad }}</small>
+          </div>
+          <button (click)="carrito.quitar(item.id)" class="btn btn-sm text-danger border-0">
+            <i class="bi bi-trash3"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="modal-footer border-0 flex-column p-4">
+        <div class="d-flex justify-content-between w-100 mb-4 px-2">
+          <span class="fs-5 fw-bold">Total:</span>
+          <span class="fs-4 fw-bold plum-text">${{ carrito.totalPagar() | number }}</span>
+        </div>
+        <button class="btn btn-finalizar w-100 py-3 rounded-pill fw-bold shadow" (click)="continuarPorWhatsApp()">
+          CONTINUAR POR WHATSAPP
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

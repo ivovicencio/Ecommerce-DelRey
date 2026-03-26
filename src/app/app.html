@@ -1,5 +1,7 @@
 <app-header></app-header>
 
+<app-cart-modal [open]="carrito.isCartOpen()" (close)="carrito.closeCart()"></app-cart-modal>
+
 <main>
   <router-outlet></router-outlet>
 </main>

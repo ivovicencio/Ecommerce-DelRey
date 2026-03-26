@@ -1,46 +1,55 @@
 /* --- Estilos del Catálogo --- */
 
+/* Título de la sección con el color Ciruela */
 .brand-title {
-  color: #4A304D; /* Ciruela del logo */
+  color: var(--plum-dark);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
-
-/* BOTONES DE FILTRO */
+/* BOTONES DE FILTRO CORREGIDOS */
 .btn-filter {
-  border: 1px solid #A380A4;
-  color: #A380A4;
-  background: transparent;
-  padding: 8px 20px;
+  border: 1px solid var(--mauve-logo);
+  color: var(--mauve-logo) !important; /* Forzamos el color del texto */
+  background: white; /* Un fondo sólido ayuda a la legibilidad */
+  padding: 8px 25px;
   border-radius: 50px;
-  font-weight: 600;
+  font-weight: 700;
   transition: all 0.3s ease;
 }
 
-.btn-filter:hover, .btn-filter.active {
-  background-color: #A380A4;
-  color: white;
+.btn-filter:hover, 
+.btn-filter.active {
+  background-color: var(--mauve-logo) !important;
+  color: #ffffff !important; /* Texto blanco puro al estar activo */
   box-shadow: 0 4px 12px rgba(163, 128, 164, 0.3);
+  transform: translateY(-2px);
 }
+
 
 /* TARJETA DE PRODUCTO */
 .product-card {
   background: white;
   border-radius: 20px;
   overflow: hidden;
+  /* Animación tipo elástica para el hover */
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid rgba(163, 128, 164, 0.1);
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(74, 48, 77, 0.1);
+  box-shadow: 0 15px 30px rgba(74, 48, 77, 0.15);
 }
 
 /* CONTENEDOR DE IMAGEN */
 .product-img-container {
   position: relative;
   background-color: #f8f9fa;
-  aspect-ratio: 1 / 1; /* Hace que la imagen sea siempre cuadrada */
+  aspect-ratio: 1 / 1; /* Cuadrado perfecto para los calzados */
   overflow: hidden;
 }
 
@@ -48,69 +57,97 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.6s ease;
 }
-
+/* Ajuste para el texto de la descripción que quizás se ve muy claro */
+.product-desc {
+  font-size: 0.85rem;
+  color: #4A304D; /* Usamos el plum-dark para que se lea mejor que el gris */
+  opacity: 0.8;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; 
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+/* Efecto de Zoom en la foto al pasar el mouse */
 .product-card:hover .product-img {
   transform: scale(1.1);
 }
 
+/* Etiqueta de Categoría (Dorado Corona) */
 .badge-category {
   position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(197, 164, 71, 0.9); /* Dorado del logo */
+  top: 15px;
+  left: 15px;
+  background: var(--gold-corona); 
   color: white;
-  padding: 4px 12px;
+  padding: 5px 15px;
   border-radius: 50px;
   font-size: 0.7rem;
   text-transform: uppercase;
   font-weight: 700;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
-/* INFO DEL PRODUCTO */
+/* INFORMACIÓN DEL PRODUCTO */
+.product-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .product-name {
-  font-size: 1rem;
-  color: #4A304D;
-  margin-bottom: 5px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--plum-dark);
+  margin-bottom: 8px;
 }
 
 .product-desc {
-  font-size: 0.8rem;
-  color: #777;
+  font-size: 0.85rem;
+  color: #6c757d;
+  /* Corta el texto a máximo 2 líneas para que todas las cards midan lo mismo */
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Corta el texto a 2 líneas */
+  -webkit-line-clamp: 2; 
   -webkit-box-orient: vertical;
   overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .product-price {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: #A380A4;
+  color: var(--mauve-logo);
+  margin: 0;
 }
 
-/* BOTÓN AGREGAR */
+/* BOTÓN AGREGAR (Círculo Ciruela) */
 .btn-add-cart {
-  background: #4A304D;
+  background: var(--plum-dark);
   color: white;
   border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%; /* Lo hacemos circular como el del carrito */
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(74, 48, 77, 0.2);
 }
 
 .btn-add-cart:hover {
-  background: #C5A447; /* Cambia a dorado en hover */
-  transform: rotate(90deg);
+  background: var(--gold-corona); /* Cambia a dorado */
+  transform: scale(1.1) rotate(15deg);
+  color: white;
 }
 
 /* RESPONSIVE */
 @media (max-width: 576px) {
-  .product-name { font-size: 0.9rem; }
-  .product-price { font-size: 1rem; }
+  .product-name { font-size: 1rem; }
+  .product-price { font-size: 1.1rem; }
+  .product-card { border-radius: 15px; }
+  .badge-category { font-size: 0.6rem; padding: 3px 10px; }
 }
