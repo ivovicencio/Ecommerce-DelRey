@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
 import { PedidoService, DetallePedidoRequest } from '../../services/pedido/pedido.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-compra',
@@ -64,7 +65,7 @@ export class Compra {
     mensaje += `\nDirección de entrega: ${direccion}`;
     mensaje += `\n\nDel Rey Calzados`;
 
-    const numeroWhatsApp = '5491234567890';
+    const numeroWhatsApp = environment.whatsappNumber;
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   }

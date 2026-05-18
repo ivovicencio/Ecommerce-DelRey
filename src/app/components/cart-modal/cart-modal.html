@@ -13,7 +13,7 @@
         </div>
 
         <div *ngFor="let item of carrito.carritoItems()" class="d-flex align-items-center py-3 border-bottom">
-          <img [src]="item.imagen" class="rounded-3 me-3 shadow-sm" style="width: 60px; height: 60px; object-fit: cover;">
+          <img [src]="item.imagen || 'assets/images/logo.png'" class="rounded-3 me-3 shadow-sm" style="width: 60px; height: 60px; object-fit: cover;" (error)="$event.target.src='assets/images/logo.png'">
           <div class="flex-grow-1">
             <h6 class="mb-0 fw-bold plum-text">{{ item.nombre }}</h6>
             <small class="text-muted">Talle: {{ item.talle }} | Cantidad: {{ item.cantidad }}</small>

@@ -1,0 +1,124 @@
+<section class="admin-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-6">
+
+        <div class="d-flex align-items-center gap-3 mb-4">
+          <a routerLink="/catalogo" class="btn btn-outline-secondary rounded-pill btn-sm">
+            <i class="bi bi-arrow-left"></i> Volver al catálogo
+          </a>
+          <h3 class="fw-bold mb-0">Agregar Producto</h3>
+        </div>
+
+        <div *ngIf="exito()" class="alert alert-success rounded-3 d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill fs-5"></i>
+          <span>Producto creado correctamente.</span>
+        </div>
+
+        <div *ngIf="errorMsg()" class="alert alert-danger rounded-3 d-flex align-items-center gap-2">
+          <i class="bi bi-exclamation-triangle-fill fs-5"></i>
+          <span>{{ errorMsg() }}</span>
+        </div>
+
+        <div class="card border-0 shadow rounded-4 p-4">
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              <i class="bi bi-tag me-1"></i> Nombre del producto
+            </label>
+            <input type="text" class="form-control rounded-pill"
+              [(ngModel)]="nombre"
+              placeholder="Ej: Zapatilla Urban Gold"
+              [disabled]="enviando()">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              <i class="bi bi-text-paragraph me-1"></i> Descripción
+            </label>
+            <textarea class="form-control rounded-4" rows="3"
+              [(ngModel)]="descripcion"
+              placeholder="Descripción breve del producto"
+              [disabled]="enviando()"></textarea>
+          </div>
+
+          <div class="row mb-3 g-2">
+            <div class="col-6">
+              <label class="form-label fw-bold">
+                <i class="bi bi-currency-dollar me-1"></i> Precio
+              </label>
+              <input type="number" class="form-control rounded-pill"
+                [(ngModel)]="precio"
+                placeholder="45000"
+                min="1"
+                [disabled]="enviando()">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-bold">
+                <i class="bi bi-grid me-1"></i> Categoría
+              </label>
+              <select class="form-select rounded-pill" [(ngModel)]="categoria" [disabled]="enviando()">
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="unisex">Unisex</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold">
+              <i class="bi bi-image me-1"></i> Imagen del producto
+            </label>
+            <input type="file" class="form-control rounded-pill"
+              (change)="onFileSelected($event)"
+              accept="image/*"
+              [disabled]="enviando()">
+            <div *ngIf="imagenPreview()" class="mt-2 text-center">
+              <img [src]="imagenPreview()" class="rounded-3 shadow-sm"
+                style="max-height: 150px; object-fit: contain;">
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <label class="form-label fw-bold mb-0">
+                <i class="bi bi-rulers me-1"></i> Talles y Stock
+              </label>
+              <button type="button" class="btn btn-sm btn-outline-primary rounded-pill"
+                (click)="agregarTalle()" [disabled]="enviando()">
+                <i class="bi bi-plus-lg"></i> Agregar talle
+              </button>
+            </div>
+
+            <div *ngFor="let t of talles(); let i = index" class="d-flex gap-2 mb-2">
+              <input type="number" class="form-control rounded-pill" placeholder="Talle"
+                [(ngModel)]="t.talle" min="1" [disabled]="enviando()">
+              <input type="number" class="form-control rounded-pill" placeholder="Stock"
+                [(ngModel)]="t.stock" min="0" [disabled]="enviando()">
+              <button type="button" class="btn btn-outline-danger rounded-pill px-3"
+                (click)="quitarTalle(i)" [disabled]="enviando()">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+
+            <small *ngIf="talles().length === 0" class="text-muted">
+              <i class="bi bi-info-circle me-1"></i>No hay talles agregados. Hacé clic en "Agregar talle".
+            </small>
+          </div>
+
+          <button class="btn btn-success btn-lg w-100 rounded-pill fw-bold mt-3"
+            (click)="guardarProducto()"
+            [disabled]="enviando()">
+            <span *ngIf="!enviando()">
+              <i class="bi bi-cloud-upload me-2"></i>GUARDAR PRODUCTO
+            </span>
+            <span *ngIf="enviando()">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+              GUARDANDO...
+            </span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

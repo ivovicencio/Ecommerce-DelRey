@@ -1,33 +1,38 @@
-.plum-text { color: var(--plum-dark); }
+.admin-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+  min-height: 100vh;
+}
 
 .card {
   background: white;
 }
 
-.form-control {
+.form-control, .form-select {
   padding: 0.75rem 1.2rem;
   border: 1px solid #e0d6e0;
   transition: all 0.3s ease;
 }
 
-.form-control:focus {
+.form-control:focus, .form-select:focus {
   border-color: var(--mauve-logo);
   box-shadow: 0 0 0 3px rgba(163, 128, 164, 0.15);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #25D366, #128C7E);
+  background: linear-gradient(135deg, #4A304D, #A380A4);
   border: none;
   transition: all 0.3s ease;
 }
+
 .btn-success:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
-}
-.btn-success:disabled {
-  opacity: 0.5;
+  box-shadow: 0 6px 20px rgba(163, 128, 164, 0.4);
 }
 
-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+.btn-success:disabled {
+  opacity: 0.6;
+}
+
+.alert {
+  font-size: 0.95rem;
 }

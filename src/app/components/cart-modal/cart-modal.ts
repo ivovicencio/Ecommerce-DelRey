@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart-modal',
@@ -30,7 +31,7 @@ export class CartModal {
     });
     mensaje += `\nTotal: $${this.carrito.totalPagar()}\n\nDel Rey Calzados`;
 
-    const numeroWhatsApp = '5491234567890';
+    const numeroWhatsApp = environment.whatsappNumber;
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   }

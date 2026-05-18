@@ -1,12 +1,14 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';	
 import { Carrito } from '../../services/carrito/carrito';
-import { ProductoService, ProductoResponse } from '../../services/producto/producto.service';
+import { ProductoService } from '../../services/producto/producto.service';
+import { ProductoResponse } from '../../interfaces/producto.interface';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
@@ -19,6 +21,7 @@ export class Catalogo implements OnInit {
     productosFiltrados = signal<ProductoResponse[]>([]);
     categoriaActual = 'todos';
     loading = signal(true);
+    error = signal('');
 
     productoAgregado = signal<{ producto: ProductoResponse; talle: number } | null>(null);
     talleSeleccionado = signal<Record<number, number>>({});
@@ -29,6 +32,7 @@ export class Catalogo implements OnInit {
 
     cargarProductos() {
       this.loading.set(true);
+      this.error.set('');
       this.productService.getProductos().subscribe({
         next: (data) => {
           this.productos.set(data);
@@ -42,8 +46,9 @@ export class Catalogo implements OnInit {
           });
           this.talleSeleccionado.set(talles);
         },
-        error: () => {
+        error: (err) => {
           this.loading.set(false);
+          this.error.set('No se pudieron cargar los productos. Verificá que el backend esté funcionando.');
         }
       });
     }
