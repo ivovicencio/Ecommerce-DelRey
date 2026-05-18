@@ -1,124 +1,184 @@
-<section class="admin-section py-5">
+<section class="admin-section py-4">
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8 col-lg-6">
 
-        <div class="d-flex align-items-center gap-3 mb-4">
-          <a routerLink="/catalogo" class="btn btn-outline-secondary rounded-pill btn-sm">
-            <i class="bi bi-arrow-left"></i> Volver al catálogo
-          </a>
-          <h3 class="fw-bold mb-0">Agregar Producto</h3>
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <div class="d-flex align-items-center gap-3">
+        <a routerLink="/catalogo" class="btn btn-outline-secondary rounded-pill btn-sm">
+          <i class="bi bi-arrow-left"></i> Tienda
+        </a>
+        <h4 class="fw-bold mb-0">Panel Administrativo</h4>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="small text-muted"><i class="bi bi-person-circle me-1"></i>{{ auth.usuario()?.nombre }}</span>
+        <button class="btn btn-outline-danger btn-sm rounded-pill" (click)="auth.logout()" title="Cerrar sesión">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Alertas -->
+    <div *ngIf="exito()" class="alert alert-success rounded-3 d-flex align-items-center gap-2 py-2">
+      <i class="bi bi-check-circle-fill"></i> {{ exito() }}
+    </div>
+    <div *ngIf="errorMsg()" class="alert alert-danger rounded-3 d-flex align-items-center gap-2 py-2">
+      <i class="bi bi-exclamation-triangle-fill"></i> {{ errorMsg() }}
+    </div>
+
+    <!-- ==================== VISTA LISTA ==================== -->
+    <div *ngIf="vista() === 'lista'">
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Productos ({{ productos().length }})</h5>
+        <button class="btn btn-success rounded-pill fw-bold btn-sm px-3" (click)="mostrarCrear()">
+          <i class="bi bi-plus-lg me-1"></i> Nuevo producto
+        </button>
+      </div>
+
+      <div *ngIf="loading()" class="text-center py-4">
+        <div class="spinner-border text-muted" role="status"></div>
+      </div>
+
+      <div *ngIf="!loading() && productos().length === 0" class="text-center py-5 text-muted">
+        <i class="bi bi-box-seam display-4"></i>
+        <p class="mt-2">No hay productos aún. Creá el primero.</p>
+      </div>
+
+      <div class="table-responsive" *ngIf="!loading() && productos().length > 0">
+        <table class="table table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th style="width:50px">#</th>
+              <th style="width:60px">Img</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Talles</th>
+              <th style="width:110px">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let p of productos()">
+              <td class="text-muted small">{{ p.id }}</td>
+              <td>
+                <img [src]="p.imagen_url || 'assets/images/logo.png'" class="rounded-2" style="width:40px;height:40px;object-fit:cover;" (error)="$event.target.src='assets/images/logo.png'">
+              </td>
+              <td class="fw-semibold">{{ p.nombre }}</td>
+              <td><span class="badge bg-secondary">{{ p.categoria }}</span></td>
+              <td>${{ p.precio | number }}</td>
+              <td>
+                <span class="small text-muted">{{ (p.talles || []).length }} talles</span>
+              </td>
+              <td>
+                <div class="d-flex gap-1">
+                  <button class="btn btn-sm btn-outline-primary rounded-pill" (click)="mostrarEditar(p)" title="Editar">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="confirmarEliminar(p)" title="Eliminar">
+                    <i class="bi bi-trash3"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ==================== VISTA CREAR / EDITAR ==================== -->
+    <div *ngIf="vista() === 'crear' || vista() === 'editar'">
+
+      <div class="d-flex align-items-center gap-3 mb-3">
+        <button class="btn btn-outline-secondary rounded-pill btn-sm" (click)="volverLista()">
+          <i class="bi bi-arrow-left"></i> Volver
+        </button>
+        <h5 class="fw-bold mb-0">{{ vista() === 'crear' ? 'Nuevo Producto' : 'Editar Producto' }}</h5>
+        <span *ngIf="vista() === 'editar'" class="badge bg-info">ID: {{ productoEditando()?.id }}</span>
+      </div>
+
+      <div class="card border-0 shadow rounded-4 p-4">
+        <div class="mb-3">
+          <label class="form-label fw-bold small">Nombre</label>
+          <input type="text" class="form-control rounded-pill" [(ngModel)]="nombre" placeholder="Nombre del producto" [disabled]="enviando()">
         </div>
 
-        <div *ngIf="exito()" class="alert alert-success rounded-3 d-flex align-items-center gap-2">
-          <i class="bi bi-check-circle-fill fs-5"></i>
-          <span>Producto creado correctamente.</span>
+        <div class="mb-3">
+          <label class="form-label fw-bold small">Descripción</label>
+          <textarea class="form-control rounded-4" rows="2" [(ngModel)]="descripcion" placeholder="Descripción" [disabled]="enviando()"></textarea>
         </div>
 
-        <div *ngIf="errorMsg()" class="alert alert-danger rounded-3 d-flex align-items-center gap-2">
-          <i class="bi bi-exclamation-triangle-fill fs-5"></i>
-          <span>{{ errorMsg() }}</span>
+        <div class="row mb-3 g-2">
+          <div class="col-6">
+            <label class="form-label fw-bold small">Precio ($)</label>
+            <input type="number" class="form-control rounded-pill" [(ngModel)]="precio" min="1" [disabled]="enviando()">
+          </div>
+          <div class="col-6">
+            <label class="form-label fw-bold small">Categoría</label>
+            <select class="form-select rounded-pill" [(ngModel)]="categoria" [disabled]="enviando()">
+              <option value="masculino">Masculino</option>
+              <option value="femenino">Femenino</option>
+              <option value="unisex">Unisex</option>
+            </select>
+          </div>
         </div>
 
-        <div class="card border-0 shadow rounded-4 p-4">
-          <div class="mb-3">
-            <label class="form-label fw-bold">
-              <i class="bi bi-tag me-1"></i> Nombre del producto
-            </label>
-            <input type="text" class="form-control rounded-pill"
-              [(ngModel)]="nombre"
-              placeholder="Ej: Zapatilla Urban Gold"
-              [disabled]="enviando()">
+        <div class="mb-3">
+          <label class="form-label fw-bold small">
+            Imagen
+            <span *ngIf="vista() === 'editar'" class="text-muted fw-normal"> (dejá vacío para mantener la actual)</span>
+          </label>
+          <input type="file" class="form-control rounded-pill" (change)="onFileSelected($event)" accept="image/*" [disabled]="enviando()">
+          <div *ngIf="imagenPreview()" class="mt-2 text-center">
+            <img [src]="imagenPreview()" class="rounded-3 shadow-sm" style="max-height:120px;object-fit:contain;">
           </div>
+        </div>
 
-          <div class="mb-3">
-            <label class="form-label fw-bold">
-              <i class="bi bi-text-paragraph me-1"></i> Descripción
-            </label>
-            <textarea class="form-control rounded-4" rows="3"
-              [(ngModel)]="descripcion"
-              placeholder="Descripción breve del producto"
-              [disabled]="enviando()"></textarea>
+        <div class="mb-3">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <label class="form-label fw-bold small mb-0">Talles y Stock</label>
+            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill" (click)="agregarTalle()" [disabled]="enviando()">
+              <i class="bi bi-plus-lg"></i> Agregar
+            </button>
           </div>
-
-          <div class="row mb-3 g-2">
-            <div class="col-6">
-              <label class="form-label fw-bold">
-                <i class="bi bi-currency-dollar me-1"></i> Precio
-              </label>
-              <input type="number" class="form-control rounded-pill"
-                [(ngModel)]="precio"
-                placeholder="45000"
-                min="1"
-                [disabled]="enviando()">
-            </div>
-            <div class="col-6">
-              <label class="form-label fw-bold">
-                <i class="bi bi-grid me-1"></i> Categoría
-              </label>
-              <select class="form-select rounded-pill" [(ngModel)]="categoria" [disabled]="enviando()">
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-                <option value="unisex">Unisex</option>
-              </select>
-            </div>
+          <div *ngFor="let t of talles(); let i = index" class="d-flex gap-2 mb-2">
+            <input type="number" class="form-control rounded-pill" placeholder="Talle" [(ngModel)]="t.talle" min="1" [disabled]="enviando()">
+            <input type="number" class="form-control rounded-pill" placeholder="Stock" [(ngModel)]="t.stock" min="0" [disabled]="enviando()">
+            <button type="button" class="btn btn-outline-danger rounded-pill px-3" (click)="quitarTalle(i)" [disabled]="enviando()">
+              <i class="bi bi-x-lg"></i>
+            </button>
           </div>
+          <small *ngIf="talles().length === 0" class="text-muted"><i class="bi bi-info-circle me-1"></i>Sin talles.</small>
+        </div>
 
-          <div class="mb-3">
-            <label class="form-label fw-bold">
-              <i class="bi bi-image me-1"></i> Imagen del producto
-            </label>
-            <input type="file" class="form-control rounded-pill"
-              (change)="onFileSelected($event)"
-              accept="image/*"
-              [disabled]="enviando()">
-            <div *ngIf="imagenPreview()" class="mt-2 text-center">
-              <img [src]="imagenPreview()" class="rounded-3 shadow-sm"
-                style="max-height: 150px; object-fit: contain;">
-            </div>
-          </div>
-
-          <div class="mb-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <label class="form-label fw-bold mb-0">
-                <i class="bi bi-rulers me-1"></i> Talles y Stock
-              </label>
-              <button type="button" class="btn btn-sm btn-outline-primary rounded-pill"
-                (click)="agregarTalle()" [disabled]="enviando()">
-                <i class="bi bi-plus-lg"></i> Agregar talle
-              </button>
-            </div>
-
-            <div *ngFor="let t of talles(); let i = index" class="d-flex gap-2 mb-2">
-              <input type="number" class="form-control rounded-pill" placeholder="Talle"
-                [(ngModel)]="t.talle" min="1" [disabled]="enviando()">
-              <input type="number" class="form-control rounded-pill" placeholder="Stock"
-                [(ngModel)]="t.stock" min="0" [disabled]="enviando()">
-              <button type="button" class="btn btn-outline-danger rounded-pill px-3"
-                (click)="quitarTalle(i)" [disabled]="enviando()">
-                <i class="bi bi-x-lg"></i>
-              </button>
-            </div>
-
-            <small *ngIf="talles().length === 0" class="text-muted">
-              <i class="bi bi-info-circle me-1"></i>No hay talles agregados. Hacé clic en "Agregar talle".
-            </small>
-          </div>
-
-          <button class="btn btn-success btn-lg w-100 rounded-pill fw-bold mt-3"
-            (click)="guardarProducto()"
-            [disabled]="enviando()">
-            <span *ngIf="!enviando()">
-              <i class="bi bi-cloud-upload me-2"></i>GUARDAR PRODUCTO
-            </span>
-            <span *ngIf="enviando()">
-              <span class="spinner-border spinner-border-sm me-2" role="status"></span>
-              GUARDANDO...
-            </span>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary rounded-pill px-4" (click)="volverLista()" [disabled]="enviando()">Cancelar</button>
+          <button class="btn btn-success rounded-pill px-4 fw-bold flex-grow-1" (click)="guardarProducto()" [disabled]="enviando()">
+            <span *ngIf="!enviando()"><i class="bi bi-check-lg me-1"></i>{{ vista() === 'crear' ? 'CREAR' : 'GUARDAR CAMBIOS' }}</span>
+            <span *ngIf="enviando()"><span class="spinner-border spinner-border-sm me-2"></span>GUARDANDO...</span>
           </button>
         </div>
+      </div>
+    </div>
 
+  </div>
+</section>
+
+<!-- Modal eliminar -->
+<div *ngIf="productoAEliminar()" class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" (click)="cancelarEliminar()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content border-0 rounded-4 p-3 text-center shadow">
+      <div class="modal-body">
+        <i class="bi bi-exclamation-triangle text-danger display-4"></i>
+        <h5 class="fw-bold mt-3">¿Eliminar producto?</h5>
+        <p class="text-muted mb-0">{{ productoAEliminar()?.nombre }}</p>
+        <p class="text-muted small">Esta acción no se puede deshacer.</p>
+      </div>
+      <div class="d-flex justify-content-center gap-2 pb-3">
+        <button class="btn btn-outline-secondary rounded-pill px-4" (click)="cancelarEliminar()">Cancelar</button>
+        <button class="btn btn-danger rounded-pill px-4 fw-bold" (click)="eliminarProducto()">
+          <i class="bi bi-trash3 me-1"></i>ELIMINAR
+        </button>
       </div>
     </div>
   </div>
-</section>
+</div>

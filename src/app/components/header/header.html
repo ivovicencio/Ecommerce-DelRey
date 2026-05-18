@@ -7,22 +7,40 @@
         <span class="brand-calzados">Calzados</span>
       </div>
     </a>
-    
+
     <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
+
     <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed">
       <ul class="navbar-nav ms-auto gap-lg-3 py-3 py-lg-0 align-items-center">
         <li class="nav-item"><a class="nav-link" routerLink="/inicio" routerLinkActive="active-link" (click)="closeMenu()">Inicio</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/catalogo" routerLinkActive="active-link" (click)="closeMenu()">Catálogo</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/sobre-nosotros" routerLinkActive="active-link" (click)="closeMenu()">Bio</a></li>
-        
+
+        <li class="nav-item" *ngIf="auth.isAdmin()">
+          <a class="nav-link" routerLink="/admin" routerLinkActive="active-link" (click)="closeMenu()">
+            <i class="bi bi-gear me-1"></i>Admin
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="!auth.isLoggedIn()">
+          <a class="nav-link" routerLink="/login" (click)="closeMenu()">
+            <i class="bi bi-person me-1"></i>Ingresar
+          </a>
+        </li>
+
+        <li class="nav-item" *ngIf="auth.isLoggedIn()">
+          <a class="nav-link" (click)="closeMenu(); auth.logout()" style="cursor:pointer;">
+            <i class="bi bi-box-arrow-right me-1"></i>Salir
+          </a>
+        </li>
+
         <li class="nav-item">
-          <button type="button" class="btn btn-cart-premium position-relative ms-lg-2" 
+          <button type="button" class="btn btn-cart-premium position-relative ms-lg-2"
                   (click)="openCart(); closeMenu()">
             <i class="bi bi-cart3"></i>
-            <span *ngIf="carrito.cantidadTotal() > 0" 
+            <span *ngIf="carrito.cantidadTotal() > 0"
                   class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger shadow-sm badge-cart">
               {{ carrito.cantidadTotal() }}
             </span>

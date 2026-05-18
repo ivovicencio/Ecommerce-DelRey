@@ -1,6 +1,6 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3000/api',
-  whatsappNumber: '5491234567890',
+  apiUrl: '/api',
+  whatsappNumber: '542942525797',
   whatsappMessage: 'Hola! Quiero comprar estos productos de Del Rey Calzados'
 };

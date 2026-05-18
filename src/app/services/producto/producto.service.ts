@@ -13,20 +13,22 @@ export class ProductoService {
   constructor(private http: HttpClient) {}
 
   getProductos(): Observable<ProductoResponse[]> {
-    return this.http.get<ProductoResponse[]>(`${this.apiUrl}/productos`).pipe(
-      catchError(err => {
-        console.error('Error fetching productos:', err);
-        return throwError(() => err);
-      })
-    );
+    return this.http.get<ProductoResponse[]>(`${this.apiUrl}/productos`);
+  }
+
+  getProducto(id: number): Observable<ProductoResponse> {
+    return this.http.get<ProductoResponse>(`${this.apiUrl}/productos/${id}`);
   }
 
   createProducto(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/productos`, formData).pipe(
-      catchError(err => {
-        console.error('Error creating producto:', err);
-        return throwError(() => err);
-      })
-    );
+    return this.http.post(`${this.apiUrl}/productos`, formData);
+  }
+
+  updateProducto(id: number, formData: FormData): Observable<any> {
+    return this.http.put(`${this.apiUrl}/productos/${id}`, formData);
+  }
+
+  deleteProducto(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/productos/${id}`);
   }
 }

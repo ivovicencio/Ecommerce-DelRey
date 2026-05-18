@@ -1,0 +1,41 @@
+<section class="auth-section py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-5 col-lg-4">
+        <div class="card border-0 shadow rounded-4 p-4">
+          <h3 class="fw-bold text-center mb-1">Crear Cuenta</h3>
+          <p class="text-muted text-center mb-4">Registrate para gestionar</p>
+
+          <div *ngIf="errorMsg()" class="alert alert-danger py-2 small rounded-3">
+            <i class="bi bi-exclamation-circle me-1"></i> {{ errorMsg() }}
+          </div>
+
+          <input type="text" class="form-control mb-3 rounded-pill" placeholder="Nombre completo"
+            [(ngModel)]="nombre" [disabled]="loading()">
+          <input type="email" class="form-control mb-3 rounded-pill" placeholder="Email"
+            [(ngModel)]="email" [disabled]="loading()">
+          <input type="password" class="form-control mb-3 rounded-pill" placeholder="Contraseña"
+            [(ngModel)]="password" [disabled]="loading()">
+          <input type="password" class="form-control mb-4 rounded-pill" placeholder="Confirmar contraseña"
+            [(ngModel)]="confirmPassword" [disabled]="loading()">
+
+          <button class="btn btn-primary btn-lg w-100 rounded-pill fw-bold"
+            (click)="registrarse()" [disabled]="loading()">
+            <span *ngIf="!loading()">CREAR CUENTA</span>
+            <span *ngIf="loading()">
+              <span class="spinner-border spinner-border-sm me-2"></span>CREANDO...
+            </span>
+          </button>
+
+          <p class="text-center text-muted small mt-3">
+            ¿Ya tenés cuenta?
+            <a routerLink="/login" class="text-decoration-none fw-bold">Iniciar sesión</a>
+          </p>
+          <p class="text-center mt-2">
+            <a routerLink="/" class="text-muted small">Volver al inicio</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
