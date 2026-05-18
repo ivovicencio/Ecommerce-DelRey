@@ -9,20 +9,52 @@
       <button (click)="filtrar('femenino')" [class.active]="categoriaActual === 'femenino'" class="btn btn-filter">Femenino</button>
     </div>
 
-    <div class="row g-4">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados">
+    <div *ngIf="loading()" class="text-center py-5">
+      <div class="spinner-border text-muted" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted">Cargando productos...</p>
+    </div>
+
+    <div *ngIf="!loading() && productos().length === 0" class="text-center py-5">
+      <i class="bi bi-box-seam display-1 text-muted opacity-25"></i>
+      <p class="mt-3 text-muted">No hay productos disponibles en este momento.</p>
+    </div>
+
+    <div class="row g-4" *ngIf="!loading() && productos().length > 0">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados()">
         <div class="product-card">
           <div class="product-img-container">
-            <img [src]="producto.imagen" [alt]="producto.nombre" class="product-img">
+            <img [src]="producto.imagen_url" [alt]="producto.nombre" class="product-img" loading="lazy">
             <span class="badge-category">{{ producto.categoria }}</span>
           </div>
-          
+
           <div class="product-info p-3">
             <h5 class="product-name">{{ producto.nombre }}</h5>
             <p class="product-desc">{{ producto.descripcion }}</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <div class="talle-selector mb-3">
+              <label class="form-label small fw-bold text-muted">Talle:</label>
+              <div class="d-flex flex-wrap gap-1">
+                <button *ngFor="let t of producto.talles"
+                  type="button"
+                  class="btn btn-talle"
+                  [class.active]="talleSeleccionado()[producto.id] === t.numero_talle"
+                  [class.sin-stock]="t.stock === 0"
+                  [disabled]="t.stock === 0"
+                  (click)="seleccionarTalle(producto.id, t.numero_talle)">
+                  {{ t.numero_talle }}
+                </button>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-auto">
               <span class="product-price">${{ producto.precio | number }}</span>
-              <button (click)="agregarAlCarrito(producto)" class="btn-add-cart">
+              <button
+                (click)="agregarAlCarrito(producto)"
+                class="btn-add-cart"
+                [class.disabled]="!talleSeleccionado()[producto.id]"
+                [disabled]="!talleSeleccionado()[producto.id]">
                 <i class="bi bi-bag-plus"></i>
               </button>
             </div>
@@ -33,7 +65,6 @@
   </div>
 </section>
 
-<!-- Modal de confirmación al agregar al carrito -->
 <div *ngIf="productoAgregado()" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" (click)="productoAgregado.set(null)">
   <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
     <div class="modal-content border-0 rounded-4 shadow-lg">
@@ -44,8 +75,9 @@
         <button type="button" class="btn-close btn-close-white" (click)="productoAgregado.set(null)"></button>
       </div>
       <div class="modal-body text-center p-4">
-        <img *ngIf="productoAgregado()" [src]="productoAgregado()!.imagen" class="rounded-3 mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
-        <h6 class="fw-bold">{{ productoAgregado()!.nombre }}</h6>
+        <img [src]="productoAgregado()!.producto.imagen_url" class="rounded-3 mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
+        <h6 class="fw-bold">{{ productoAgregado()!.producto.nombre }}</h6>
+        <p class="text-muted mb-0">Talle: {{ productoAgregado()!.talle }}</p>
         <p class="text-muted mb-0">Se ha agregado correctamente a tu carrito.</p>
       </div>
       <div class="modal-footer border-0 d-flex justify-content-center p-4">

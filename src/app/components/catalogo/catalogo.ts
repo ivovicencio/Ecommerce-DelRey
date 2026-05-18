@@ -1,16 +1,7 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Carrito } from '../../services/carrito/carrito';
-//definimos temporalmente los datos del producto
-interface Producto{
-  id: number;
-  nombre: string;
-  categoria: string;
-  precio: number;
-  imagen: string;
-  descripcion: string;
-}
-
+import { ProductoService, ProductoResponse } from '../../services/producto/producto.service';
 
 @Component({
   selector: 'app-catalogo',
@@ -19,32 +10,75 @@ interface Producto{
   templateUrl: './catalogo.html',
   styleUrls: ['./catalogo.css'],
 })
-export class Catalogo {
+export class Catalogo implements OnInit {
 
-    public carrito = inject(Carrito); 
+    public carrito = inject(Carrito);
+    private productService = inject(ProductoService);
 
-    productoAgregado = signal<Producto | null>(null);
+    productos = signal<ProductoResponse[]>([]);
+    productosFiltrados = signal<ProductoResponse[]>([]);
+    categoriaActual = 'todos';
+    loading = signal(true);
 
-// 1. LISTA DE PRODUCTOS (Datos inventados en assets)
-  productos: Producto[] = [
-    { id: 1, nombre: 'Zapatilla Urban Gold', categoria: 'masculino', precio: 45000, imagen: 'assets/images/zapa1.jpg', descripcion: 'Estilo urbano con detalles dorados.' },
-    { id: 2, nombre: 'Stiletto Royal', categoria: 'femenino', precio: 55000, imagen: 'assets/images/zapa2.jpg', descripcion: 'Elegancia pura para ocasiones especiales.' },
-    { id: 3, nombre: 'Botas Trekking Sky', categoria: 'masculino', precio: 62000, imagen: 'assets/images/zapa3.jpg', descripcion: 'Resistencia y comodidad en cada paso.' },
-    { id: 4, nombre: 'Sandalias Mauve', categoria: 'femenino', precio: 32000, imagen: 'assets/images/zapa4.jpg', descripcion: 'Frescura con nuestro color insignia.' },
-  ];
+    productoAgregado = signal<{ producto: ProductoResponse; talle: number } | null>(null);
+    talleSeleccionado = signal<Record<number, number>>({});
 
-  productosFiltrados = [...this.productos];
-  categoriaActual = 'todos';
+    ngOnInit() {
+      this.cargarProductos();
+    }
 
-  filtrar(cat: string) {
-    this.categoriaActual = cat;
-    this.productosFiltrados = cat === 'todos' ? [...this.productos] : this.productos.filter(p => p.categoria === cat);
-  }
+    cargarProductos() {
+      this.loading.set(true);
+      this.productService.getProductos().subscribe({
+        next: (data) => {
+          this.productos.set(data);
+          this.productosFiltrados.set(data);
+          this.loading.set(false);
+          const talles: Record<number, number> = {};
+          data.forEach(p => {
+            if (p.talles && p.talles.length > 0) {
+              talles[p.id] = p.talles[0].numero_talle;
+            }
+          });
+          this.talleSeleccionado.set(talles);
+        },
+        error: () => {
+          this.loading.set(false);
+        }
+      });
+    }
 
-  // 4. FUNCIÓN AGREGAR AL CARRITO
-  agregarAlCarrito(producto: Producto) {
-    this.carrito.agregar(producto);
-    this.productoAgregado.set(producto);
-    // El modal se mostrará automáticamente con *ngIf
-  }
+    filtrar(cat: string) {
+      this.categoriaActual = cat;
+      if (cat === 'todos') {
+        this.productosFiltrados.set(this.productos());
+      } else {
+        this.productosFiltrados.set(this.productos().filter(p => p.categoria === cat));
+      }
+    }
+
+    seleccionarTalle(productoId: number, talle: number) {
+      this.talleSeleccionado.update(t => ({ ...t, [productoId]: talle }));
+    }
+
+    agregarAlCarrito(producto: ProductoResponse) {
+      const talle = this.talleSeleccionado()[producto.id];
+      if (!talle) return;
+
+      this.carrito.agregar({
+        id: producto.id,
+        nombre: producto.nombre,
+        precio: Number(producto.precio),
+        imagen: producto.imagen_url,
+        descripcion: producto.descripcion,
+        categoria: producto.categoria,
+        talle
+      });
+      this.productoAgregado.set({ producto, talle });
+    }
+
+    hayStock(producto: ProductoResponse, talle: number): boolean {
+      const stockItem = producto.talles?.find(t => t.numero_talle === talle);
+      return stockItem ? stockItem.stock > 0 : false;
+    }
 }
