@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +12,9 @@ import { Carrito } from '../../services/carrito/carrito';
   styleUrls: ['./header.css'],
 })
 export class Header {
-  public carrito = inject(Carrito); 
-  
+  public carrito = inject(Carrito);
+  public auth = inject(AuthService);
+
   isMenuCollapsed = true;
 
   toggleMenu() { this.isMenuCollapsed = !this.isMenuCollapsed; }

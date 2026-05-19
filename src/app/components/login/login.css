@@ -1,0 +1,11 @@
+.auth-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.card { background: white; }
+.form-control:focus {
+  border-color: var(--mauve-logo);
+  box-shadow: 0 0 0 3px rgba(163, 128, 164, 0.15);
+}

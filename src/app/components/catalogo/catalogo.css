@@ -144,6 +144,67 @@
   color: white;
 }
 
+.btn-talle {
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--mauve-logo);
+  color: var(--plum-dark);
+  background: white;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-talle:hover:not(.sin-stock) {
+  background: var(--mauve-logo);
+  color: white;
+}
+
+.btn-talle.active {
+  background: var(--plum-dark);
+  color: white;
+  border-color: var(--plum-dark);
+}
+
+.btn-talle.sin-stock {
+  opacity: 0.4;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+.btn-add-cart.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.stock-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #e63946;
+  color: white;
+  font-size: 0.55rem;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 3px;
+  border: 1.5px solid white;
+}
+
+.btn-talle {
+  position: relative;
+}
+
+.catalogo-section {
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbff 100%);
+}
+
 /* RESPONSIVE */
 @media (max-width: 576px) {
   .product-name { font-size: 1rem; }

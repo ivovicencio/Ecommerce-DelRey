@@ -1,2 +1,58 @@
-.modal { z-index: 1050; }
-/* Ajusta estilos según tu tema */
+.modal {
+  z-index: 1050;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal.fade .modal-dialog {
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.modal.show .modal-dialog {
+  transform: translateX(0);
+}
+
+.modal-content {
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 20px !important;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--mauve-logo);
+  border-radius: 4px;
+}
+
+.btn-finalizar {
+  background: linear-gradient(135deg, var(--plum-dark), var(--mauve-logo));
+  color: white;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  border: none;
+}
+.btn-finalizar:hover {
+  background: linear-gradient(135deg, var(--mauve-logo), var(--gold-corona));
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(163, 128, 164, 0.4);
+}
+
+.btn-outline-success {
+  border: 1.5px solid #25D366;
+  color: #25D366;
+  transition: all 0.3s;
+}
+.btn-outline-success:hover {
+  background: #25D366;
+  color: white;
+  transform: translateY(-2px);
+}

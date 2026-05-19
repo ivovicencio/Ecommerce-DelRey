@@ -1,0 +1,38 @@
+.admin-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+  min-height: 100vh;
+}
+
+.card { background: white; }
+
+.form-control, .form-select {
+  padding: 0.65rem 1.1rem;
+  border: 1px solid #e0d6e0;
+  transition: all 0.3s ease;
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--mauve-logo);
+  box-shadow: 0 0 0 3px rgba(163, 128, 164, 0.15);
+}
+
+.table th {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.btn-success {
+  background: linear-gradient(135deg, #4A304D, #A380A4);
+  border: none;
+  transition: all 0.3s ease;
+}
+.btn-success:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(163, 128, 164, 0.4);
+}
+.btn-success:disabled { opacity: 0.6; }

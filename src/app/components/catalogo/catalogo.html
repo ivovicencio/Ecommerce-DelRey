@@ -7,22 +7,71 @@
       <button (click)="filtrar('todos')" [class.active]="categoriaActual === 'todos'" class="btn btn-filter">Todos</button>
       <button (click)="filtrar('masculino')" [class.active]="categoriaActual === 'masculino'" class="btn btn-filter">Masculino</button>
       <button (click)="filtrar('femenino')" [class.active]="categoriaActual === 'femenino'" class="btn btn-filter">Femenino</button>
+      <button (click)="filtrar('unisex')" [class.active]="categoriaActual === 'unisex'" class="btn btn-filter">Unisex</button>
     </div>
 
-    <div class="row g-4">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados">
+    <div *ngIf="loading()" class="text-center py-5">
+      <div class="spinner-border text-muted" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+      <p class="mt-3 text-muted">Cargando productos...</p>
+    </div>
+
+    <div *ngIf="error()" class="text-center py-5">
+      <i class="bi bi-exclamation-triangle display-1 text-warning opacity-50"></i>
+      <p class="mt-3 text-muted">{{ error() }}</p>
+      <button class="btn btn-outline-primary rounded-pill mt-2" (click)="cargarProductos()">
+        <i class="bi bi-arrow-clockwise me-1"></i> Reintentar
+      </button>
+    </div>
+
+    <div *ngIf="!loading() && !error() && productos().length === 0" class="text-center py-5">
+      <i class="bi bi-box-seam display-1 text-muted opacity-25"></i>
+      <p class="mt-3 text-muted fs-5">No hay productos disponibles en este momento.</p>
+      <p class="text-muted small">Pronto estaremos agregando nuevos modelos.</p>
+    </div>
+
+    <div class="row g-4" *ngIf="!loading() && !error() && productosFiltrados().length > 0">
+      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados()">
         <div class="product-card">
           <div class="product-img-container">
-            <img [src]="producto.imagen" [alt]="producto.nombre" class="product-img">
+            <img [src]="producto.imagen_url || 'assets/images/logo.png'" [alt]="producto.nombre" class="product-img" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
             <span class="badge-category">{{ producto.categoria }}</span>
           </div>
-          
+
           <div class="product-info p-3">
             <h5 class="product-name">{{ producto.nombre }}</h5>
             <p class="product-desc">{{ producto.descripcion }}</p>
-            <div class="d-flex justify-content-between align-items-center mt-3">
+
+            <div class="talle-selector mb-3">
+              <label class="form-label small fw-bold text-muted">Talle:</label>
+              <div class="d-flex flex-wrap gap-1">
+                <button *ngFor="let t of producto.talles"
+                  type="button"
+                  class="btn btn-talle"
+                  [class.active]="talleSeleccionado()[producto.id] === t.numero_talle"
+                  [class.sin-stock]="t.stock === 0"
+                  [disabled]="t.stock === 0"
+                  (click)="seleccionarTalle(producto.id, t.numero_talle)"
+                  [title]="t.stock > 0 ? 'Stock disponible: ' + t.stock : 'Sin stock'">
+                  {{ t.numero_talle }}
+                  <small *ngIf="t.stock > 0 && t.stock <= 3" class="stock-badge">{{ t.stock }}</small>
+                </button>
+              </div>
+              <small class="text-muted" style="font-size: 0.65rem;">
+                <span *ngIf="talleSeleccionado()[producto.id]">Talle {{ talleSeleccionado()[producto.id] }} seleccionado</span>
+                <span *ngIf="!talleSeleccionado()[producto.id]">Seleccioná un talle</span>
+              </small>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-auto">
               <span class="product-price">${{ producto.precio | number }}</span>
-              <button (click)="agregarAlCarrito(producto)" class="btn-add-cart">
+              <button
+                (click)="agregarAlCarrito(producto)"
+                class="btn-add-cart"
+                [class.disabled]="!talleSeleccionado()[producto.id]"
+                [disabled]="!talleSeleccionado()[producto.id]"
+                [title]="talleSeleccionado()[producto.id] ? 'Agregar al carrito' : 'Seleccioná un talle primero'">
                 <i class="bi bi-bag-plus"></i>
               </button>
             </div>
@@ -30,10 +79,14 @@
         </div>
       </div>
     </div>
+
+    <div *ngIf="!loading() && !error() && productos().length > 0 && productosFiltrados().length === 0" class="text-center py-5">
+      <i class="bi bi-funnel display-4 text-muted opacity-25"></i>
+      <p class="mt-3 text-muted">No hay productos en la categoría "{{ categoriaActual }}".</p>
+    </div>
   </div>
 </section>
 
-<!-- Modal de confirmación al agregar al carrito -->
 <div *ngIf="productoAgregado()" class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" (click)="productoAgregado.set(null)">
   <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
     <div class="modal-content border-0 rounded-4 shadow-lg">
@@ -44,12 +97,17 @@
         <button type="button" class="btn-close btn-close-white" (click)="productoAgregado.set(null)"></button>
       </div>
       <div class="modal-body text-center p-4">
-        <img *ngIf="productoAgregado()" [src]="productoAgregado()!.imagen" class="rounded-3 mb-3 shadow-sm" style="width: 80px; height: 80px; object-fit: cover;">
-        <h6 class="fw-bold">{{ productoAgregado()!.nombre }}</h6>
-        <p class="text-muted mb-0">Se ha agregado correctamente a tu carrito.</p>
+        <img [src]="productoAgregado()!.producto.imagen_url || 'assets/images/logo.png'"
+          class="rounded-3 mb-3 shadow-sm"
+          style="width: 80px; height: 80px; object-fit: cover;"
+          (error)="$event.target.src='assets/images/logo.png'">
+        <h6 class="fw-bold">{{ productoAgregado()!.producto.nombre }}</h6>
+        <p class="text-muted mb-1">Talle: {{ productoAgregado()!.talle }}</p>
+        <p class="text-muted mb-0">Se agregó correctamente a tu carrito.</p>
       </div>
-      <div class="modal-footer border-0 d-flex justify-content-center p-4">
-        <button type="button" class="btn btn-primary rounded-pill px-4" (click)="productoAgregado.set(null)">¡Genial!</button>
+      <div class="modal-footer border-0 d-flex justify-content-center gap-2 p-4">
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" (click)="productoAgregado.set(null)">Seguir viendo</button>
+        <button type="button" class="btn btn-primary rounded-pill px-4" routerLink="/realizar-compra" (click)="productoAgregado.set(null)">Ir al carrito</button>
       </div>
     </div>
   </div>

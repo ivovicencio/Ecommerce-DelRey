@@ -1,1 +1,44 @@
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+:root {
+  --mauve-logo: #A380A4;
+  --gold-corona: #C5A447;
+  --plum-dark: #4A304D;
+  --mauve-light: #F2EBF2;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: #333;
+}
+
+.bg-mauve-light { background-color: var(--mauve-light) !important; }
+.plum-text { color: var(--plum-dark) !important; }
+.gold-text { color: var(--gold-corona) !important; }
+
+.btn-primary {
+  background-color: var(--plum-dark) !important;
+  border-color: var(--plum-dark) !important;
+}
+.btn-primary:hover {
+  background-color: var(--mauve-logo) !important;
+  border-color: var(--mauve-logo) !important;
+}
+
+.btn-outline-primary {
+  color: var(--plum-dark) !important;
+  border-color: var(--plum-dark) !important;
+}
+.btn-outline-primary:hover {
+  background-color: var(--plum-dark) !important;
+  color: white !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--mauve-logo);
+  box-shadow: 0 0 0 0.2rem rgba(163, 128, 164, 0.25);
+}

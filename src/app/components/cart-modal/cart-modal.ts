@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './cart-modal.html',
   styleUrls: ['./cart-modal.css'],
 })
@@ -25,11 +27,11 @@ export class CartModal {
 
     let mensaje = 'Hola, quiero comprar estos productos:\n\n';
     items.forEach(item => {
-      mensaje += `${item.nombre} - Cantidad: ${item.cantidad} - Precio: $${item.precio * item.cantidad}\n`;
+      mensaje += `${item.nombre} (Talle: ${item.talle}) - Cantidad: ${item.cantidad} - Precio: $${item.precio * item.cantidad}\n`;
     });
     mensaje += `\nTotal: $${this.carrito.totalPagar()}\n\nDel Rey Calzados`;
 
-    const numeroWhatsApp = '5491234567890';
+    const numeroWhatsApp = environment.whatsappNumber;
     const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
     window.open(url, '_blank');
   }
