@@ -30,14 +30,26 @@
 
       <div class="col-lg-5">
         <h5 class="fw-bold mb-4 text-dark">Dejanos tu reseña</h5>
-        <form class="review-form">
+
+        <div *ngIf="enviado" class="alert alert-success rounded-pill text-center mb-3 py-2">
+          <i class="bi bi-check-circle me-1"></i> ¡Gracias por tu reseña!
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger rounded-pill text-center mb-3 py-2">
+          {{ error }}
+        </div>
+
+        <form class="review-form" (ngSubmit)="enviarResena()" #reviewForm="ngForm">
           <div class="mb-3">
-            <input type="text" class="form-control rounded-pill border-0 shadow-sm" placeholder="Tu nombre">
+            <input type="text" class="form-control rounded-pill border-0 shadow-sm" placeholder="Tu nombre"
+                   [(ngModel)]="nombre" name="nombre" required>
           </div>
           <div class="mb-3">
-            <textarea class="form-control rounded-4 border-0 shadow-sm" rows="3" placeholder="¿Qué te pareció nuestro servicio?"></textarea>
+            <textarea class="form-control rounded-4 border-0 shadow-sm" rows="3" placeholder="¿Qué te pareció nuestro servicio?"
+                      [(ngModel)]="mensaje" name="mensaje" required></textarea>
           </div>
-          <button type="submit" class="btn btn-dark rounded-pill px-4 w-100 btn-send-review">
+          <button type="submit" class="btn btn-dark rounded-pill px-4 w-100 btn-send-review"
+                  [disabled]="!reviewForm.form.valid">
             ENVIAR RESEÑA
           </button>
         </form>
