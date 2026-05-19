@@ -1,71 +1,103 @@
-<section class="bg-light py-5 min-vh-100">
+<section class="checkout-section py-5 min-vh-100">
   <div class="container">
     <div class="row justify-content-center">
-      <div class="col-md-7 col-lg-6">
+      <div class="col-md-8 col-lg-6">
 
-        <div *ngIf="pedidoCreado()" class="text-center py-5">
-          <i class="bi bi-check-circle-fill text-success display-1"></i>
+        <!-- Step Indicator -->
+        <div class="step-indicator mb-5">
+          <div class="step" [class.active]="paso >= 1" [class.completed]="paso > 1">
+            <div class="step-circle">1</div>
+            <span class="step-label">Carrito</span>
+          </div>
+          <div class="step-line" [class.active]="paso >= 2"></div>
+          <div class="step" [class.active]="paso >= 2" [class.completed]="paso > 2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Datos</span>
+          </div>
+          <div class="step-line" [class.active]="paso >= 3"></div>
+          <div class="step" [class.active]="paso >= 3" [class.completed]="paso > 3">
+            <div class="step-circle">3</div>
+            <span class="step-label">Confirmación</span>
+          </div>
+        </div>
+
+        <!-- Confirmed State -->
+        <div *ngIf="pedidoCreado()" class="confirmed-state text-center py-5">
+          <div class="confirmed-icon mb-3">
+            <i class="bi bi-check-circle-fill"></i>
+          </div>
           <h3 class="fw-bold mt-3">¡Pedido confirmado!</h3>
           <p class="text-muted">Código: <strong>{{ pedidoCreado()!.codigo }}</strong></p>
           <p class="text-muted">Te redirigimos a WhatsApp para coordinar la entrega.</p>
-          <a routerLink="/catalogo" class="btn btn-outline-primary rounded-pill px-4 mt-3">Seguir comprando</a>
+          <a routerLink="/catalogo" class="btn btn-outline-primary rounded-pill px-4 mt-3">
+            <i class="bi bi-arrow-left me-2"></i>Seguir comprando
+          </a>
         </div>
 
-        <div *ngIf="!pedidoCreado()">
-          <div class="card p-4 border-0 shadow rounded-4">
-            <h3 class="fw-bold mb-1">Finalizar Pedido</h3>
-            <p class="text-muted mb-4">Completá tus datos y confirmá tu compra.</p>
+        <!-- Form State -->
+        <div *ngIf="!pedidoCreado()" class="card p-4 border-0 shadow-lg rounded-4 checkout-card">
+          <h3 class="fw-bold mb-1">Finalizar Pedido</h3>
+          <p class="text-muted mb-4">Completá tus datos y confirmá tu compra.</p>
 
-            <div *ngIf="errorMsg()" class="alert alert-danger py-2 small rounded-3">
-              <i class="bi bi-exclamation-circle me-1"></i> {{ errorMsg() }}
-            </div>
+          <div *ngIf="errorMsg()" class="alert alert-danger py-2 small rounded-3">
+            <i class="bi bi-exclamation-circle me-1"></i> {{ errorMsg() }}
+          </div>
 
+          <div class="form-floating mb-3">
             <input
               type="text"
-              class="form-control mb-3 rounded-pill"
+              class="form-control"
+              id="nombreInput"
               placeholder="Nombre completo"
               [value]="nombre()"
-              (input)="nombre.set(($any($event.target).value) )">
+              (input)="nombre.set(($any($event.target).value))">
+            <label for="nombreInput">Nombre completo</label>
+          </div>
 
+          <div class="form-floating mb-4">
             <input
               type="text"
-              class="form-control mb-4 rounded-pill"
+              class="form-control"
+              id="direccionInput"
               placeholder="Dirección de entrega"
               [value]="direccion()"
-              (input)="direccion.set(($any($event.target).value) )">
-
-            <h5 class="fw-bold mb-3">Resumen del pedido</h5>
-
-            <div *ngIf="carrito.carritoItems().length === 0" class="text-center py-4">
-              <i class="bi bi-bag-x display-4 text-muted opacity-25"></i>
-              <p class="text-muted mt-2">No hay productos en el carrito.</p>
-              <a routerLink="/catalogo" class="btn btn-outline-primary rounded-pill px-4">Ir al catálogo</a>
-            </div>
-
-            <div *ngFor="let item of carrito.carritoItems()" class="d-flex align-items-center py-2 border-bottom">
-              <img [src]="item.imagen || 'assets/images/logo.png'" class="rounded-3 me-3 shadow-sm" style="width: 50px; height: 50px; object-fit: cover;" (error)="$event.target.src='assets/images/logo.png'">
-              <div class="flex-grow-1">
-                <h6 class="mb-0 fw-bold">{{ item.nombre }}</h6>
-                <small class="text-muted">Talle: {{ item.talle }} | Cant: {{ item.cantidad }} | ${{ item.precio * item.cantidad }}</small>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-between fw-bold fs-5 mt-3 px-2">
-              <span>Total:</span>
-              <span class="plum-text">${{ carrito.totalPagar() | number }}</span>
-            </div>
-
-            <button
-              class="btn btn-success btn-lg w-100 fw-bold rounded-pill mt-4"
-              (click)="pedirPorWhatsApp()"
-              [disabled]="enviando() || carrito.carritoItems().length === 0">
-              <i class="bi bi-whatsapp me-2"></i>
-              <span *ngIf="!enviando()">PEDIR POR WHATSAPP</span>
-              <span *ngIf="enviando()">
-                <span class="spinner-border spinner-border-sm me-2" role="status"></span>CREANDO PEDIDO...
-              </span>
-            </button>
+              (input)="direccion.set(($any($event.target).value))">
+            <label for="direccionInput">Dirección de entrega</label>
           </div>
+
+          <h5 class="fw-bold mb-3">
+            <i class="bi bi-bag-check me-2"></i>Resumen del pedido
+          </h5>
+
+          <div *ngIf="carrito.carritoItems().length === 0" class="text-center py-4">
+            <i class="bi bi-bag-x display-4 text-muted opacity-25"></i>
+            <p class="text-muted mt-2">No hay productos en el carrito.</p>
+            <a routerLink="/catalogo" class="btn btn-outline-primary rounded-pill px-4">Ir al catálogo</a>
+          </div>
+
+          <div *ngFor="let item of carrito.carritoItems()" class="cart-item-row d-flex align-items-center py-2">
+            <img [src]="item.imagen || 'assets/images/logo.png'" class="rounded-3 me-3 shadow-sm item-img" (error)="$event.target.src='assets/images/logo.png'">
+            <div class="flex-grow-1">
+              <h6 class="mb-0 fw-bold">{{ item.nombre }}</h6>
+              <small class="text-muted">Talle: {{ item.talle }} | Cant: {{ item.cantidad }} | ${{ item.precio * item.cantidad }}</small>
+            </div>
+          </div>
+
+          <div class="total-row d-flex justify-content-between fw-bold fs-5 mt-3 px-2 py-3">
+            <span>Total:</span>
+            <span class="plum-text">${{ carrito.totalPagar() | number }}</span>
+          </div>
+
+          <button
+            class="btn btn-success btn-lg w-100 fw-bold rounded-pill mt-2 btn-whatsapp"
+            (click)="pedirPorWhatsApp()"
+            [disabled]="enviando() || carrito.carritoItems().length === 0">
+            <i class="bi bi-whatsapp me-2"></i>
+            <span *ngIf="!enviando()">PEDIR POR WHATSAPP</span>
+            <span *ngIf="enviando()">
+              <span class="spinner-border spinner-border-sm me-2" role="status"></span>CREANDO PEDIDO...
+            </span>
+          </button>
         </div>
 
       </div>

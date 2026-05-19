@@ -32,11 +32,13 @@
     </div>
 
     <div class="row g-4" *ngIf="!loading() && !error() && productosFiltrados().length > 0">
-      <div class="col-6 col-md-4 col-lg-3" *ngFor="let producto of productosFiltrados()">
+      <div class="col-6 col-md-4 col-lg-3 product-col" *ngFor="let producto of productosFiltrados(); let i = index"
+           [style.animation-delay]="i * 0.08 + 's'">
         <div class="product-card">
           <div class="product-img-container">
             <img [src]="producto.imagen_url || 'assets/images/logo.png'" [alt]="producto.nombre" class="product-img" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
             <span class="badge-category">{{ producto.categoria }}</span>
+            <div class="img-shimmer"></div>
           </div>
 
           <div class="product-info p-3">
@@ -58,7 +60,7 @@
                   <small *ngIf="t.stock > 0 && t.stock <= 3" class="stock-badge">{{ t.stock }}</small>
                 </button>
               </div>
-              <small class="text-muted" style="font-size: 0.65rem;">
+              <small class="text-muted size-hint">
                 <span *ngIf="talleSeleccionado()[producto.id]">Talle {{ talleSeleccionado()[producto.id] }} seleccionado</span>
                 <span *ngIf="!talleSeleccionado()[producto.id]">Seleccioná un talle</span>
               </small>

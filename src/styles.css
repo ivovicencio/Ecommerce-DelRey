@@ -16,6 +16,28 @@ body {
   color: #333;
 }
 
+::selection {
+  background: var(--mauve-logo);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1eaf1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--mauve-logo);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--plum-dark);
+}
+
 .bg-mauve-light { background-color: var(--mauve-light) !important; }
 .plum-text { color: var(--plum-dark) !important; }
 .gold-text { color: var(--gold-corona) !important; }

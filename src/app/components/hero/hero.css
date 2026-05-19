@@ -1,36 +1,21 @@
-
-:root {
-  --mauve-logo: #A380A4;      
-  --gold-corona: #C5A447;     /* Dorado de la corona, ideal para bordes y brillos */
-  --plum-dark: #4A304D;       /* Color ciruela de 'Calzados', da profundidad */
-  --tienda-dark: #1A1A1A;     /* Negro de respaldo para el fondo */
-}
-
-/* 2. CONTENEDOR PRINCIPAL
-   - Controla el espacio total que ocupa el Hero en pantalla.
-*/
 .hero-container {
-  position: relative;         /* Permite posicionar el video y el texto encima */
+  position: relative;
   width: 100%;
-  height: 100vh;              /* Altura: 100% de la pantalla. Ajustar a 80vh si quieres que se vea el inicio de la siguiente sección */
+  height: 100vh;
   display: flex;
-  align-items: center;        /* Centrado vertical del contenido */
-  overflow: hidden;           /* Evita que el video se salga del contenedor */
-  background-color: var(--tienda-dark);
+  align-items: center;
+  overflow: hidden;
+  background-color: #1A1A1A;
 }
 
-/* RESPONSIVE: Ajustes de altura para que en tablets y celulares no quede tan largo el scroll */
 @media (max-width: 991.98px) {
-  .hero-container { height: 70vh; } 
+  .hero-container { height: 70vh; }
 }
 
 @media (max-width: 576px) {
-  .hero-container { height: 85vh; } /* Un poco más alto en móviles para evitar gaps con el footer */
+  .hero-container { height: 85vh; }
 }
 
-/* 3. ESTILO DEL VIDEO DE FONDO
-   - Maneja cómo se ve el video 'loop.mp4'.
-*/
 .hero-video {
   position: absolute;
   top: 0;
@@ -39,89 +24,106 @@
   height: 100%;
   object-fit: cover;
   z-index: 1;
-
- 
-  animation: videoFadeIn 2s ease-in-out; /* El video aparece en 2 segundos */
+  animation: videoFadeIn 2s ease-in-out;
 }
-/* 4. CAPA OSCURA (OVERLAY)
-   - Es el filtro que hace que el texto se pueda leer.
-*/
+
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  /* Gradiente radial: centro más claro (ciruela) a bordes más oscuros. 
-     Aumenta el 0.85 si el video es muy brillante y el texto no se lee bien.
-  */
   background: radial-gradient(circle, rgba(74, 48, 77, 0.4) 0%, rgba(26, 26, 26, 0.85) 100%);
-  z-index: 2;                 /* Encima del video, debajo del texto */
+  z-index: 2;
 }
 
-/* 5. CONTENEDOR DE CONTENIDO
-   - Maneja el texto y el botón.
-*/
+.hero-shimmer {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+  z-index: 2;
+  animation: shimmer-sweep 6s ease-in-out infinite;
+}
+
+@keyframes shimmer-sweep {
+  0%, 100% { left: -100%; }
+  50% { left: 200%; }
+}
+
 .hero-content {
   position: relative;
-  z-index: 3;                 /* Encima de todo */
-  /* Animación 'fadeInUp': duración de 1 segundo con curva de velocidad suave */
-  animation: fadeInUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  opacity: 0;                 /* Empieza invisible hasta que arranca la animación */
+  z-index: 3;
 }
 
-/* AJUSTES DE TEXTO RESPONSIVE
-   - Cambia los 'font-size' aquí si el título queda muy grande o chico en celulares.
-*/
-@media (max-width: 991.98px) {
-  .hero-content .display-1 { font-size: 2.5rem; letter-spacing: -0.5px; }
-  .hero-content .lead { font-size: 1.15rem; }
-  .hero-btn { padding: 0.75rem 2rem !important; font-size: 0.95rem; }
+.hero-badge {
+  display: inline-block;
+  background: rgba(197, 164, 71, 0.15);
+  border: 1px solid rgba(197, 164, 71, 0.35);
+  color: var(--gold-corona);
+  padding: 6px 20px;
+  border-radius: 50px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.3s;
+  opacity: 0;
+  backdrop-filter: blur(4px);
 }
 
-@media (max-width: 767.98px) {
-  .hero-content .display-1 { font-size: 2rem; margin-bottom: 1.5rem !important; }
-  .hero-content .lead { font-size: 1rem; margin-bottom: 2rem !important; }
+.hero-title {
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.6s;
+  opacity: 0;
 }
 
-@media (max-width: 576px) {
-  .hero-content .display-1 { font-size: 1.5rem; margin-bottom: 1rem !important; }
-  .hero-content .lead { font-size: 0.95rem; }
-  .hero-btn { padding: 0.6rem 1.5rem !important; font-size: 0.85rem; }
+.hero-title .gold-text {
+  color: var(--gold-corona);
+  display: inline-block;
+  animation: gold-shimmer 3s ease-in-out infinite;
 }
 
-/* 6. BOTÓN PERSONALIZADO (Estilo Premium)
-   - El corazón del llamado a la acción.
-*/
+@keyframes gold-shimmer {
+  0%, 100% { text-shadow: 0 0 20px rgba(197, 164, 71, 0.2); }
+  50% { text-shadow: 0 0 40px rgba(197, 164, 71, 0.4); }
+}
+
+.hero-subtitle {
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 0.9s;
+  opacity: 0;
+}
+
 .hero-btn {
-  /* Fondo degradado: usa los colores Plum y Mauve del logo */
   background: linear-gradient(45deg, var(--plum-dark), var(--mauve-logo));
   color: #FFFFFF !important;
-  border: 1px solid var(--gold-corona); /* Borde dorado inspirado en la corona */
-  border-radius: 50px;         /* Forma de cápsula */
+  border: 1.5px solid var(--gold-corona);
+  border-radius: 50px;
   font-weight: 700;
-  letter-spacing: 1.5px;       /* Espaciado entre letras pro */
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Sombra suave con tinte ciruela para dar profundidad */
   box-shadow: 0 4px 15px rgba(74, 48, 77, 0.5);
   position: relative;
   overflow: hidden;
+  animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation-delay: 1.2s;
+  opacity: 0;
+  animation-iteration-count: 1, infinite;
 }
 
-/* EFECTO HOVER
-   - Cambia el comportamiento cuando el cliente pone el mouse encima.
-*/
 .hero-btn:hover {
-  transform: translateY(-3px) scale(1.02); /* Sube un poquito y se agranda */
-  border-color: #FFFFFF;       /* El borde se vuelve blanco para destacar */
-  box-shadow: 0 8px 25px rgba(197, 164, 71, 0.4); /* La sombra se vuelve dorada */
-  letter-spacing: 2px;         /* Las letras se separan un toque más */
+  transform: translateY(-3px) scale(1.02);
+  border-color: #FFFFFF;
+  box-shadow: 0 8px 25px rgba(197, 164, 71, 0.4);
+  letter-spacing: 2px;
 }
 
-/* EFECTO DE BRILLO (SHINE)
-   - Es esa luz que cruza el botón al hacer hover.
-*/
 .hero-btn::after {
   content: '';
   position: absolute;
@@ -129,36 +131,85 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  /* Gradiente transparente con una franja dorada en el medio */
   background: linear-gradient(90deg, transparent, rgba(197, 164, 71, 0.3), transparent);
-  transition: 0.6s;            /* Velocidad del destello */
+  transition: 0.6s;
 }
 
 .hero-btn:hover::after {
-  left: 100%;                  /* Mueve el brillo de izquierda a derecha */
+  left: 100%;
 }
 
-/* 7. ANIMACIÓN DE ENTRADA
-   - Define el movimiento del texto al cargar la página.
-*/
+.hero-btn i {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.hero-btn:hover i {
+  transform: translateX(4px);
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  animation: fadeInUp 0.8s ease forwards;
+  animation-delay: 1.8s;
+  opacity: 0;
+}
+
+.scroll-text {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.5;
+  font-weight: 600;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+  animation: scroll-pulse 2s ease-in-out infinite;
+}
+
+@keyframes scroll-pulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.3; transform: scaleY(0.6); }
+}
+
 @keyframes fadeInUp {
-  from { 
-    opacity: 0; 
-    transform: translateY(30px); /* Empieza 30px más abajo */
-  }
-  to { 
-    opacity: 1; 
-    transform: translateY(0);    /* Termina en su posición original */
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes videoFadeIn {
-  from {
-    opacity: 0;
-    filter: brightness(0.5); /* Empieza un poco oscuro */
-  }
-  to {
-    opacity: 1;
-    filter: brightness(1);   /* Termina en su brillo normal */
-  }
+  from { opacity: 0; filter: brightness(0.5); }
+  to { opacity: 1; filter: brightness(1); }
+}
+
+@media (max-width: 991.98px) {
+  .hero-content .display-1 { font-size: 2.5rem; letter-spacing: -0.5px; }
+  .hero-content .lead { font-size: 1.15rem; }
+  .hero-btn { padding: 0.75rem 2rem !important; font-size: 0.95rem; }
+  .hero-badge { font-size: 0.7rem; padding: 4px 16px; }
+  .scroll-indicator { bottom: 25px; }
+  .scroll-line { height: 30px; }
+}
+
+@media (max-width: 767.98px) {
+  .hero-content .display-1 { font-size: 2rem; margin-bottom: 1.5rem !important; }
+  .hero-content .lead { font-size: 1rem; margin-bottom: 2rem !important; }
+  .hero-badge { margin-bottom: 1rem; }
+}
+
+@media (max-width: 576px) {
+  .hero-content .display-1 { font-size: 1.5rem; margin-bottom: 1rem !important; }
+  .hero-content .lead { font-size: 0.95rem; }
+  .hero-btn { padding: 0.6rem 1.5rem !important; font-size: 0.85rem; }
+  .scroll-indicator { display: none; }
 }

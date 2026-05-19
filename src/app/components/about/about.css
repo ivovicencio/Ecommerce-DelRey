@@ -1,17 +1,14 @@
-/* --- Sección About: Estilo Boutique --- */
-
 .about-section {
-  background-color: #fdfbff; /* Fondo casi blanco con tinte malva */
+  background-color: #fdfbff;
   position: relative;
   overflow: hidden;
 }
 
-/* 1. CONTENEDOR DE IMAGEN Y EFECTO CÍRCULO */
 .about-image-wrapper {
   position: relative;
   display: inline-block;
   padding: 20px;
-  margin: 0 auto; /* Centra el wrapper horizontalmente */
+  margin: 0 auto;
 }
 
 .image-bg-circle {
@@ -19,52 +16,78 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 280px; /* Tamaño del círculo de fondo */
+  width: 280px;
   height: 280px;
   background: linear-gradient(135deg, rgba(163, 128, 164, 0.2), rgba(197, 164, 71, 0.1));
-  border-radius: 50%; /* Lo hace redondo */
-  z-index: 1; /* Queda atrás de la imagen */
+  border-radius: 50%;
+  z-index: 1;
+  transition: transform 0.8s ease;
+}
+
+.about-image-wrapper.revealed .image-bg-circle {
+  animation: circle-pulse 3s ease-in-out infinite;
+}
+
+@keyframes circle-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.05); }
 }
 
 .about-img {
   position: relative;
-  z-index: 2; /* Encima del círculo */
-  max-width: 250px; /* Tamaño máximo de tu imagen palabras.png */
-  filter: drop-shadow(0 10px 20px rgba(74, 48, 77, 0.15)); /* Sombra suave ciruela */
+  z-index: 2;
+  max-width: 250px;
+  filter: drop-shadow(0 10px 20px rgba(74, 48, 77, 0.15));
   transition: transform 0.5s ease;
-  transform-origin: center; /* Asegura que la transformación se aplique desde el centro */
+  transform-origin: center;
 }
 
 .about-img:hover {
-  transform: scale(1.05) rotate(2deg); /* Pequeño movimiento al pasar el mouse */
+  transform: scale(1.05) rotate(2deg);
 }
 
-/* 2. TIPOGRAFÍA Y COLORES */
-.ls-2 { letter-spacing: 2px; } /* Espaciado entre letras para el subtítulo */
+/* --- Reveal Animations --- */
+.about-image-wrapper,
+.about-text-content {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-image-wrapper.revealed,
+.about-text-content.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.about-text-content.revealed {
+  transition-delay: 0.2s;
+}
+
+/* --- Typography --- */
+.ls-2 { letter-spacing: 2px; }
 
 .gold-text {
-  color: #C5A447; /* Dorado de la corona del logo */
+  color: #C5A447;
   font-weight: 700;
   font-size: 0.9rem;
 }
 
 .brand-title {
-  color: #4A304D; /* Ciruela profundo del logo */
-  font-family: 'Great Vibes', cursive; /* Reutilizamos la fuente del logo si quieres un toque extra */
+  color: #4A304D;
+  font-family: 'Great Vibes', cursive;
 }
 
-/* 3. NOTA PERSONAL (Efecto Glassmorphism) */
 .personal-note {
-  background: rgba(163, 128, 164, 0.05); /* Fondo malva muy transparente */
-  border-left: 4px solid #A380A4; /* Línea lateral del color 'Del Rey' */
+  background: rgba(163, 128, 164, 0.05);
+  border-left: 4px solid #A380A4;
   color: #555;
   font-style: italic;
   font-size: 0.95rem;
 }
 
-/* 4. BOTÓN ESTILO BOUTIQUE */
 .about-btn {
-  background-color: #4A304D; /* Color base Ciruela */
+  background-color: #4A304D;
   color: white !important;
   font-weight: 700;
   border: 1px solid transparent;
@@ -75,41 +98,49 @@
 .about-btn:hover {
   background-color: transparent;
   color: #4A304D !important;
-  border-color: #C5A447; /* Borde dorado en hover */
+  border-color: #C5A447;
   transform: translateY(-3px);
   box-shadow: 0 8px 20px rgba(197, 164, 71, 0.2);
 }
 
-/* 5. RESPONSIVE: Ajustes para celular */
+.about-btn i {
+  transition: transform 0.3s ease;
+  display: inline-block;
+}
+
+.about-btn:hover i {
+  transform: translateX(4px);
+}
+
 @media (max-width: 767.98px) {
   .about-text-content {
-    text-align: center; /* Centra el texto en móviles */
+    text-align: center;
     padding-top: 2rem;
   }
 
   .personal-note {
     border-left: none;
-    border-top: 4px solid #A380A4; /* Cambia la línea a la parte superior */
+    border-top: 4px solid #A380A4;
   }
 
   .image-bg-circle {
     width: 220px;
-    height: 220px; /* Círculo más chico en mobile */
+    height: 220px;
   }
 
   .about-img {
-    max-width: 200px; /* Reduce el tamaño para mejor ajuste en el círculo más pequeño */
-    display: block; /* Para que margin: 0 auto funcione */
-    margin: 0 auto; /* Centra la imagen horizontalmente dentro del wrapper */
+    max-width: 200px;
+    display: block;
+    margin: 0 auto;
   }
 
   .about-img:hover {
-    transform: scale(1.03) rotate(1deg); /* Movimiento más sutil en mobile para mantener centrado */
+    transform: scale(1.03) rotate(1deg);
   }
 
   .about-image-wrapper {
-    display: block; /* Cambia a block para mejor centrado en mobile */
-    text-align: center; /* Centra el contenido del wrapper */
-    padding: 15px; /* Reduce el padding en mobile */
+    display: block;
+    text-align: center;
+    padding: 15px;
   }
 }

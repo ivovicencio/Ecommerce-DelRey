@@ -1,26 +1,32 @@
 .modal {
   z-index: 1050;
-  animation: fadeIn 0.2s ease;
+  animation: overlayFadeIn 0.25s ease;
 }
 
-@keyframes fadeIn {
+@keyframes overlayFadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
 .modal.fade .modal-dialog {
-  transform: translateX(100%);
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(100%) scale(0.95);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .modal.show .modal-dialog {
-  transform: translateX(0);
+  transform: translateX(0) scale(1);
 }
 
 .modal-content {
   max-height: 85vh;
   overflow-y: auto;
   border-radius: 20px !important;
+  animation: contentSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes contentSlideIn {
+  from { transform: translateX(30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 .modal-content::-webkit-scrollbar {
@@ -39,6 +45,7 @@
   transition: all 0.3s;
   border: none;
 }
+
 .btn-finalizar:hover {
   background: linear-gradient(135deg, var(--mauve-logo), var(--gold-corona));
   color: white;
@@ -46,13 +53,22 @@
   box-shadow: 0 6px 20px rgba(163, 128, 164, 0.4);
 }
 
+.btn-finalizar:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .btn-outline-success {
   border: 1.5px solid #25D366;
   color: #25D366;
   transition: all 0.3s;
 }
+
 .btn-outline-success:hover {
   background: #25D366;
   color: white;
   transform: translateY(-2px);
+}
+
+.btn-outline-success:active {
+  transform: translateY(0) scale(0.98);
 }
