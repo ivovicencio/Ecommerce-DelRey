@@ -7,3 +7,12 @@
 </main>
 
 <app-footer></app-footer>
+
+<button
+  class="scroll-top-btn"
+  [class.visible]="showScrollTop()"
+  (click)="scrollToTop()"
+  title="Volver arriba"
+  aria-label="Volver arriba">
+  <i class="bi bi-chevron-up"></i>
+</button>

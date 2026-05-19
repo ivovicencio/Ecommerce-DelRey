@@ -22,6 +22,12 @@ export class Compra {
   pedidoCreado = signal<{ codigo: string } | null>(null);
   errorMsg = signal('');
 
+  get paso(): number {
+    if (this.pedidoCreado()) return 3;
+    if (this.carrito.carritoItems().length > 0) return 2;
+    return 1;
+  }
+
   pedirPorWhatsApp() {
     const items = this.carrito.carritoItems();
     const nombre = this.nombre().trim();

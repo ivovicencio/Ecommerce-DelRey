@@ -1,19 +1,32 @@
 <section class="hero-container">
-  
- <video #heroVideo autoplay loop muted playsinline preload="auto" class="hero-video">
+
+  <video #heroVideo autoplay loop muted playsinline preload="auto" class="hero-video">
     <source src="assets/videos/loop.mp4" type="video/mp4">
     Tu navegador no soporta videos.
   </video>
+
   <div class="hero-overlay"></div>
 
+  <div class="hero-shimmer"></div>
+
   <div class="container h-100 d-flex flex-column justify-content-center align-items-center text-center text-white hero-content">
-    
-    <h1 class="display-1 fw-bold mb-4">Elegí lo que te gusta.</h1>
-    
-    <p class="lead mb-5 opacity-75">Atención personalizada y productos de calidad para vos.</p>
-    
+
+    <span class="hero-badge">Nueva Colección 2026</span>
+
+    <h1 class="display-1 fw-bold mb-4 hero-title">
+      Elegí lo que <span class="gold-text">te gusta</span>.
+    </h1>
+
+    <p class="lead mb-5 opacity-75 hero-subtitle">Atención personalizada y productos de calidad para vos.</p>
+
     <button class="btn btn-lg px-5 py-3 hero-btn" routerLink="/catalogo">
-      VER CATÁLOGO
+      <span>VER CATÁLOGO</span>
+      <i class="bi bi-arrow-right ms-2"></i>
     </button>
+
+    <div class="scroll-indicator">
+      <span class="scroll-text">Descubrí más</span>
+      <div class="scroll-line"></div>
+    </div>
   </div>
 </section>

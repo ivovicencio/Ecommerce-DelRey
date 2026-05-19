@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Header } from './components/header/header';
 import { Footer } from './components/footer/footer';
@@ -16,4 +16,15 @@ import { Carrito } from './services/carrito/carrito';
 export class App {
   protected readonly title = signal('Del Rey');
   public carrito = inject(Carrito);
+
+  showScrollTop = signal(false);
+
+  @HostListener('window:scroll')
+  onScroll() {
+    this.showScrollTop.set(window.scrollY > 400);
+  }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

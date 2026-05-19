@@ -1,33 +1,178 @@
+.checkout-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+}
+
+/* --- Step Indicator --- */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.step-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.9rem;
+  background: #e9ecef;
+  color: #999;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid transparent;
+}
+
+.step.active .step-circle {
+  background: var(--plum-dark);
+  color: white;
+  border-color: var(--gold-corona);
+  box-shadow: 0 4px 12px rgba(74, 48, 77, 0.3);
+}
+
+.step.completed .step-circle {
+  background: var(--gold-corona);
+  color: white;
+}
+
+.step-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #999;
+  transition: color 0.3s;
+}
+
+.step.active .step-label,
+.step.completed .step-label {
+  color: var(--plum-dark);
+}
+
+.step-line {
+  width: 60px;
+  height: 2px;
+  background: #e9ecef;
+  margin: 0 8px;
+  margin-bottom: 26px;
+  transition: background 0.4s;
+  border-radius: 2px;
+}
+
+.step-line.active {
+  background: var(--plum-dark);
+}
+
+/* --- Checkout Card --- */
+.checkout-card {
+  background: white;
+  animation: cardSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Form Floating Labels --- */
+.form-floating > .form-control {
+  padding: 1rem 0.75rem;
+  border: 1.5px solid #e0d6e0;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  height: auto;
+}
+
+.form-floating > .form-control:focus {
+  border-color: var(--mauve-logo);
+  box-shadow: 0 0 0 3px rgba(163, 128, 164, 0.12);
+}
+
+.form-floating > label {
+  padding: 1rem 0.75rem;
+  color: #999;
+}
+
+.form-floating > .form-control:focus ~ label,
+.form-floating > .form-control:not(:placeholder-shown) ~ label {
+  opacity: 0.85;
+  transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+}
+
+/* --- Cart Items --- */
+.cart-item-row {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  animation: itemFadeIn 0.3s ease;
+}
+
+@keyframes itemFadeIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.item-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* --- Total --- */
+.total-row {
+  border-top: 2px dashed #e0d6e0;
+  margin-top: 0.5rem;
+}
+
 .plum-text { color: var(--plum-dark); }
 
-.card {
-  background: white;
-}
-
-.form-control {
-  padding: 0.75rem 1.2rem;
-  border: 1px solid #e0d6e0;
-  transition: all 0.3s ease;
-}
-
-.form-control:focus {
-  border-color: var(--mauve-logo);
-  box-shadow: 0 0 0 3px rgba(163, 128, 164, 0.15);
-}
-
-.btn-success {
+/* --- WhatsApp Button --- */
+.btn-whatsapp {
   background: linear-gradient(135deg, #25D366, #128C7E);
   border: none;
   transition: all 0.3s ease;
 }
-.btn-success:hover:not(:disabled) {
+
+.btn-whatsapp:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3);
 }
-.btn-success:disabled {
+
+.btn-whatsapp:active:not(:disabled) {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-whatsapp:disabled {
   opacity: 0.5;
 }
 
-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #f2ebf2 100%);
+/* --- Confirmed State --- */
+.confirmed-state {
+  animation: cardSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.confirmed-icon i {
+  font-size: 4rem;
+  color: #25D366;
+  animation: confirmed-bounce 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes confirmed-bounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* --- Responsive --- */
+@media (max-width: 576px) {
+  .step-line { width: 30px; }
+  .step-circle { width: 34px; height: 34px; font-size: 0.8rem; }
+  .step-label { font-size: 0.6rem; }
 }
