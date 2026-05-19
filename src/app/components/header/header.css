@@ -1,34 +1,39 @@
-/* --- Variables de Paleta (Basadas en el nuevo Logo) --- */
+/* --- Variables de Paleta --- */
 :root {
-  --mauve-logo: #A380A4;      /* El color de 'Del Rey' */
-  --gold-corona: #C5A447;     /* El dorado de la corona (Premium) */
-  --plum-dark: #4A304D;       /* El color de 'Calzados' */
-  --mauve-light: #F2EBF2;     /* Versión muy clara para fondos */
+  --mauve-logo: #A380A4;
+  --gold-corona: #C5A447;
+  --plum-dark: #4A304D;
+  --mauve-light: #F2EBF2;
 }
 
-/* --- Header General --- */
+/* --- Premium Top Bar --- */
 .navbar {
   backdrop-filter: blur(15px);
-  background-color: transparent !important;
   background-image: linear-gradient(135deg,
     rgba(163, 128, 164, 0.95),
     rgba(242, 235, 242, 0.85)
   ) !important;
   border-bottom: 2px solid rgba(163, 128, 164, 0.2);
+  box-shadow: 0 4px 20px rgba(74, 48, 77, 0.08);
   transition: all 0.4s ease;
 }
-/* --- Fuentes y Colores --- */
+
+/* --- Brand --- */
 .brand-wrapper {
   display: flex;
   flex-direction: column;
   line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.brand-wrapper:hover {
+  transform: scale(1.03);
 }
 
 .brand-del-rey {
-  font-family: 'Great Vibes', cursive; /* La fuente del logo */
+  font-family: 'Great Vibes', cursive;
   font-size: 1.8rem;
   color: var(--mauve-logo);
-  /* Eliminamos el background-clip de aquí para evitar que desaparezca */
 }
 
 .brand-calzados {
@@ -40,25 +45,66 @@
   font-weight: bold;
 }
 
-/* FIX: Icono de pasos ahora con color sólido forzado */
 .brand-icon {
-  color: var(--plum-dark) !important;
-  font-size: 1.5rem;
-  -webkit-text-fill-color: initial !important; /* Resetea el clipping del padre */
+  color: var(--mauve-logo) !important;
+  font-size: 1.8rem;
+  -webkit-text-fill-color: var(--mauve-logo) !important;
+  filter: drop-shadow(0 2px 4px rgba(74, 48, 77, 0.2));
+  transition: transform 0.3s ease;
 }
 
-/* FIX: Botón Carrito que no se veía */
+.brand-wrapper:hover .brand-icon {
+  transform: rotate(-8deg) scale(1.1);
+}
+
+/* --- Nav Links --- */
+.nav-link {
+  position: relative;
+  font-weight: 600;
+  color: var(--plum-dark) !important;
+  transition: color 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: 6px;
+}
+
+.nav-link:hover {
+  color: var(--mauve-logo) !important;
+}
+
+/* --- Desktop Underline --- */
+@media (min-width: 992px) {
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: var(--gold-corona);
+    transition: width 0.35s ease;
+    transform: translateX(-50%);
+    border-radius: 2px;
+  }
+
+  .nav-link:hover::after,
+  .active-link::after {
+    width: 70%;
+  }
+}
+
+/* --- Cart Button --- */
 .btn-cart-premium {
   background-color: #000000 !important;
   color: #ffffff !important;
-  border: 1px solid var(--gold-corona);
-  transition: all 0.3s ease;
+  border: 1.5px solid var(--gold-corona);
   display: grid;
   place-items: center;
   width: 44px;
   height: 44px;
   padding: 0;
   border-radius: 50%;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
 .btn-cart-premium i {
@@ -68,145 +114,39 @@
 }
 
 .btn-cart-premium:hover {
-  background-color: #4A304D !important; /* morado oscuro intenso */
+  background: linear-gradient(135deg, var(--mauve-logo), var(--plum-dark)) !important;
   border-color: var(--gold-corona) !important;
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(163, 128, 164, 0.35);
 }
 
-.cart-icon-btn {
-  min-width: unset;
+.btn-cart-premium:active {
+  transform: translateY(0) scale(0.95);
 }
 
-.btn-cart-premium:hover {
-  background: linear-gradient(135deg, var(--mauve-logo), var(--plum-dark)) !important;
-  transform: translateY(-2px);
-}
-
-/* --- (Gradiente de navbar ya definido al inicio) --- */
-
-/* Logo e Icono */
-.brand-icon {
-  /* El icono ahora usa el malva del logo para coherencia total */
-  color: var(--mauve-logo) !important;
-  -webkit-text-fill-color: var(--mauve-logo) !important; 
-  font-size: 1.8rem;
-  filter: drop-shadow(0 2px 4px rgba(74, 48, 77, 0.2));
-}
-
-.brand-text {
-  /* Texto con el degradado del Plum Dark al Malva Logo */
-  background: linear-gradient(45deg, var(--plum-dark), var(--mauve-logo));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Links de Navegación */
-.nav-link {
-  position: relative;
-  font-weight: 600;
-  color: var(--plum-dark) !important; /* Texto en el tono oscuro del logo */
-  transition: 0.3s;
-}
-
-/* --- Lógica de Animación Fluida (Mobile) --- */
-@media (max-width: 991.98px) {
-  .collapse.navbar-collapse {
-    display: block !important; 
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: 
-      max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.4s ease,
-      transform 0.4s ease;
-  }
-
-  .collapse.navbar-collapse.show {
-    max-height: 450px; 
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .navbar-nav {
-    text-align: center;
-    background: rgba(255, 255, 255, 0.7); /* Un poco más de blanco para legibilidad */
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 1.5rem;
-    margin-top: 1rem;
-    border: 1px solid var(--mauve-logo); /* Borde con el malva del logo */
-  }
-
-  .nav-item {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.4s ease;
-  }
-
-  .show .nav-item {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .show .nav-item:nth-child(1) { transition-delay: 0.1s; }
-  .show .nav-item:nth-child(2) { transition-delay: 0.15s; }
-  .show .nav-item:nth-child(3) { transition-delay: 0.2s; }
-  .show .nav-item:nth-child(4) { transition-delay: 0.25s; }
-
-  .nav-link::after { display: none; }
-}
-
-/* --- Estilo Desktop --- */
-@media (min-width: 992px) {
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 3px;
-    /* La rayita de selección ahora es DORADA, como la corona */
-    background-color: var(--gold-corona);
-    transition: 0.3s ease;
-    transform: translateX(-50%);
-  }
-  .nav-link:hover::after, .active-link::after { width: 70%; }
-}
-
-/* Botón Carrito */
-.btn-dark.rounded-pill {
-  /* Fondo ciruela profundo */
-  background: var(--plum-dark);
-  border: 1px solid transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(74, 48, 77, 0.2);
-}
-
-.btn-dark.rounded-pill:hover {
-  /* Al pasar el mouse, se vuelve Malva con borde Dorado */
-  background: var(--mauve-logo);
-  border-color: var(--gold-corona);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 15px rgba(163, 128, 164, 0.4);
-}
-
-/* --- LO QUE FALTABA (CONTADOR Y MODAL) --- */
-
+/* --- Cart Badge --- */
 .badge-cart {
-  font-size: 0.7rem;
-  padding: 0.4em 0.6em;
-  background-color: #e63946; /* Rojo para el contador */
-  border: 2px solid white; /* Borde para que resalte del icono */
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  font-size: 0.65rem;
+  padding: 0.35em 0.55em;
+  background-color: #e63946 !important;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  animation: badge-pop 0.3s ease;
 }
 
+@keyframes badge-pop {
+  0% { transform: scale(0); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* --- Admin Label --- */
 .nav-admin-label {
   pointer-events: none;
 }
 
 .nav-label-admin {
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 2px;
   color: var(--gold-corona);
@@ -224,44 +164,77 @@
   margin: 0 4px;
 }
 
+/* --- Mobile --- */
 @media (max-width: 991.98px) {
+  .navbar > .container {
+    position: relative;
+  }
+
+  .collapse.navbar-collapse {
+    display: block !important;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition:
+      max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s ease,
+      transform 0.4s ease;
+  }
+
+  .collapse.navbar-collapse.show {
+    max-height: 480px;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .navbar-nav {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(163, 128, 164, 0.3);
+    box-shadow: 0 8px 30px rgba(74, 48, 77, 0.12);
+  }
+
+  .nav-item {
+    opacity: 0;
+    transform: translateY(-12px);
+    transition: all 0.4s ease;
+  }
+
+  .show .nav-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .show .nav-item:nth-child(1) { transition-delay: 0.05s; }
+  .show .nav-item:nth-child(2) { transition-delay: 0.1s; }
+  .show .nav-item:nth-child(3) { transition-delay: 0.15s; }
+  .show .nav-item:nth-child(4) { transition-delay: 0.2s; }
+  .show .nav-item:nth-child(5) { transition-delay: 0.25s; }
+  .show .nav-item:nth-child(6) { transition-delay: 0.3s; }
+
+  .nav-link {
+    padding: 0.6rem 1rem;
+  }
+
+  .nav-link::after { display: none; }
+
   .nav-divider {
     width: 60%;
     height: 1px;
     margin: 8px auto;
   }
+
   .nav-label-admin {
     display: inline-block;
     margin-bottom: 4px;
   }
 }
 
+/* --- Utility --- */
 .bg-mauve-light { background-color: var(--mauve-light); }
 .plum-text { color: var(--plum-dark); }
-
-.modal-content {
-  border: none;
-  box-shadow: 0 20px 50px rgba(74, 48, 77, 0.3);
-}
-
-.btn-finalizar {
-  background-color: var(--plum-dark);
-  color: white;
-  letter-spacing: 1px;
-  transition: all 0.3s;
-}
-
-.btn-finalizar:hover {
-  background-color: var(--gold-corona);
-  color: white;
-  transform: translateY(-2px);
-}
-
-/* Ajuste para que el contador resalte sobre el círculo negro */
-.badge-cart {
-  font-size: 0.7rem;
-  padding: 0.4em 0.6em;
-  background-color: #e63946 !important; /* Rojo vibrante */
-  border: 2px solid white; 
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-}
