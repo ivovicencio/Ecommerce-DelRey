@@ -1,21 +1,14 @@
 import { Routes } from '@angular/router';
-import { Hero } from './components/hero/hero';
-import { Catalogo } from './components/catalogo/catalogo';
-import { About } from './components/about/about';
-import { Compra } from './components/compra/compra';
-import { Admin } from './components/admin/admin';
-import { Login } from './components/login/login';
-import { Register } from './components/register/register';
 import { authGuard, adminGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-    { path: '', component: Hero },
-    { path: 'inicio', component: Hero },
-    { path: 'catalogo', component: Catalogo },
-    { path: 'sobre-nosotros', component: About },
-    { path: 'realizar-compra', component: Compra },
-    { path: 'login', component: Login },
-    { path: 'register', component: Register, canActivate: [adminGuard] },
-    { path: 'admin', component: Admin, canActivate: [adminGuard] },
+    { path: '', loadComponent: () => import('./components/hero/hero').then(m => m.Hero) },
+    { path: 'inicio', loadComponent: () => import('./components/hero/hero').then(m => m.Hero) },
+    { path: 'catalogo', loadComponent: () => import('./components/catalogo/catalogo').then(m => m.Catalogo) },
+    { path: 'sobre-nosotros', loadComponent: () => import('./components/about/about').then(m => m.About) },
+    { path: 'realizar-compra', loadComponent: () => import('./components/compra/compra').then(m => m.Compra) },
+    { path: 'login', loadComponent: () => import('./components/login/login').then(m => m.Login) },
+    { path: 'register', loadComponent: () => import('./components/register/register').then(m => m.Register), canActivate: [adminGuard] },
+    { path: 'admin', loadComponent: () => import('./components/admin/admin').then(m => m.Admin), canActivate: [adminGuard] },
     { path: '**', redirectTo: 'inicio' }
 ];

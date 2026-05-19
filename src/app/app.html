@@ -2,7 +2,7 @@
 
 <app-cart-modal [open]="carrito.isCartOpen()" (close)="carrito.closeCart()"></app-cart-modal>
 
-<main>
+<main @routeFade>
   <router-outlet></router-outlet>
 </main>
 
