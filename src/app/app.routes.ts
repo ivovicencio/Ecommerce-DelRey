@@ -15,7 +15,7 @@ export const routes: Routes = [
     { path: 'sobre-nosotros', component: About },
     { path: 'realizar-compra', component: Compra },
     { path: 'login', component: Login },
-    { path: 'register', component: Register },
+    { path: 'register', component: Register, canActivate: [adminGuard] },
     { path: 'admin', component: Admin, canActivate: [adminGuard] },
     { path: '**', redirectTo: 'inicio' }
 ];
