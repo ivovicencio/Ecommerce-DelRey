@@ -47,7 +47,7 @@ export class Compra {
       precio_unitario: item.precio
     }));
 
-    this.pedidoService.createPedido(this.carrito.totalPagar(), detalleItems).subscribe({
+    this.pedidoService.createPedido(this.carrito.totalPagar(), detalleItems, nombre, direccion).subscribe({
       next: (resp) => {
         this.pedidoCreado.set({ codigo: resp.codigo });
         this.enviando.set(false);

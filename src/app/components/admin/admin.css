@@ -36,3 +36,52 @@
   box-shadow: 0 6px 20px rgba(163, 128, 164, 0.4);
 }
 .btn-success:disabled { opacity: 0.6; }
+
+/* ─── Tabs ─── */
+.admin-tabs .btn-tab {
+  padding: 0.5rem 1.2rem;
+  border: 1px solid #ddd;
+  border-radius: 50px;
+  background: white;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.admin-tabs .btn-tab:hover {
+  border-color: var(--mauve-logo);
+  background: #f8f0f8;
+}
+.admin-tabs .btn-tab.active {
+  background: linear-gradient(135deg, #4A304D, #A380A4);
+  color: white;
+  border-color: transparent;
+}
+
+/* ─── Talle selector ─── */
+.btn-talle-select {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 2px solid #e0d6e0;
+  background: white;
+  font-weight: 700;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-talle-select:hover {
+  border-color: var(--mauve-logo);
+  background: #f8f0f8;
+}
+.btn-talle-select.active {
+  background: var(--mauve-logo);
+  color: white;
+  border-color: var(--mauve-logo);
+}
+
+/* ─── Cards estadísticas ─── */
+.card .display-6 {
+  font-size: 2.2rem;
+  line-height: 1;
+}

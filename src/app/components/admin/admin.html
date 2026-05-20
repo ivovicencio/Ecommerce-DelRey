@@ -7,10 +7,10 @@
         <a routerLink="/catalogo" class="btn btn-outline-secondary rounded-pill btn-sm">
           <i class="bi bi-arrow-left"></i> Tienda
         </a>
-        <h4 class="fw-bold mb-0">Panel Administrativo</h4>
+        <h4 class="fw-bold mb-0">Panel de Gestión</h4>
+        <span class="badge bg-dark rounded-pill">{{ auth.usuario()?.nombre }}</span>
       </div>
-      <div class="d-flex align-items-center gap-2">
-        <span class="small text-muted"><i class="bi bi-person-circle me-1"></i>{{ auth.usuario()?.nombre }}</span>
+      <div>
         <button class="btn btn-outline-danger btn-sm rounded-pill" (click)="auth.logout()" title="Cerrar sesión">
           <i class="bi bi-box-arrow-right"></i>
         </button>
@@ -25,160 +25,433 @@
       <i class="bi bi-exclamation-triangle-fill"></i> {{ errorMsg() }}
     </div>
 
-    <!-- ==================== VISTA LISTA ==================== -->
-    <div *ngIf="vista() === 'lista'">
-
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h5 class="fw-bold mb-0">Productos ({{ productos().length }})</h5>
-        <button class="btn btn-success rounded-pill fw-bold btn-sm px-3" (click)="mostrarCrear()">
-          <i class="bi bi-plus-lg me-1"></i> Nuevo producto
-        </button>
-      </div>
-
-      <div *ngIf="loading()" class="text-center py-4">
-        <div class="spinner-border text-muted" role="status"></div>
-      </div>
-
-      <div *ngIf="!loading() && productos().length === 0" class="text-center py-5 text-muted">
-        <i class="bi bi-box-seam display-4"></i>
-        <p class="mt-2">No hay productos aún. Creá el primero.</p>
-      </div>
-
-      <div class="table-responsive" *ngIf="!loading() && productos().length > 0">
-        <table class="table table-hover align-middle">
-          <thead class="table-light">
-            <tr>
-              <th style="width:50px">#</th>
-              <th style="width:60px">Img</th>
-              <th>Nombre</th>
-              <th>Categoría</th>
-              <th>Precio</th>
-              <th>Talles</th>
-              <th style="width:110px">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let p of productos()">
-              <td class="text-muted small">{{ p.id }}</td>
-              <td>
-                <img [src]="p.imagen_url || 'assets/images/logo.png'" class="rounded-2" style="width:40px;height:40px;object-fit:cover;" (error)="$event.target.src='assets/images/logo.png'">
-              </td>
-              <td class="fw-semibold">{{ p.nombre }}</td>
-              <td><span class="badge bg-secondary">{{ p.categoria }}</span></td>
-              <td>${{ p.precio | number }}</td>
-              <td>
-                <span class="small text-muted">{{ (p.talles || []).length }} talles</span>
-              </td>
-              <td>
-                <div class="d-flex gap-1">
-                  <button class="btn btn-sm btn-outline-primary rounded-pill" (click)="mostrarEditar(p)" title="Editar">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="confirmarEliminar(p)" title="Eliminar">
-                    <i class="bi bi-trash3"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <!-- ============ TABS ============ -->
+    <div class="d-flex gap-2 mb-4 admin-tabs">
+      <button class="btn-tab" [class.active]="tab() === 'productos'" (click)="cambiarTab('productos')">
+        <i class="bi bi-box-seam me-1"></i> Productos
+      </button>
+      <button class="btn-tab" [class.active]="tab() === 'pedidos'" (click)="cambiarTab('pedidos')">
+        <i class="bi bi-receipt me-1"></i> Pedidos
+      </button>
+      <button class="btn-tab" [class.active]="tab() === 'estadisticas'" (click)="cambiarTab('estadisticas')">
+        <i class="bi bi-graph-up me-1"></i> Estadísticas
+      </button>
     </div>
 
-    <!-- ==================== VISTA CREAR / EDITAR ==================== -->
-    <div *ngIf="vista() === 'crear' || vista() === 'editar'">
+    <!-- ════════════════════════════════════════════
+         TAB PRODUCTOS
+         ════════════════════════════════════════════ -->
+    @if (tab() === 'productos') {
 
-      <div class="d-flex align-items-center gap-3 mb-3">
-        <button class="btn btn-outline-secondary rounded-pill btn-sm" (click)="volverLista()">
-          <i class="bi bi-arrow-left"></i> Volver
-        </button>
-        <h5 class="fw-bold mb-0">{{ vista() === 'crear' ? 'Nuevo Producto' : 'Editar Producto' }}</h5>
-        <span *ngIf="vista() === 'editar'" class="badge bg-info">ID: {{ productoEditando()?.id }}</span>
-      </div>
-
-      <div class="card border-0 shadow rounded-4 p-4">
-        <div class="mb-3">
-          <label class="form-label fw-bold small">Nombre</label>
-          <input type="text" class="form-control rounded-pill" [(ngModel)]="nombre" placeholder="Nombre del producto" [disabled]="enviando()">
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold small">Descripción</label>
-          <textarea class="form-control rounded-4" rows="2" [(ngModel)]="descripcion" placeholder="Descripción" [disabled]="enviando()"></textarea>
-        </div>
-
-        <div class="row mb-3 g-2">
-          <div class="col-6">
-            <label class="form-label fw-bold small">Precio ($)</label>
-            <input type="number" class="form-control rounded-pill" [(ngModel)]="precio" min="1" [disabled]="enviando()">
-          </div>
-          <div class="col-6">
-            <label class="form-label fw-bold small">Categoría</label>
-            <select class="form-select rounded-pill" [(ngModel)]="categoria" [disabled]="enviando()">
-              <option value="masculino">Masculino</option>
-              <option value="femenino">Femenino</option>
-              <option value="unisex">Unisex</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label class="form-label fw-bold small">
-            Imagen
-            <span *ngIf="vista() === 'editar'" class="text-muted fw-normal"> (dejá vacío para mantener la actual)</span>
-          </label>
-          <input type="file" class="form-control rounded-pill" (change)="onFileSelected($event)" accept="image/*" [disabled]="enviando()">
-          <div *ngIf="imagenPreview()" class="mt-2 text-center">
-            <img [src]="imagenPreview()" class="rounded-3 shadow-sm" style="max-height:120px;object-fit:contain;">
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <label class="form-label fw-bold small mb-0">Talles y Stock</label>
-            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill" (click)="agregarTalle()" [disabled]="enviando()">
-              <i class="bi bi-plus-lg"></i> Agregar
-            </button>
-          </div>
-          <div *ngFor="let t of talles(); let i = index" class="d-flex gap-2 mb-2">
-            <input type="number" class="form-control rounded-pill" placeholder="Talle" [(ngModel)]="t.talle" min="1" [disabled]="enviando()">
-            <input type="number" class="form-control rounded-pill" placeholder="Stock" [(ngModel)]="t.stock" min="0" [disabled]="enviando()">
-            <button type="button" class="btn btn-outline-danger rounded-pill px-3" (click)="quitarTalle(i)" [disabled]="enviando()">
-              <i class="bi bi-x-lg"></i>
-            </button>
-          </div>
-          <small *ngIf="talles().length === 0" class="text-muted"><i class="bi bi-info-circle me-1"></i>Sin talles.</small>
-        </div>
-
-        <div class="d-flex gap-2">
-          <button class="btn btn-outline-secondary rounded-pill px-4" (click)="volverLista()" [disabled]="enviando()">Cancelar</button>
-          <button class="btn btn-success rounded-pill px-4 fw-bold flex-grow-1" (click)="guardarProducto()" [disabled]="enviando()">
-            <span *ngIf="!enviando()"><i class="bi bi-check-lg me-1"></i>{{ vista() === 'crear' ? 'CREAR' : 'GUARDAR CAMBIOS' }}</span>
-            <span *ngIf="enviando()"><span class="spinner-border spinner-border-sm me-2"></span>GUARDANDO...</span>
+      <!-- Vista lista -->
+      @if (vistaProd() === 'lista') {
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0">Productos ({{ productos().length }})</h5>
+          <button class="btn btn-success rounded-pill fw-bold btn-sm px-3" (click)="mostrarCrear()">
+            <i class="bi bi-plus-lg me-1"></i> Nuevo producto
           </button>
         </div>
+
+        @if (loadingProd()) {
+          <div class="text-center py-4"><div class="spinner-border text-muted"></div></div>
+        }
+
+        @if (!loadingProd() && productos().length === 0) {
+          <div class="text-center py-5 text-muted">
+            <i class="bi bi-box-seam display-4"></i>
+            <p class="mt-2">No hay productos aún. Creá el primero.</p>
+          </div>
+        }
+
+        @if (!loadingProd() && productos().length > 0) {
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th style="width:50px">#</th>
+                  <th style="width:60px">Img</th>
+                  <th>Nombre</th>
+                  <th>Categoría</th>
+                  <th>Tipo</th>
+                  <th>Precio</th>
+                  <th>Talles</th>
+                  <th style="width:110px">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of productos(); track p.id) {
+                  <tr>
+                    <td class="text-muted small">{{ p.id }}</td>
+                    <td>
+                      <img [src]="p.imagen_url || 'assets/images/logo.png'" class="rounded-2" style="width:40px;height:40px;object-fit:cover;" (error)="$event.target.src='assets/images/logo.png'">
+                    </td>
+                    <td class="fw-semibold">{{ p.nombre }}</td>
+                    <td><span class="badge bg-secondary">{{ p.categoria }}</span></td>
+                    <td>
+                      @if (p.tipo) {
+                        <span class="badge bg-info">{{ p.tipo }}</span>
+                      }
+                    </td>
+                    <td>${{ p.precio | number }}</td>
+                    <td><span class="small text-muted">{{ (p.talles || []).length }} talles</span></td>
+                    <td>
+                      <div class="d-flex gap-1">
+                        <button class="btn btn-sm btn-outline-primary rounded-pill" (click)="mostrarEditar(p)" title="Editar">
+                          <i class="bi bi-pencil"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger rounded-pill" (click)="confirmarEliminar(p)" title="Eliminar">
+                          <i class="bi bi-trash3"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      }
+
+      <!-- Vista crear / editar -->
+      @if (vistaProd() === 'crear' || vistaProd() === 'editar') {
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <button class="btn btn-outline-secondary rounded-pill btn-sm" (click)="volverListaProd()">
+            <i class="bi bi-arrow-left"></i> Volver
+          </button>
+          <h5 class="fw-bold mb-0">{{ vistaProd() === 'crear' ? 'Nuevo Producto' : 'Editar Producto' }}</h5>
+          @if (vistaProd() === 'editar') {
+            <span class="badge bg-info">ID: {{ productoEditando()?.id }}</span>
+          }
+        </div>
+
+        <div class="card border-0 shadow rounded-4 p-4">
+          <div class="mb-3">
+            <label class="form-label fw-bold small">Nombre</label>
+            <input type="text" class="form-control rounded-pill" [(ngModel)]="prodNombre" placeholder="Nombre del producto" [disabled]="enviando()">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold small">Descripción</label>
+            <textarea class="form-control rounded-4" rows="2" [(ngModel)]="prodDesc" placeholder="Descripción" [disabled]="enviando()"></textarea>
+          </div>
+
+          <div class="row mb-3 g-2">
+            <div class="col-4">
+              <label class="form-label fw-bold small">Precio ($)</label>
+              <input type="number" class="form-control rounded-pill" [(ngModel)]="prodPrecio" min="1" [disabled]="enviando()">
+            </div>
+            <div class="col-4">
+              <label class="form-label fw-bold small">Categoría</label>
+              <select class="form-select rounded-pill" [(ngModel)]="prodCategoria" [disabled]="enviando()">
+                @for (cat of CATEGORIAS; track cat) {
+                  <option [value]="cat">{{ cat }}</option>
+                }
+              </select>
+            </div>
+            <div class="col-4">
+              <label class="form-label fw-bold small">Tipo / Estilo</label>
+              <select class="form-select rounded-pill" [(ngModel)]="prodTipo" [disabled]="enviando()">
+                <option value="">Sin tipo</option>
+                @for (t of TIPOS; track t) {
+                  <option [value]="t">{{ t }}</option>
+                }
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold small">
+              Imagen
+              @if (vistaProd() === 'editar') {
+                <span class="text-muted fw-normal"> (dejá vacío para mantener la actual)</span>
+              }
+            </label>
+            <input type="file" class="form-control rounded-pill" (change)="onFileSelected($event)" accept="image/*" [disabled]="enviando()">
+            @if (prodImagenPreview()) {
+              <div class="mt-2 text-center">
+                <img [src]="prodImagenPreview()" class="rounded-3 shadow-sm" style="max-height:120px;object-fit:contain;">
+              </div>
+            }
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold small mb-2">Talles disponibles</label>
+            <div class="d-flex flex-wrap gap-2">
+              @for (t of [35,36,37,38,39,40,41,42,43,44,45,46]; track t) {
+                <button type="button" class="btn btn-talle-select"
+                  [class.active]="prodTalles().includes(t)"
+                  (click)="toggleTalle(t)" [disabled]="enviando()">
+                  {{ t }}
+                </button>
+              }
+            </div>
+            @if (prodTalles().length === 0) {
+              <small class="text-muted"><i class="bi bi-info-circle me-1"></i>Seleccioná al menos un talle.</small>
+            } @else {
+              <small class="text-muted">{{ prodTalles().length }} talle(s) seleccionado(s): {{ prodTalles().join(', ') }}</small>
+            }
+          </div>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-secondary rounded-pill px-4" (click)="volverListaProd()" [disabled]="enviando()">Cancelar</button>
+            <button class="btn btn-success rounded-pill px-4 fw-bold flex-grow-1" (click)="guardarProducto()" [disabled]="enviando()">
+              @if (!enviando()) {
+                <span><i class="bi bi-check-lg me-1"></i>{{ vistaProd() === 'crear' ? 'CREAR' : 'GUARDAR CAMBIOS' }}</span>
+              } @else {
+                <span><span class="spinner-border spinner-border-sm me-2"></span>GUARDANDO...</span>
+              }
+            </button>
+          </div>
+        </div>
+      }
+    }
+
+    <!-- ════════════════════════════════════════════
+         TAB PEDIDOS
+         ════════════════════════════════════════════ -->
+    @if (tab() === 'pedidos') {
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Pedidos ({{ pedidos().length }})</h5>
+        <select class="form-select form-select-sm w-auto rounded-pill" [(ngModel)]="filtroEstado" (change)="cambiarFiltroEstado()">
+          <option value="todos">Todos</option>
+          <option value="Pendiente">Pendientes</option>
+          <option value="Completado">Completados</option>
+          <option value="Cancelado">Cancelados</option>
+        </select>
       </div>
-    </div>
+
+      @if (loadingPed()) {
+        <div class="text-center py-4"><div class="spinner-border text-muted"></div></div>
+      }
+
+      @if (!loadingPed() && pedidos().length === 0) {
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-receipt display-4"></i>
+          <p class="mt-2">No hay pedidos {{ filtroEstado !== 'todos' ? filtroEstado : '' }}.</p>
+        </div>
+      }
+
+      @if (!loadingPed() && pedidos().length > 0) {
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Código</th>
+                <th>Cliente</th>
+                <th>Total</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+                <th style="width:90px">Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (p of pedidos(); track p.id) {
+                <tr>
+                  <td class="fw-semibold small">{{ p.codigo }}</td>
+                  <td>{{ p.cliente_nombre }}</td>
+                  <td>${{ +p.total | number }}</td>
+                  <td>
+                    @if (p.estado === 'Completado') {
+                      <span class="badge bg-success">Completado</span>
+                    } @else if (p.estado === 'Cancelado') {
+                      <span class="badge bg-danger">Cancelado</span>
+                    } @else {
+                      <span class="badge bg-warning text-dark">Pendiente</span>
+                    }
+                  </td>
+                  <td class="small text-muted">{{ p.fecha | date:'short' }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-outline-info rounded-pill" (click)="verDetalle(p)" title="Ver detalle">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ════════════════════════════════════════════
+         TAB ESTADÍSTICAS
+         ════════════════════════════════════════════ -->
+    @if (tab() === 'estadisticas') {
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Resumen general</h5>
+        <button class="btn btn-outline-success rounded-pill btn-sm" (click)="exportarExcel()" [disabled]="!resumen()">
+          <i class="bi bi-download me-1"></i> Exportar Excel
+        </button>
+      </div>
+
+      @if (loadingEst()) {
+        <div class="text-center py-4"><div class="spinner-border text-muted"></div></div>
+      }
+
+      @if (!loadingEst() && resumen()) {
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
+              <div class="display-6 fw-bold">{{ resumen()!.totalPedidos }}</div>
+              <small class="text-muted">Total pedidos</small>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
+              <div class="display-6 fw-bold text-warning">{{ resumen()!.pendientes }}</div>
+              <small class="text-muted">Pendientes</small>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
+              <div class="display-6 fw-bold text-success">{{ resumen()!.completados }}</div>
+              <small class="text-muted">Completados</small>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 p-3 text-center">
+              <div class="display-6 fw-bold text-danger">{{ resumen()!.cancelados }}</div>
+              <small class="text-muted">Cancelados</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+          <h6 class="fw-bold mb-2">Ingresos totales (completados)</h6>
+          <div class="display-5 fw-bold text-success">${{ resumen()!.totalIngresos | number:'1.2-2' }}</div>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4 p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="fw-bold mb-0">Últimos pedidos</h6>
+          </div>
+          <div class="table-responsive">
+            <table class="table table-sm align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Código</th>
+                  <th>Cliente</th>
+                  <th>Total</th>
+                  <th>Estado</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of resumen()!.pedidos.slice(0, 20); track p.id) {
+                  <tr>
+                    <td class="small">{{ p.codigo }}</td>
+                    <td>{{ p.cliente_nombre }}</td>
+                    <td>${{ +p.total | number }}</td>
+                    <td>
+                      @if (p.estado === 'Completado') {
+                        <span class="badge bg-success">Completado</span>
+                      } @else if (p.estado === 'Cancelado') {
+                        <span class="badge bg-danger">Cancelado</span>
+                      } @else {
+                        <span class="badge bg-warning text-dark">Pendiente</span>
+                      }
+                    </td>
+                    <td class="small text-muted">{{ p.fecha | date:'short' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+    }
 
   </div>
 </section>
 
-<!-- Modal eliminar -->
-<div *ngIf="productoAEliminar()" class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" (click)="cancelarEliminar()">
-  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
-    <div class="modal-content border-0 rounded-4 p-3 text-center shadow">
-      <div class="modal-body">
-        <i class="bi bi-exclamation-triangle text-danger display-4"></i>
-        <h5 class="fw-bold mt-3">¿Eliminar producto?</h5>
-        <p class="text-muted mb-0">{{ productoAEliminar()?.nombre }}</p>
-        <p class="text-muted small">Esta acción no se puede deshacer.</p>
-      </div>
-      <div class="d-flex justify-content-center gap-2 pb-3">
-        <button class="btn btn-outline-secondary rounded-pill px-4" (click)="cancelarEliminar()">Cancelar</button>
-        <button class="btn btn-danger rounded-pill px-4 fw-bold" (click)="eliminarProducto()">
-          <i class="bi bi-trash3 me-1"></i>ELIMINAR
-        </button>
+<!-- Modal detalle pedido -->
+@if (pedidoDetalle()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" (click)="cerrarDetalle()">
+    <div class="modal-dialog modal-dialog-centered modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 p-3 shadow">
+        <div class="d-flex justify-content-between align-items-center px-3 pt-3">
+          <h5 class="fw-bold mb-0">{{ pedidoDetalle()!.codigo }}</h5>
+          <button type="button" class="btn-close" (click)="cerrarDetalle()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <strong>Cliente:</strong> {{ pedidoDetalle()!.cliente_nombre }}<br>
+            <strong>Dirección:</strong> {{ pedidoDetalle()!.cliente_direccion }}<br>
+            <strong>Fecha:</strong> {{ pedidoDetalle()!.fecha | date:'medium' }}<br>
+            <strong>Estado:</strong>
+            @if (pedidoDetalle()!.estado === 'Completado') {
+              <span class="badge bg-success">Completado</span>
+            } @else if (pedidoDetalle()!.estado === 'Cancelado') {
+              <span class="badge bg-danger">Cancelado</span>
+            } @else {
+              <span class="badge bg-warning text-dark">Pendiente</span>
+            }
+          </div>
+
+          <h6 class="fw-bold">Productos</h6>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Talle</th>
+                <th>Cant.</th>
+                <th>P. Unit.</th>
+                <th>Subtotal</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of pedidoDetalle()!.items; track item.id) {
+                <tr>
+                  <td>{{ getNombreProducto(item.producto_id) }}</td>
+                  <td>{{ item.talle }}</td>
+                  <td>{{ item.cantidad }}</td>
+                  <td>${{ +item.precio_unitario | number }}</td>
+                  <td>${{ (+item.precio_unitario * item.cantidad) | number }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+
+          <div class="text-end fw-bold fs-5">Total: ${{ +pedidoDetalle()!.total | number }}</div>
+        </div>
+        @if (pedidoDetalle()!.estado === 'Pendiente') {
+          <div class="d-flex justify-content-end gap-2 p-3 border-top">
+            <button class="btn btn-outline-danger rounded-pill px-3" (click)="cancelarPedido(pedidoDetalle()!.id)">
+              Cancelar pedido
+            </button>
+            <button class="btn btn-success rounded-pill px-3 fw-bold" (click)="confirmarPedido(pedidoDetalle()!.id)" [disabled]="pedidoConfirmando() === pedidoDetalle()!.id">
+              @if (pedidoConfirmando() === pedidoDetalle()!.id) {
+                <span class="spinner-border spinner-border-sm me-1"></span>
+              }
+              Marcar como vendido
+            </button>
+          </div>
+        }
       </div>
     </div>
   </div>
-</div>
+}
+
+<!-- Modal eliminar producto -->
+@if (productoAEliminar()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.5);" (click)="cancelarEliminar()">
+    <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 p-3 text-center shadow">
+        <div class="modal-body">
+          <i class="bi bi-exclamation-triangle text-danger display-4"></i>
+          <h5 class="fw-bold mt-3">¿Eliminar producto?</h5>
+          <p class="text-muted mb-0">{{ productoAEliminar()?.nombre }}</p>
+          <p class="text-muted small">Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="d-flex justify-content-center gap-2 pb-3">
+          <button class="btn btn-outline-secondary rounded-pill px-4" (click)="cancelarEliminar()">Cancelar</button>
+          <button class="btn btn-danger rounded-pill px-4 fw-bold" (click)="eliminarProducto()">
+            <i class="bi bi-trash3 me-1"></i>ELIMINAR
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

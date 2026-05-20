@@ -9,6 +9,6 @@ export const routes: Routes = [
     { path: 'realizar-compra', loadComponent: () => import('./components/compra/compra').then(m => m.Compra) },
     { path: 'login', loadComponent: () => import('./components/login/login').then(m => m.Login) },
     { path: 'register', loadComponent: () => import('./components/register/register').then(m => m.Register), canActivate: [adminGuard] },
-    { path: 'admin', loadComponent: () => import('./components/admin/admin').then(m => m.Admin), canActivate: [adminGuard] },
+    { path: 'gestion', loadComponent: () => import('./components/admin/admin').then(m => m.Admin), canActivate: [adminGuard] },
     { path: '**', redirectTo: 'inicio' }
 ];

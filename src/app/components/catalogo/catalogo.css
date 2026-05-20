@@ -106,6 +106,26 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.badge-tipo {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: var(--mauve-logo);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  text-transform: capitalize;
+}
+
+.btn-filter-sm {
+  font-size: 0.8rem;
+  padding: 5px 16px;
+}
+
 /* --- Product Info --- */
 .product-info {
   flex-grow: 1;

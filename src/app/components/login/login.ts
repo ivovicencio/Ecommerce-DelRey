@@ -31,7 +31,7 @@ export class Login {
     this.auth.login({ email: this.email, password: this.password }).subscribe({
       next: () => {
         this.loading.set(false);
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/gestion']);
       },
       error: (err) => {
         this.loading.set(false);

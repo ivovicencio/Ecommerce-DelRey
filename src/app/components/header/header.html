@@ -25,7 +25,7 @@
         <!-- === ADMIN: solo visible para admin === -->
         <ng-container *ngIf="auth.isAdmin()">
           <li class="nav-item nav-admin-label"><span class="nav-label-admin">ADMIN</span></li>
-          <li class="nav-item"><a class="nav-link" routerLink="/admin" routerLinkActive="active-link" (click)="closeMenu()"><i class="bi bi-gear me-1"></i>Gestión</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/gestion" routerLinkActive="active-link" (click)="closeMenu()"><i class="bi bi-gear me-1"></i>Gestión</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/catalogo" routerLinkActive="active-link" (click)="closeMenu()">Catálogo</a></li>
           <li class="nav-item nav-divider"></li>
           <li class="nav-item"><a class="nav-link text-danger" (click)="closeMenu(); auth.logout()" style="cursor:pointer;"><i class="bi bi-box-arrow-right me-1"></i>Salir</a></li>
