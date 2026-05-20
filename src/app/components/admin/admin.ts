@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { ProductoService } from '../../services/producto/producto.service';
 import { PedidoService } from '../../services/pedido/pedido.service';
 import { ProductoResponse } from '../../interfaces/producto.interface';
@@ -24,6 +24,7 @@ const CATEGORIAS = ['masculino', 'femenino', 'unisex'] as const;
 export class Admin implements OnInit {
   private productService = inject(ProductoService);
   private pedidoService = inject(PedidoService);
+  private route = inject(ActivatedRoute);
   public auth = inject(AuthService);
 
   tab = signal<TabAdmin>('productos');
@@ -62,7 +63,14 @@ export class Admin implements OnInit {
   readonly CATEGORIAS = CATEGORIAS;
 
   ngOnInit() {
-    this.cargarProductos();
+    this.route.queryParams.subscribe(params => {
+      const tabParam = params['tab'] as TabAdmin;
+      if (tabParam && ['productos', 'pedidos', 'estadisticas'].includes(tabParam)) {
+        this.cambiarTab(tabParam);
+      } else {
+        this.cargarProductos();
+      }
+    });
   }
 
   // ─── Cambio de tabs ───
@@ -70,6 +78,8 @@ export class Admin implements OnInit {
     this.tab.set(t);
     this.exito.set('');
     this.errorMsg.set('');
+    const url = t === 'productos' ? '/gestion' : `/gestion?tab=${t}`;
+    window.history.replaceState({}, '', url);
     if (t === 'pedidos') this.cargarPedidos();
     if (t === 'estadisticas') this.cargarResumen();
   }
