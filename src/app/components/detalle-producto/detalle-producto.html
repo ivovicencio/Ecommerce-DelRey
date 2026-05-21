@@ -116,7 +116,7 @@
           <div class="row g-3">
             @for (r of relacionados(); track r.id) {
               <div class="col-6 col-md-3">
-                <a class="relacionado-card" [routerLink]="['/producto', r.id]">
+                <div class="relacionado-card" (click)="irAProducto(r.id)">
                   <div class="relacionado-img">
                     <img [src]="r.imagen_url || 'assets/images/logo.png'" [alt]="r.nombre" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
                   </div>
@@ -124,7 +124,7 @@
                     <p class="relacionado-nombre">{{ r.nombre }}</p>
                     <p class="relacionado-precio">${{ r.precio | number }}</p>
                   </div>
-                </a>
+                </div>
               </div>
             }
           </div>

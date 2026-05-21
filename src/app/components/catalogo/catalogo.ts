@@ -60,6 +60,11 @@ export class Catalogo implements OnInit {
     }
 
     ngOnInit() {
+      const filtroGuardado = localStorage.getItem('delrey_filtro');
+      if (filtroGuardado && ['masculino', 'femenino', 'unisex'].includes(filtroGuardado)) {
+        this.categoriaActual = filtroGuardado;
+        localStorage.removeItem('delrey_filtro');
+      }
       this.cargarProductos();
     }
 

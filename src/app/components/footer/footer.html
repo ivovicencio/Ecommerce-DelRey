@@ -1,59 +1,89 @@
 <footer class="footer-premium py-5 mt-auto">
   <div class="container">
     <div class="row gy-4">
-      
+
       <div class="col-lg-4 col-md-6">
-        <h4 class="brand-text mb-3">Del Rey - Calzados</h4>
-        <p class="text-muted">
-          Llevando el mejor estilo a tus pies. Calidad, comodidad y atención personalizada en cada paso.
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <i class="fas fa-shoe-prints footer-brand-icon"></i>
+          <div>
+            <h4 class="brand-text mb-0">Del Rey</h4>
+            <span class="brand-sub">Calzados</span>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Llevando el mejor estilo a tus pies desde Piedra, Neuquén. Calidad, comodidad y atención personalizada en cada paso.
         </p>
-        <p class="small text-muted mt-4">
-          © 2026 Calzado y Hogar.
-        </p>
+        <div class="d-flex gap-2 mt-3">
+          <a href="https://wa.me/542942525797" target="_blank" rel="noopener" class="social-icon whatsapp" title="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="https://instagram.com/delreycalzados" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://facebook.com/delreycalzados" target="_blank" rel="noopener" class="social-icon facebook" title="Facebook">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+        </div>
       </div>
 
       <div class="col-lg-3 col-md-6">
-        <h5 class="fw-bold mb-4 text-dark">Seguinos</h5>
-        <div class="d-flex gap-3">
-          <a href="#" class="social-icon whatsapp">
-            <i class="fab fa-whatsapp"></i>
-          </a>
-          <a href="#" class="social-icon facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
-          <a href="#" class="social-icon instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-        </div>
+        <h5 class="fw-bold mb-4 footer-heading">Contacto</h5>
+        <ul class="list-unstyled contact-list">
+          <li>
+            <i class="bi bi-whatsapp"></i>
+            <a href="https://wa.me/542942525797" target="_blank" rel="noopener">+54 2942 52-5797</a>
+          </li>
+          <li>
+            <i class="bi bi-envelope"></i>
+            <span>delreycalzados&#64;gmail.com</span>
+          </li>
+          <li>
+            <i class="bi bi-geo-alt"></i>
+            <span>Piedra del Águila, Neuquén</span>
+          </li>
+        </ul>
       </div>
 
-      <div class="col-lg-5">
-        <h5 class="fw-bold mb-4 text-dark">Dejanos tu reseña</h5>
+      <div class="col-lg-2 col-md-6">
+        <h5 class="fw-bold mb-4 footer-heading">Navegación</h5>
+        <ul class="list-unstyled footer-nav">
+          <li><a routerLink="/catalogo">Catálogo</a></li>
+          <li><a routerLink="/como-funciona">FAQ</a></li>
+          <li><a routerLink="/sobre-nosotros">Sobre nosotros</a></li>
+        </ul>
+      </div>
 
-        <div *ngIf="enviado" class="alert alert-success rounded-pill text-center mb-3 py-2">
+      <div class="col-lg-3 col-md-6">
+        <h5 class="fw-bold mb-4 footer-heading">Dejanos tu reseña</h5>
+        <div *ngIf="enviado" class="alert alert-success rounded-pill text-center mb-3 py-2 small">
           <i class="bi bi-check-circle me-1"></i> ¡Gracias por tu reseña!
         </div>
-
-        <div *ngIf="error" class="alert alert-danger rounded-pill text-center mb-3 py-2">
+        <div *ngIf="error" class="alert alert-danger rounded-pill text-center mb-3 py-2 small">
           {{ error }}
         </div>
-
         <form class="review-form" (ngSubmit)="enviarResena()" #reviewForm="ngForm">
-          <div class="mb-3">
-            <input type="text" class="form-control rounded-pill border-0 shadow-sm" placeholder="Tu nombre"
+          <div class="mb-2">
+            <input type="text" class="form-control form-footer rounded-pill" placeholder="Tu nombre"
                    [(ngModel)]="nombre" name="nombre" required>
           </div>
-          <div class="mb-3">
-            <textarea class="form-control rounded-4 border-0 shadow-sm" rows="3" placeholder="¿Qué te pareció nuestro servicio?"
+          <div class="mb-2">
+            <textarea class="form-control form-footer rounded-4" rows="2" placeholder="¿Qué te pareció?"
                       [(ngModel)]="mensaje" name="mensaje" required></textarea>
           </div>
-          <button type="submit" class="btn btn-dark rounded-pill px-4 w-100 btn-send-review"
+          <button type="submit" class="btn btn-footer-send rounded-pill w-100"
                   [disabled]="!reviewForm.form.valid">
-            ENVIAR RESEÑA
+            <i class="bi bi-send me-1"></i> ENVIAR
           </button>
         </form>
       </div>
 
     </div>
+
+    <div class="footer-bottom text-center mt-4 pt-3">
+      <p class="small text-muted mb-0">
+        © 2026 Del Rey Calzados · Todos los derechos reservados · Piedra del Águila, Neuquén
+      </p>
+    </div>
+
   </div>
 </footer>

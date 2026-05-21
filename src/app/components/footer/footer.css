@@ -1,91 +1,154 @@
-/* --- Estilo del Footer Premium --- */
-
 .footer-premium {
-  /* Fondo sólido claro inspirado en el fondo del logo */
-  background-color: #F9F7F9; 
-  /* Borde superior con el Malva del logo suavizado */
+  background-color: #F9F7F9;
   border-top: 1px solid rgba(163, 128, 164, 0.2);
 }
 
-/* 1. TEXTO DE MARCA: Usamos el degradado del logo */
-.brand-text {
-  font-weight: 800;
-  background: linear-gradient(45deg, #4A304D, #A380A4); /* Ciruela a Malva Logo */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
+/* Brand */
+.footer-brand-icon {
+  font-size: 1.6rem;
+  color: var(--mauve-logo);
 }
 
-/* 2. ICONOS SOCIALES: Diseño circular */
+.brand-text {
+  font-weight: 800;
+  background: linear-gradient(45deg, #4A304D, #A380A4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.4rem;
+}
+
+.brand-sub {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--mauve-logo);
+  font-weight: 600;
+}
+
+/* Headings */
+.footer-heading {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--plum-dark);
+}
+
+/* Social Icons */
 .social-icon {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background-color: white;
-  color: #4A304D; /* Color ciruela del logo */
+  background: white;
+  color: #4A304D;
   text-decoration: none;
-  font-size: 1.2rem;
-  /* Sombra sutil con el tono del logo */
+  font-size: 1.1rem;
   box-shadow: 0 4px 10px rgba(163, 128, 164, 0.15);
   transition: all 0.3s ease;
 }
-
 .social-icon:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   color: white;
 }
-
 .whatsapp:hover { background-color: #25D366; box-shadow: 0 6px 15px rgba(37, 211, 102, 0.3); }
 .facebook:hover { background-color: #1877F2; box-shadow: 0 6px 15px rgba(24, 119, 242, 0.3); }
 .instagram:hover { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
 
-/* 3. FORMULARIO DE RESEÑAS */
-.form-control {
-  padding: 0.8rem 1.2rem;
+/* Contact List */
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.contact-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.88rem;
+  color: #555;
+}
+.contact-list li i {
+  font-size: 1rem;
+  color: var(--mauve-logo);
+  width: 20px;
+  text-align: center;
+}
+.contact-list li a {
+  color: #555;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.contact-list li a:hover {
+  color: var(--mauve-logo);
+}
+
+/* Footer Nav */
+.footer-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-nav li {
+  margin-bottom: 0.6rem;
+}
+.footer-nav li a {
+  color: #6c757d;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.footer-nav li a:hover {
+  color: var(--plum-dark);
+  transform: translateX(3px);
+}
+
+/* Review Form */
+.form-footer {
+  padding: 0.6rem 1rem;
   background-color: white;
-  border: 1px solid transparent;
+  border: 1px solid rgba(163, 128, 164, 0.15);
   transition: all 0.3s ease;
-  color: #4A304D;
+  font-size: 0.85rem;
 }
-
-/* Efecto al hacer clic: Usamos el Dorado de la corona */
-.form-control:focus {
+.form-footer:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(197, 164, 71, 0.2); /* Sombra dorada */
-  border-color: #C5A447; /* Borde dorado */
+  box-shadow: 0 0 0 3px rgba(197, 164, 71, 0.15);
+  border-color: #C5A447;
 }
 
-/* Botón de envío */
-.btn-send-review {
-  background-color: #4A304D; /* Ciruela profundo */
+.btn-footer-send {
+  background-color: #4A304D;
   color: white;
-  border: 1px solid transparent;
+  border: none;
   font-weight: 600;
+  font-size: 0.82rem;
   letter-spacing: 1px;
+  padding: 0.6rem 1rem;
   transition: all 0.3s ease;
 }
-
-.btn-send-review:hover {
-  background-color: #A380A4; /* Cambia al Malva del logo */
-  border-color: #C5A447;     /* Borde dorado al hacer hover */
+.btn-footer-send:hover:not(:disabled) {
+  background-color: #A380A4;
   transform: scale(1.02);
   color: white;
 }
+.btn-footer-send:disabled {
+  opacity: 0.5;
+}
 
-/* 4. RESPONSIVE: Ajustes para pantallas pequeñas */
+/* Bottom */
+.footer-bottom {
+  border-top: 1px solid rgba(163, 128, 164, 0.1);
+}
+
 @media (max-width: 767.98px) {
-  .footer-premium {
-    text-align: center;
-  }
-  
-  .d-flex.gap-3 {
-    justify-content: center;
-  }
-
-  .col-lg-5 {
-    margin-top: 2rem;
-  }
+  .footer-premium { text-align: center; }
+  .d-flex.gap-2 { justify-content: center; }
+  .contact-list li { justify-content: center; }
+  .col-lg-3.col-md-6 { margin-top: 1.5rem; }
 }

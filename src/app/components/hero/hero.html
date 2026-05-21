@@ -1,32 +1,199 @@
+<!-- ========== HERO ========== -->
 <section class="hero-container">
 
   <video #heroVideo autoplay loop muted playsinline preload="metadata" class="hero-video">
     <source src="assets/videos/loop.mp4" type="video/mp4">
-    Tu navegador no soporta videos.
   </video>
 
   <div class="hero-overlay"></div>
-
   <div class="hero-shimmer"></div>
 
   <div class="container h-100 d-flex flex-column justify-content-center align-items-center text-center text-white hero-content">
-
     <span class="hero-badge">Nueva Colección 2026</span>
-
     <h1 class="display-1 fw-bold mb-4 hero-title">
       Elegí lo que <span class="gold-text">te gusta</span>.
     </h1>
-
     <p class="lead mb-5 opacity-75 hero-subtitle">Atención personalizada y productos de calidad para vos.</p>
-
     <button class="btn btn-lg px-5 py-3 hero-btn" routerLink="/catalogo">
       <span>VER CATÁLOGO</span>
       <i class="bi bi-arrow-right ms-2"></i>
     </button>
-
     <div class="scroll-indicator">
       <span class="scroll-text">Descubrí más</span>
       <div class="scroll-line"></div>
     </div>
+  </div>
+</section>
+
+<!-- ========== CATEGORÍAS ========== -->
+<section class="categorias-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-badge">Categorías</span>
+      <h2 class="section-title">Descubrí por género</h2>
+      <p class="text-muted">Encontrá el calzado perfecto para cada estilo</p>
+    </div>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <a class="categoria-card" routerLink="/catalogo" (click)="irACategoria('masculino')">
+          <div class="categoria-img masculine-bg">
+            <i class="bi bi-person"></i>
+          </div>
+          <div class="categoria-info">
+            <h4>Masculino</h4>
+            <p>Botas, borcegos, zapatillas y más</p>
+            <span class="categoria-link">Ver colección <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="categoria-card" routerLink="/catalogo" (click)="irACategoria('femenino')">
+          <div class="categoria-img feminine-bg">
+            <i class="bi bi-person-fill"></i>
+          </div>
+          <div class="categoria-info">
+            <h4>Femenino</h4>
+            <p>Botas, texanas, zapatos y más</p>
+            <span class="categoria-link">Ver colección <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+      <div class="col-md-4">
+        <a class="categoria-card" routerLink="/catalogo" (click)="irACategoria('unisex')">
+          <div class="categoria-img unisex-bg">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="categoria-info">
+            <h4>Unisex</h4>
+            <p>Estilos para todos, sin límites</p>
+            <span class="categoria-link">Ver colección <i class="bi bi-arrow-right"></i></span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DESTACADOS ========== -->
+@if (productosDestacados().length > 0) {
+  <section class="destacados-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-badge">Destacados</span>
+        <h2 class="section-title">Productos recientes</h2>
+        <p class="text-muted">Lo último que sumamos a nuestra colección</p>
+      </div>
+      <div class="row g-4">
+        @for (p of productosDestacados(); track p.id) {
+          <div class="col-6 col-md-3">
+            <a class="destacado-card" [routerLink]="['/producto', p.id]">
+              <div class="destacado-img">
+                <img [src]="p.imagen_url || 'assets/images/logo.png'" [alt]="p.nombre" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
+                <span class="destacado-badge-cat">{{ p.categoria }}</span>
+              </div>
+              <div class="destacado-info p-3">
+                <h5 class="destacado-nombre">{{ p.nombre }}</h5>
+                <p class="destacado-precio">${{ p.precio | number }}</p>
+              </div>
+            </a>
+          </div>
+        }
+      </div>
+      <div class="text-center mt-4">
+        <a class="btn-ver-todos" routerLink="/catalogo">Ver todos los productos <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ========== POR QUÉ ELEGIRNOS ========== -->
+<section class="features-section py-5">
+  <div class="container">
+    <div class="text-center mb-5">
+      <span class="section-badge">Por qué elegirnos</span>
+      <h2 class="section-title">Calidad que se siente en cada paso</h2>
+    </div>
+    <div class="row g-4">
+      <div class="col-6 col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-shield-check"></i>
+          </div>
+          <h5>Productos de calidad</h5>
+          <p class="text-muted small">Seleccionamos cada par pensando en tu comodidad y estilo.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-chat-dots"></i>
+          </div>
+          <h5>Atención personalizada</h5>
+          <p class="text-muted small">Hablamos directo por WhatsApp, sin robots ni demoras.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-truck"></i>
+          </div>
+          <h5>Envíos a todo el país</h5>
+          <p class="text-muted small">Llegamos a tu domicilio por Correo Argentino o Busplus.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">
+            <i class="bi bi-cash-coin"></i>
+          </div>
+          <h5>Seña del 50%</h5>
+          <p class="text-muted small">Reservá tu producto pagando la mitad y el resto al recibirlo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RESEÑAS ========== -->
+@if (resenas().length > 0) {
+  <section class="resenas-section py-5">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-badge">Reseñas</span>
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+      </div>
+      <div class="row g-4 justify-content-center">
+        @for (r of resenas(); track r.id) {
+          <div class="col-md-4">
+            <div class="resena-card">
+              <div class="resena-stars">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+              <p class="resena-texto">"{{ r.mensaje }}"</p>
+              <div class="resena-autor">
+                <div class="resena-avatar">{{ r.nombre.charAt(0).toUpperCase() }}</div>
+                <span>{{ r.nombre }}</span>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+}
+
+<!-- ========== CTA FINAL ========== -->
+<section class="cta-section py-5">
+  <div class="container text-center">
+    <h2 class="cta-titulo">¿Listo para encontrar tu próximo par?</h2>
+    <p class="cta-subtitulo">Explorá nuestro catálogo y elegí el estilo que va con vos.</p>
+    <a class="btn-cta" routerLink="/catalogo">
+      <span>IR AL CATÁLOGO</span>
+      <i class="bi bi-arrow-right ms-2"></i>
+    </a>
   </div>
 </section>

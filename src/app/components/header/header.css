@@ -126,6 +126,36 @@
   transform: translateY(0) scale(0.95);
 }
 
+/* --- WhatsApp Nav Button --- */
+.btn-whatsapp-nav {
+  background: #25D366 !important;
+  color: #ffffff !important;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  animation: whatsapp-pulse 2s ease-in-out infinite;
+}
+
+.btn-whatsapp-nav i {
+  font-size: 1.2rem;
+}
+
+.btn-whatsapp-nav:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+  animation: none;
+}
+
+@keyframes whatsapp-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4); }
+  50% { box-shadow: 0 0 0 12px rgba(37, 211, 102, 0); }
+}
+
 /* --- Cart Badge --- */
 .badge-cart {
   font-size: 0.65rem;

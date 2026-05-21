@@ -1,6 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
 import { ProductoService } from '../../services/producto/producto.service';
 import { ProductoResponse } from '../../interfaces/producto.interface';
@@ -14,6 +14,7 @@ import { ProductoResponse } from '../../interfaces/producto.interface';
 })
 export class DetalleProducto implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private productService = inject(ProductoService);
   public carrito = inject(Carrito);
 
@@ -61,6 +62,11 @@ export class DetalleProducto implements OnInit {
 
   seleccionarTalle(talle: number) {
     this.talleSeleccionado.set(talle);
+  }
+
+  irAProducto(id: number) {
+    this.router.navigate(['/producto', id]);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   agregarAlCarrito() {
