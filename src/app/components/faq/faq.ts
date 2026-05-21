@@ -1,6 +1,5 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 interface Pregunta {
   pregunta: string;
@@ -11,7 +10,7 @@ interface Pregunta {
 @Component({
   selector: 'app-faq',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './faq.html',
   styleUrls: ['./faq.css'],
 })
