@@ -424,8 +424,23 @@
 
 /* --- Responsive --- */
 @media (max-width: 576px) {
-  .product-name { font-size: 1rem; }
-  .product-price { font-size: 1.1rem; }
-  .product-card { border-radius: 15px; }
-  .badge-category { font-size: 0.6rem; padding: 3px 10px; }
+  .product-name { font-size: 0.9rem; }
+  .product-price { font-size: 1rem; }
+  .product-card { border-radius: 12px; }
+  .badge-category { font-size: 0.55rem; padding: 2px 8px; top: 8px; left: 8px; }
+  .badge-tipo { font-size: 0.55rem; padding: 2px 8px; top: 8px; right: 8px; }
+  .btn-talle { min-width: 32px; height: 32px; font-size: 0.7rem; padding: 0 5px; }
+  .btn-add-cart { width: 36px; height: 36px; }
+  .paginacion-nav .page-link { min-width: 38px; padding: 0.4rem 0.7rem; font-size: 0.85rem; }
+  .product-desc { font-size: 0.78rem; -webkit-line-clamp: 1; margin-bottom: 10px; }
+  .product-senia { font-size: 0.7rem; }
+  .product-info { padding: 0.6rem !important; }
+  .filtro-btn { font-size: 0.75rem; padding: 4px 12px; }
+  .filtro-label { font-size: 0.7rem; }
+  .filtro-grupo { gap: 0.4rem; }
+  .filtros-info { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+  .resultados-count { font-size: 0.78rem; }
+  .limpiar-filtros { font-size: 0.75rem; padding: 4px 10px; }
+  .col-6 { padding-left: 6px; padding-right: 6px; }
+  .row.g-3 { margin-left: -6px; margin-right: -6px; }
 }

@@ -218,7 +218,18 @@
 
 /* --- Responsive --- */
 @media (max-width: 576px) {
-  .step-line { width: 30px; }
-  .step-circle { width: 34px; height: 34px; font-size: 0.8rem; }
-  .step-label { font-size: 0.6rem; }
+  .checkout-section { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+  .step-line { width: 20px; margin: 0 4px; margin-bottom: 22px; }
+  .step-circle { width: 30px; height: 30px; font-size: 0.7rem; }
+  .step-label { font-size: 0.55rem; letter-spacing: 0.5px; }
+  .checkout-card { padding: 1rem !important; border-radius: 14px !important; }
+  .form-floating > .form-control { font-size: 0.85rem; padding: 0.8rem 0.6rem; }
+  .form-floating > label { font-size: 0.85rem; padding: 0.8rem 0.6rem; }
+  .cart-item-row { font-size: 0.85rem; }
+  .item-img { width: 40px; height: 40px; }
+  .btn-pago { padding: 0.6rem 0.8rem; font-size: 0.82rem; }
+  .btn-pago i { font-size: 1.1rem; }
+  .btn-whatsapp { font-size: 0.85rem; padding: 0.7rem 1rem !important; }
+  .total-row h5 { font-size: 1rem; }
+  .confirmed-icon i { font-size: 3rem; }
 }

@@ -347,10 +347,89 @@
   }
 
   .imagen-principal {
-    border-radius: 16px;
+    border-radius: 14px;
   }
 
   .producto-nombre {
+    font-size: 1.2rem;
+  }
+
+  .producto-precio {
     font-size: 1.3rem;
+  }
+
+  .producto-senia {
+    font-size: 0.85rem;
+  }
+
+  .producto-senia span {
+    font-size: 0.95rem;
+  }
+
+  .producto-descripcion {
+    font-size: 0.88rem;
+  }
+
+  .btn-talle-detalle {
+    min-width: 38px;
+    height: 38px;
+    font-size: 0.8rem;
+    padding: 0 10px;
+  }
+
+  .btn-comprar {
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    flex: 1;
+  }
+
+  .btn-volver {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+
+  .badge-categoria {
+    top: 12px;
+    left: 12px;
+    font-size: 0.65rem;
+    padding: 4px 12px;
+  }
+
+  .badge-tipo {
+    top: 12px;
+    right: 12px;
+    font-size: 0.6rem;
+    padding: 3px 10px;
+  }
+
+  .relacionados-titulo {
+    font-size: 1.15rem;
+  }
+
+  .relacionado-nombre {
+    font-size: 0.8rem;
+  }
+
+  .relacionado-precio {
+    font-size: 0.85rem;
+  }
+
+  .breadcrumb-nav .breadcrumb-item a,
+  .breadcrumb-nav .breadcrumb-item.active {
+    font-size: 0.78rem;
+  }
+
+  .divisor {
+    margin: 0.8rem 0;
+  }
+
+  .info-container {
+    padding-top: 0;
+  }
+
+  .toast-agregado {
+    font-size: 0.8rem;
+    padding: 8px 14px;
   }
 }

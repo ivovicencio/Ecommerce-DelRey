@@ -169,7 +169,19 @@
 
 @media (max-width: 767.98px) {
   .footer-premium { text-align: center; }
-  .d-flex.gap-2 { justify-content: center; }
+  .footer-premium .d-flex.gap-2 { justify-content: center; }
+  .footer-premium .d-flex.align-items-center { justify-content: center; }
   .contact-list li { justify-content: center; }
-  .col-lg-3.col-md-6 { margin-top: 1.5rem; }
+}
+@media (max-width: 575.98px) {
+  .footer-premium { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  .footer-heading { font-size: 0.9rem; margin-bottom: 0.8rem !important; }
+  .brand-text { font-size: 1.1rem; }
+  .brand-sub { font-size: 0.6rem; }
+  .footer-premium .row.gy-4 > [class*="col-"] { margin-top: 1.2rem; }
+  .footer-premium .row.gy-4 > [class*="col-"]:first-child { margin-top: 0; }
+  .review-form .form-control { font-size: 0.8rem; padding: 0.5rem 0.8rem; }
+  .btn-footer-send { font-size: 0.8rem; padding: 0.5rem; }
+  .star-icon { font-size: 0.95rem; }
+  .footer-bottom p { font-size: 0.7rem; }
 }

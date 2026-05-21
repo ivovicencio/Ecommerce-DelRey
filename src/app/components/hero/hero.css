@@ -178,6 +178,19 @@
 @media (max-width: 767.98px) {
   .hero-content .display-1 { font-size: 2rem; margin-bottom: 1.5rem !important; }
   .hero-content .lead { font-size: 1rem; margin-bottom: 2rem !important; }
+  .categoria-img { padding: 2rem 1rem; font-size: 2.2rem; }
+  .categoria-info { padding: 1rem; }
+  .categoria-info h4 { font-size: 1rem; }
+  .categoria-info p { font-size: 0.78rem; }
+  .feature-card { padding: 1.2rem 0.8rem; }
+  .feature-card h5 { font-size: 0.9rem; }
+  .feature-card p { font-size: 0.8rem; }
+  .resena-card { padding: 1rem; }
+  .resena-texto { font-size: 0.82rem; }
+  .destacado-nombre { font-size: 0.85rem; }
+  .destacado-precio { font-size: 0.95rem; }
+  .destacado-badge-cat { font-size: 0.55rem; padding: 3px 8px; top: 8px; left: 8px; }
+  .btn-ver-todos { padding: 8px 20px; font-size: 0.85rem; }
 }
 @media (max-width: 576px) {
   .hero-content .display-1 { font-size: 1.5rem; }
@@ -496,4 +509,12 @@
 @media (max-width: 576px) {
   .cta-titulo { font-size: 1.5rem; }
   .cta-subtitulo { font-size: 0.95rem; }
+  .cta-section .btn-cta { padding: 10px 24px; font-size: 0.85rem; }
+  .categoria-img { padding: 1.5rem 1rem; font-size: 1.8rem; }
+  .categoria-card { border-radius: 14px; }
+  .categoria-info { padding: 0.8rem; }
+  .categoria-info h4 { font-size: 0.9rem; }
+  .categoria-info p { font-size: 0.75rem; margin-bottom: 0.4rem; }
+  .categoria-link { font-size: 0.72rem; }
+  .feature-icon { width: 44px; height: 44px; font-size: 1.1rem; }
 }

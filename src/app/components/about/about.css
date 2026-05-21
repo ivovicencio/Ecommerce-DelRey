@@ -258,5 +258,35 @@
   .story-img-bg { width: 240px; height: 240px; }
 }
 @media (max-width: 575px) {
-  .hero-title { font-size: 2.2rem; }
+  .about-hero { min-height: 40vh; padding: 2rem 0; }
+  .hero-title { font-size: 1.8rem; }
+  .hero-desc { font-size: 0.9rem; }
+  .hero-cta { padding: 0.6rem 1.5rem !important; font-size: 0.85rem; }
+  .hero-sub { font-size: 0.7rem; }
+  .stats-bar { padding-top: 1rem !important; padding-bottom: 1rem !important; }
+  .stat-number { font-size: 1.2rem; }
+  .stat-label { font-size: 0.65rem; }
+  .stat-icon { font-size: 1.1rem; }
+  .story-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  .story-title { font-size: 1.5rem; }
+  .story-text { font-size: 0.85rem; }
+  .values-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  .values-title { font-size: 1.3rem; margin-bottom: 1.5rem !important; }
+  .value-card { padding: 1.2rem 0.8rem; }
+  .value-card h5 { font-size: 0.9rem; }
+  .value-card p { font-size: 0.75rem; }
+  .value-icon-wrap { width: 44px; height: 44px; font-size: 1.1rem; }
+  .location-section { padding-top: 2rem !important; padding-bottom: 2rem !important; }
+  .location-title { font-size: 1.3rem; }
+  .btn-whatsapp { padding: 0.7rem 1.5rem !important; font-size: 0.85rem; }
+  .contact-info { font-size: 0.8rem; }
+  .location-card { padding: 1rem !important; }
+  .location-card h5 { font-size: 0.95rem; }
+  .location-card p { font-size: 0.78rem; }
+  .cta-title { font-size: 1.6rem; }
+  .cta-desc { font-size: 0.85rem; }
+  .cta-btn { padding: 0.7rem 1.5rem !important; font-size: 0.85rem; }
+  .story-feature { font-size: 0.85rem; }
+  .badge-story { font-size: 0.7rem; }
+  .row.g-4 > [class*="col-"]:nth-child(n+3) { margin-top: 0; }
 }
