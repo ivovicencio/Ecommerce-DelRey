@@ -7,6 +7,7 @@ export const routes: Routes = [
     { path: 'catalogo', loadComponent: () => import('./components/catalogo/catalogo').then(m => m.Catalogo) },
     { path: 'producto/:id', loadComponent: () => import('./components/detalle-producto/detalle-producto').then(m => m.DetalleProducto) },
     { path: 'sobre-nosotros', loadComponent: () => import('./components/about/about').then(m => m.About) },
+    { path: 'como-funciona', loadComponent: () => import('./components/faq/faq').then(m => m.Faq) },
     { path: 'realizar-compra', loadComponent: () => import('./components/compra/compra').then(m => m.Compra) },
     { path: 'login', loadComponent: () => import('./components/login/login').then(m => m.Login) },
     { path: 'register', loadComponent: () => import('./components/register/register').then(m => m.Register), canActivate: [adminGuard] },

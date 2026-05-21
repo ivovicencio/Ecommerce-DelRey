@@ -16,8 +16,20 @@
   background: white;
   border-radius: 20px;
   padding: 1.5rem 2rem;
-  box-shadow: 0 2px 16px rgba(74, 48, 77, 0.06);
-  border: 1px solid rgba(163, 128, 164, 0.1);
+  box-shadow: 0 4px 24px rgba(74, 48, 77, 0.07);
+  border: 1px solid rgba(163, 128, 164, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.filtros-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--plum-dark), var(--gold-corona), var(--mauve-logo));
 }
 
 .filtros-inner {
@@ -360,6 +372,54 @@
 
 .size-hint {
   font-size: 0.65rem;
+}
+
+/* --- Seña label --- */
+.product-senia {
+  font-size: 0.78rem;
+}
+
+.senia-label {
+  color: #6c757d;
+}
+
+.senia-price {
+  color: #198754;
+  font-weight: 700;
+}
+
+/* --- Pagination --- */
+.paginacion-nav .pagination {
+  gap: 0.3rem;
+}
+
+.paginacion-nav .page-link {
+  border: 1.5px solid rgba(163, 128, 164, 0.25);
+  color: var(--plum-dark);
+  font-weight: 600;
+  border-radius: 12px !important;
+  min-width: 44px;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  transition: all 0.25s ease;
+  background: white;
+}
+
+.paginacion-nav .page-link:hover {
+  background: var(--mauve-logo);
+  color: white;
+  border-color: var(--mauve-logo);
+}
+
+.paginacion-nav .page-item.active .page-link {
+  background: var(--plum-dark);
+  border-color: var(--plum-dark);
+  box-shadow: 0 4px 12px rgba(74, 48, 77, 0.2);
+}
+
+.paginacion-nav .page-item.disabled .page-link {
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 /* --- Responsive --- */

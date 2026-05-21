@@ -122,6 +122,22 @@
   margin-bottom: 0;
 }
 
+.producto-senia {
+  font-size: 1rem;
+  color: #6c757d;
+  margin-top: 0.3rem;
+}
+
+.producto-senia strong {
+  color: var(--plum-dark);
+}
+
+.producto-senia span {
+  color: #198754;
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
 .divisor {
   width: 60px;
   height: 4px;

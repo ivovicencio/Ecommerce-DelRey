@@ -164,6 +164,42 @@
   margin: 0 4px;
 }
 
+/* --- Animated Hamburger --- */
+.navbar-toggler-icon {
+  background-image: none !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  position: relative;
+}
+
+.hamb-line {
+  display: block;
+  width: 24px;
+  height: 2.5px;
+  background: var(--plum-dark);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+.navbar-toggler.active .hamb-line:nth-child(1) {
+  transform: translateY(7.5px) rotate(45deg);
+}
+
+.navbar-toggler.active .hamb-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.navbar-toggler.active .hamb-line:nth-child(3) {
+  transform: translateY(-7.5px) rotate(-45deg);
+}
+
 /* --- Mobile --- */
 @media (max-width: 991.98px) {
   .navbar > .container {

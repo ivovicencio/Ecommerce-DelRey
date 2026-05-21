@@ -1,0 +1,124 @@
+.faq-section {
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbff 100%);
+  min-height: 70vh;
+}
+
+.faq-titulo {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--plum-dark);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.faq-subtitulo {
+  font-size: 1.05rem;
+}
+
+.faq-grid {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.faq-item {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid rgba(163, 128, 164, 0.12);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow: 0 4px 16px rgba(74, 48, 77, 0.06);
+}
+
+.faq-pregunta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--plum-dark);
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+}
+
+.faq-pregunta:hover {
+  background: rgba(163, 128, 164, 0.04);
+}
+
+.faq-pregunta i {
+  font-size: 1.1rem;
+  color: var(--mauve-logo);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-respuesta {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
+.faq-respuesta.visible {
+  max-height: 300px;
+}
+
+.faq-respuesta p {
+  padding: 0 1.5rem 1.2rem;
+  margin: 0;
+  color: #6c757d;
+  line-height: 1.7;
+  font-size: 0.95rem;
+}
+
+.faq-cta {
+  border-top: 1px solid rgba(163, 128, 164, 0.1);
+  padding-top: 2rem;
+}
+
+.btn-faq-contacto {
+  display: inline-flex;
+  align-items: center;
+  background: var(--plum-dark);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px rgba(74, 48, 77, 0.2);
+}
+
+.btn-faq-contacto:hover {
+  background: var(--gold-corona);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(74, 48, 77, 0.3);
+  color: white;
+}
+
+@media (max-width: 576px) {
+  .faq-titulo {
+    font-size: 1.6rem;
+  }
+
+  .faq-pregunta {
+    padding: 1rem 1.2rem;
+    font-size: 0.9rem;
+  }
+
+  .faq-respuesta p {
+    padding: 0 1.2rem 1rem;
+    font-size: 0.88rem;
+  }
+}

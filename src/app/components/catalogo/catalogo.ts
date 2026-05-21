@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Carrito } from '../../services/carrito/carrito';
@@ -6,6 +6,7 @@ import { ProductoService } from '../../services/producto/producto.service';
 import { ProductoResponse } from '../../interfaces/producto.interface';
 
 const TIPOS = ['urbano', 'deportivo', 'formal', 'botas'] as const;
+const ITEMS_POR_PAGINA = 8;
 
 @Component({
   selector: 'app-catalogo',
@@ -25,19 +26,36 @@ export class Catalogo implements OnInit {
     tipoActual = 'todos';
     loading = signal(true);
     error = signal('');
+    paginaActual = signal(1);
 
     productoAgregado = signal<{ producto: ProductoResponse; talle: number } | null>(null);
     talleSeleccionado = signal<Record<number, number>>({});
 
     readonly TIPOS = TIPOS;
+    readonly ITEMS_POR_PAGINA = ITEMS_POR_PAGINA;
 
     get filtrosActivos(): boolean {
       return this.categoriaActual !== 'todos' || this.tipoActual !== 'todos';
     }
 
+    totalPaginas = computed(() => Math.max(1, Math.ceil(this.productosFiltrados().length / ITEMS_POR_PAGINA)));
+
+    productosPaginados = computed(() => {
+      const inicio = (this.paginaActual() - 1) * ITEMS_POR_PAGINA;
+      return this.productosFiltrados().slice(inicio, inicio + ITEMS_POR_PAGINA);
+    });
+
+    cambiarPagina(p: number) {
+      if (p >= 1 && p <= this.totalPaginas()) {
+        this.paginaActual.set(p);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
     limpiarFiltros() {
       this.categoriaActual = 'todos';
       this.tipoActual = 'todos';
+      this.paginaActual.set(1);
       this.aplicarFiltros();
     }
 
@@ -70,11 +88,13 @@ export class Catalogo implements OnInit {
 
     filtrar(cat: string) {
       this.categoriaActual = cat;
+      this.paginaActual.set(1);
       this.aplicarFiltros();
     }
 
     filtrarTipo(tipo: string) {
       this.tipoActual = tipo;
+      this.paginaActual.set(1);
       this.aplicarFiltros();
     }
 

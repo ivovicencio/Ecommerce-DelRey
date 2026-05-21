@@ -58,6 +58,7 @@
           <div class="info-container">
             <h1 class="producto-nombre">{{ p.nombre }}</h1>
             <p class="producto-precio">${{ p.precio | number }}</p>
+            <p class="producto-senia">O seña del <strong>50%</strong>: <span>${{ (+p.precio / 2) | number }}</span></p>
 
             <div class="divisor"></div>
 

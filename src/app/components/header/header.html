@@ -8,8 +8,12 @@
       </div>
     </a>
 
-    <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()">
-      <span class="navbar-toggler-icon"></span>
+    <button class="navbar-toggler border-0" type="button" (click)="toggleMenu()" [class.active]="!isMenuCollapsed">
+      <span class="navbar-toggler-icon">
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+        <span class="hamb-line"></span>
+      </span>
     </button>
 
     <div class="collapse navbar-collapse" [class.show]="!isMenuCollapsed">
@@ -20,6 +24,7 @@
           <li class="nav-item"><a class="nav-link" routerLink="/inicio" routerLinkActive="active-link" (click)="closeMenu()">Inicio</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/catalogo" routerLinkActive="active-link" (click)="closeMenu()">Catálogo</a></li>
           <li class="nav-item"><a class="nav-link" routerLink="/sobre-nosotros" routerLinkActive="active-link" (click)="closeMenu()">Bio</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/como-funciona" routerLinkActive="active-link" (click)="closeMenu()">FAQ</a></li>
         </ng-container>
 
         <!-- === ADMIN: solo visible para admin === -->
