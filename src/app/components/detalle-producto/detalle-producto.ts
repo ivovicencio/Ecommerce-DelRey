@@ -27,10 +27,10 @@ export class DetalleProducto implements OnInit {
   imagenCargada = signal(false);
 
   ngOnInit() {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id) {
-      this.cargarProducto(id);
-    }
+    this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
+      if (id) this.cargarProducto(id);
+    });
   }
 
   cargarProducto(id: number) {
