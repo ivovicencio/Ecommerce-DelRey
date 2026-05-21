@@ -80,7 +80,7 @@ export class Admin implements OnInit {
     this.errorMsg.set('');
     const url = t === 'productos' ? '/gestion' : `/gestion?tab=${t}`;
     window.history.replaceState({}, '', url);
-    if (t === 'pedidos') this.cargarPedidos();
+    if (t === 'pedidos') { this.cargarProductos(); this.cargarPedidos(); }
     if (t === 'estadisticas') this.cargarResumen();
   }
 
@@ -289,7 +289,9 @@ export class Admin implements OnInit {
     let csv = '\uFEFF'; // BOM para Excel
     csv += 'Código,Cliente,Dirección,Total,Estado,Fecha\n';
     r.pedidos.forEach((p: Pedido) => {
-      csv += `"${p.codigo}","${p.cliente_nombre}","${p.cliente_direccion}",${Number(p.total).toFixed(2)},"${p.estado}","${new Date(p.fecha).toLocaleDateString()}"\n`;
+      const nom = p.cliente_nombre || '';
+      const dir = p.cliente_direccion || '';
+      csv += `"${p.codigo}","${nom}","${dir}",${Number(p.total).toFixed(2)},"${p.estado}","${new Date(p.fecha).toLocaleDateString()}"\n`;
     });
 
     csv += '\n';
@@ -312,6 +314,7 @@ export class Admin implements OnInit {
   // ════════════════════════════════════════════
 
   getNombreProducto(productoId: number): string {
+    if (!productoId) return 'Producto eliminado';
     const p = this.productos().find(x => x.id === productoId);
     return p ? p.nombre : `Producto #${productoId}`;
   }
