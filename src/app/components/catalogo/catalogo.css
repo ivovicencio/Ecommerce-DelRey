@@ -57,6 +57,17 @@
   box-shadow: 0 20px 40px rgba(74, 48, 77, 0.15);
 }
 
+.product-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.product-actions {
+  margin-top: auto;
+}
+
 /* --- Image Container --- */
 .product-img-container {
   position: relative;

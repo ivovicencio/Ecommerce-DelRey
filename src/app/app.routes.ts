@@ -5,6 +5,7 @@ export const routes: Routes = [
     { path: '', loadComponent: () => import('./components/hero/hero').then(m => m.Hero) },
     { path: 'inicio', loadComponent: () => import('./components/hero/hero').then(m => m.Hero) },
     { path: 'catalogo', loadComponent: () => import('./components/catalogo/catalogo').then(m => m.Catalogo) },
+    { path: 'producto/:id', loadComponent: () => import('./components/detalle-producto/detalle-producto').then(m => m.DetalleProducto) },
     { path: 'sobre-nosotros', loadComponent: () => import('./components/about/about').then(m => m.About) },
     { path: 'realizar-compra', loadComponent: () => import('./components/compra/compra').then(m => m.Compra) },
     { path: 'login', loadComponent: () => import('./components/login/login').then(m => m.Login) },

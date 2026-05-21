@@ -51,20 +51,27 @@
         @for (producto of productosFiltrados(); track producto.id; let i = $index) {
           <div class="col-6 col-md-4 col-lg-3 product-col" [style.animation-delay]="i * 0.08 + 's'">
             <div class="product-card">
-              <div class="product-img-container">
-                <img [src]="producto.imagen_url || 'assets/images/logo.png'" [alt]="producto.nombre" class="product-img" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
-                <span class="badge-category">{{ producto.categoria }}</span>
-                @if (producto.tipo) {
-                  <span class="badge-tipo">{{ producto.tipo }}</span>
-                }
-                <div class="img-shimmer"></div>
-              </div>
+              <a class="product-link" [routerLink]="['/producto', producto.id]">
+                <div class="product-img-container">
+                  <img [src]="producto.imagen_url || 'assets/images/logo.png'" [alt]="producto.nombre" class="product-img" loading="lazy" (error)="$event.target.src='assets/images/logo.png'">
+                  <span class="badge-category">{{ producto.categoria }}</span>
+                  @if (producto.tipo) {
+                    <span class="badge-tipo">{{ producto.tipo }}</span>
+                  }
+                  <div class="img-shimmer"></div>
+                </div>
 
-              <div class="product-info p-3">
-                <h5 class="product-name">{{ producto.nombre }}</h5>
-                <p class="product-desc">{{ producto.descripcion }}</p>
+                <div class="product-info p-3">
+                  <h5 class="product-name">{{ producto.nombre }}</h5>
+                  <p class="product-desc">{{ producto.descripcion }}</p>
+                  <div class="d-flex justify-content-between align-items-center mt-auto">
+                    <span class="product-price">${{ producto.precio | number }}</span>
+                  </div>
+                </div>
+              </a>
 
-                <div class="talle-selector mb-3">
+              <div class="product-actions px-3 pb-3">
+                <div class="talle-selector mb-2">
                   <label class="form-label small fw-bold text-muted">Talle:</label>
                   <div class="d-flex flex-wrap gap-1">
                     @for (t of producto.talles; track t) {
@@ -76,6 +83,8 @@
                       </button>
                     }
                   </div>
+                </div>
+                <div class="d-flex justify-content-between align-items-center">
                   <small class="text-muted size-hint">
                     @if (talleSeleccionado()[producto.id]) {
                       <span>Talle {{ talleSeleccionado()[producto.id] }} seleccionado</span>
@@ -83,10 +92,6 @@
                       <span>Seleccioná un talle</span>
                     }
                   </small>
-                </div>
-
-                <div class="d-flex justify-content-between align-items-center mt-auto">
-                  <span class="product-price">${{ producto.precio | number }}</span>
                   <button
                     (click)="agregarAlCarrito(producto)"
                     class="btn-add-cart"
