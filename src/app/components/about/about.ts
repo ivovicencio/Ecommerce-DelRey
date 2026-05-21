@@ -34,6 +34,9 @@ export class About implements OnInit, AfterViewInit {
         this.reviewCount.set(count);
       }
     });
+    this.http.get<{ valor: number }>(`${environment.apiUrl}/contador/whatsapp`).subscribe({
+      next: (res) => this.whatsappClicks.set(res.valor)
+    });
   }
 
   ngAfterViewInit() {
@@ -49,6 +52,8 @@ export class About implements OnInit, AfterViewInit {
   }
 
   contarClick() {
-    this.whatsappClicks.update(c => c + 1);
+    this.http.post<{ valor: number }>(`${environment.apiUrl}/contador/whatsapp/incrementar`, {}).subscribe({
+      next: (res) => this.whatsappClicks.set(res.valor)
+    });
   }
 }
