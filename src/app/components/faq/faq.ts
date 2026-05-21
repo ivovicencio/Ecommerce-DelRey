@@ -34,27 +34,27 @@ export class Faq {
     },
     {
       pregunta: '¿Cuánto tarda la entrega?',
-      respuesta: 'El tiempo de entrega depende de tu ubicación. Generalmente los pedidos se despachan dentro de las 48 a 72 horas hábiles después de confirmado el pago. Te enviaremos el número de seguimiento cuando esté en camino.',
+      respuesta: 'Apenas confirmamos tu pago, despachamos el pedido desde Piedra dentro de las 48 a 72 horas hábiles. El envío va por Correo Argentino o Busplus y el costo lo pagás vos cuando lo recibís. No manejamos número de seguimiento, pero si pasa algo te avisamos.',
       abierta: false,
     },
     {
       pregunta: '¿Puedo cambiar o cancelar mi pedido?',
-      respuesta: 'Sí, podés cancelar o cambiar tu pedido hasta 24 horas después de realizada la compra. Comunicate con nosotros a través de nuestras redes o por WhatsApp y te gestionamos el cambio sin problema.',
+      respuesta: 'Si querés cancelar o cambiar algo, mandanos un WhatsApp al número que está en la página. Nosotros lo gestionamos con el admin y listo. Es todo directo entre vos y nosotros, sin vueltas.',
       abierta: false,
     },
     {
       pregunta: '¿Cómo contacto con la tienda?',
-      respuesta: 'Podés contactarnos por WhatsApp, Instagram o Facebook. Todos los links están disponibles en el pie de página de nuestra web. Respondemos de lunes a viernes de 9 a 18 hs.',
+      respuesta: 'Por WhatsApp, Instagram o Facebook. Todos los links están en el pie de página. Respondemos de lunes a viernes de 9 a 18 hs.',
       abierta: false,
     },
     {
       pregunta: '¿Hay stock disponible?',
-      respuesta: 'Todos los productos que ves en el catálogo están disponibles. Si un talle no aparece es porque no tenemos stock de ese talle en particular. Cualquier consulta, no dudes en contactarnos.',
+      respuesta: 'Todo lo que ves en el catálogo está disponible. Si un talle no aparece es porque no tenemos. Ante cualquier duda, consultanos.',
       abierta: false,
     },
     {
       pregunta: '¿Hacen envíos a todo el país?',
-      respuesta: 'Sí, hacemos envíos a toda la República Argentina a través de Correo Argentino y empresas de logística privada. El costo del envío se calcula al momento de finalizar la compra según tu código postal.',
+      respuesta: 'Sí, enviamos a toda la Argentina por Correo Argentino o Busplus. El costo del envío lo pagás cuando lo recibís en tu domicilio. No tenemos un mínimo de compra.',
       abierta: false,
     },
   ]);
