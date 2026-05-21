@@ -177,7 +177,7 @@
           <div class="mb-3">
             <label class="form-label fw-bold small mb-2">Talles disponibles</label>
             <div class="d-flex flex-wrap gap-2">
-              @for (t of [35,36,37,38,39,40,41,42,43,44,45,46]; track t) {
+              @for (t of [34,35,36,37,38,39,40,41,42,43,44,45,46]; track t) {
                 <button type="button" class="btn btn-talle-select"
                   [class.active]="prodTalles().includes(t)"
                   (click)="toggleTalle(t)" [disabled]="enviando()">
