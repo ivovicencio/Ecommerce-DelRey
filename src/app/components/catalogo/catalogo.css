@@ -9,24 +9,133 @@
   background: linear-gradient(180deg, #ffffff 0%, #fdfbff 100%);
 }
 
-/* --- Filter Buttons --- */
-.btn-filter {
-  border: 1px solid var(--mauve-logo);
-  color: var(--mauve-logo) !important;
+/* --- Filter Container --- */
+.filtros-container {
+  max-width: 800px;
+  margin: 0 auto 2rem;
   background: white;
-  padding: 8px 25px;
-  border-radius: 50px;
-  font-weight: 700;
-  transition: all 0.3s ease;
-  position: relative;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  box-shadow: 0 2px 16px rgba(74, 48, 77, 0.06);
+  border: 1px solid rgba(163, 128, 164, 0.1);
 }
 
-.btn-filter:hover,
-.btn-filter.active {
-  background-color: var(--mauve-logo) !important;
-  color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(163, 128, 164, 0.3);
-  transform: translateY(-2px);
+.filtros-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filtro-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filtro-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--plum-dark);
+}
+
+.filtro-opciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filtro-btn {
+  padding: 6px 18px;
+  border: 1.5px solid var(--mauve-logo);
+  color: var(--mauve-logo);
+  background: white;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.filtro-btn:hover {
+  background: var(--mauve-logo);
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(163, 128, 164, 0.25);
+}
+
+.filtro-btn.active {
+  background: var(--plum-dark);
+  color: white;
+  border-color: var(--plum-dark);
+  box-shadow: 0 3px 10px rgba(74, 48, 77, 0.2);
+}
+
+.filtro-divisor {
+  width: 1px;
+  background: rgba(163, 128, 164, 0.15);
+  align-self: stretch;
+  margin: 0 0.5rem;
+}
+
+.filtros-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(163, 128, 164, 0.1);
+}
+
+.resultados-count {
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.limpiar-filtros {
+  background: none;
+  border: none;
+  color: var(--mauve-logo);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+}
+
+.limpiar-filtros:hover {
+  background: rgba(163, 128, 164, 0.1);
+  color: var(--plum-dark);
+}
+
+@media (max-width: 576px) {
+  .filtros-container {
+    padding: 1rem;
+    border-radius: 14px;
+  }
+
+  .filtros-inner {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .filtro-divisor {
+    width: 100%;
+    height: 1px;
+    margin: 0;
+  }
+
+  .filtro-grupo {
+    min-width: unset;
+  }
 }
 
 /* --- Product Column Stagger --- */

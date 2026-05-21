@@ -3,19 +3,41 @@
     <h2 class="display-5 fw-bold text-center mb-2 brand-title">NUESTROS PRODUCTOS</h2>
     <p class="text-center text-muted mb-5">Calidad garantizada en cada par</p>
 
-    <!-- Filtro por género -->
-    <div class="d-flex justify-content-center gap-2 mb-3 flex-wrap">
-      <button (click)="filtrar('todos')" [class.active]="categoriaActual === 'todos'" class="btn btn-filter">Todos</button>
-      <button (click)="filtrar('masculino')" [class.active]="categoriaActual === 'masculino'" class="btn btn-filter">Masculino</button>
-      <button (click)="filtrar('femenino')" [class.active]="categoriaActual === 'femenino'" class="btn btn-filter">Femenino</button>
-      <button (click)="filtrar('unisex')" [class.active]="categoriaActual === 'unisex'" class="btn btn-filter">Unisex</button>
-    </div>
+    <!-- Filtros -->
+    <div class="filtros-container">
+      <div class="filtros-inner">
+        <!-- Género -->
+        <div class="filtro-grupo">
+          <span class="filtro-label">Género</span>
+          <div class="filtro-opciones">
+            <button (click)="filtrar('todos')" [class.active]="categoriaActual === 'todos'" class="filtro-btn">Todos</button>
+            <button (click)="filtrar('masculino')" [class.active]="categoriaActual === 'masculino'" class="filtro-btn">Masculino</button>
+            <button (click)="filtrar('femenino')" [class.active]="categoriaActual === 'femenino'" class="filtro-btn">Femenino</button>
+            <button (click)="filtrar('unisex')" [class.active]="categoriaActual === 'unisex'" class="filtro-btn">Unisex</button>
+          </div>
+        </div>
 
-    <!-- Filtro por tipo/estilo -->
-    <div class="d-flex justify-content-center gap-2 mb-5 flex-wrap">
-      <button (click)="filtrarTipo('todos')" [class.active]="tipoActual === 'todos'" class="btn btn-filter btn-filter-sm">Todos</button>
-      @for (t of TIPOS; track t) {
-        <button (click)="filtrarTipo(t)" [class.active]="tipoActual === t" class="btn btn-filter btn-filter-sm">{{ t }}</button>
+        <div class="filtro-divisor"></div>
+
+        <!-- Tipo / Estilo -->
+        <div class="filtro-grupo">
+          <span class="filtro-label">Tipo / Estilo</span>
+          <div class="filtro-opciones">
+            <button (click)="filtrarTipo('todos')" [class.active]="tipoActual === 'todos'" class="filtro-btn">Todos</button>
+            @for (t of TIPOS; track t) {
+              <button (click)="filtrarTipo(t)" [class.active]="tipoActual === t" class="filtro-btn">{{ t }}</button>
+            }
+          </div>
+        </div>
+      </div>
+
+      @if (filtrosActivos) {
+        <div class="filtros-info">
+          <span class="resultados-count">{{ productosFiltrados().length }} resultados</span>
+          <button class="limpiar-filtros" (click)="limpiarFiltros()">
+            <i class="bi bi-x-lg me-1"></i>Limpiar filtros
+          </button>
+        </div>
       }
     </div>
 

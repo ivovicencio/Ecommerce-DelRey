@@ -31,6 +31,16 @@ export class Catalogo implements OnInit {
 
     readonly TIPOS = TIPOS;
 
+    get filtrosActivos(): boolean {
+      return this.categoriaActual !== 'todos' || this.tipoActual !== 'todos';
+    }
+
+    limpiarFiltros() {
+      this.categoriaActual = 'todos';
+      this.tipoActual = 'todos';
+      this.aplicarFiltros();
+    }
+
     ngOnInit() {
       this.cargarProductos();
     }
