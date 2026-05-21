@@ -36,6 +36,9 @@
       <button class="btn-tab" [class.active]="tab() === 'estadisticas'" (click)="cambiarTab('estadisticas')">
         <i class="bi bi-graph-up me-1"></i> Estadísticas
       </button>
+      <button class="btn-tab" [class.active]="tab() === 'resenas'" (click)="cambiarTab('resenas')">
+        <i class="bi bi-star me-1"></i> Reseñas
+      </button>
     </div>
 
     <!-- ════════════════════════════════════════════
@@ -268,6 +271,60 @@
                       <i class="bi bi-eye"></i>
                     </button>
                   </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    }
+
+    <!-- ════════════════════════════════════════════
+         TAB RESEÑAS
+         ════════════════════════════════════════════ -->
+    @if (tab() === 'resenas') {
+
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h5 class="fw-bold mb-0">Todas las reseñas ({{ resenas().length }})</h5>
+      </div>
+
+      @if (loadingRes()) {
+        <div class="text-center py-4"><div class="spinner-border text-muted"></div></div>
+      }
+
+      @if (!loadingRes() && resenas().length === 0) {
+        <div class="text-center py-5 text-muted">
+          <i class="bi bi-star display-4"></i>
+          <p class="mt-2">No hay reseñas aún.</p>
+        </div>
+      }
+
+      @if (!loadingRes() && resenas().length > 0) {
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Reseña</th>
+                <th>Puntaje</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (r of resenas(); track r.id) {
+                <tr>
+                  <td class="text-muted small">{{ r.id }}</td>
+                  <td class="fw-semibold">{{ r.nombre }}</td>
+                  <td class="small text-muted" style="max-width:300px;">{{ r.mensaje }}</td>
+                  <td>
+                    <span class="text-warning">
+                      @for (s of [1,2,3,4,5]; track s) {
+                        <i class="bi bi-star-fill" [class.text-warning]="s <= (r.puntuacion || 5)" [class.text-secondary]="s > (r.puntuacion || 5)"></i>
+                      }
+                    </span>
+                  </td>
+                  <td class="small text-muted">{{ r.fecha | date:'short' }}</td>
                 </tr>
               }
             </tbody>

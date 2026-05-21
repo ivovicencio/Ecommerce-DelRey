@@ -17,15 +17,21 @@ export class Footer {
 
   nombre = '';
   mensaje = '';
+  puntuacion = 5;
   enviado = false;
   error = '';
+
+  setPuntuacion(p: number) {
+    this.puntuacion = p;
+  }
 
   enviarResena() {
     if (!this.nombre.trim() || !this.mensaje.trim()) return;
 
     this.http.post<{ status: string; msg: string }>(`${this.apiUrl}/contacto/resenas`, {
       nombre: this.nombre.trim(),
-      mensaje: this.mensaje.trim()
+      mensaje: this.mensaje.trim(),
+      puntuacion: this.puntuacion
     }).subscribe({
       next: () => {
         this.enviado = true;

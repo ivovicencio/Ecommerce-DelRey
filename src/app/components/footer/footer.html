@@ -20,9 +20,6 @@
           <a href="https://instagram.com/delreycalzados" target="_blank" rel="noopener" class="social-icon instagram" title="Instagram">
             <i class="fab fa-instagram"></i>
           </a>
-          <a href="https://facebook.com/delreycalzados" target="_blank" rel="noopener" class="social-icon facebook" title="Facebook">
-            <i class="fab fa-facebook-f"></i>
-          </a>
         </div>
       </div>
 
@@ -69,6 +66,16 @@
           <div class="mb-2">
             <textarea class="form-control form-footer rounded-4" rows="2" placeholder="¿Qué te pareció?"
                       [(ngModel)]="mensaje" name="mensaje" required></textarea>
+          </div>
+          <div class="star-rating mb-2">
+            <span class="star-label small text-muted">Puntuación:</span>
+            <div class="stars d-inline-flex ms-2">
+              @for (s of [1,2,3,4,5]; track s) {
+                <i class="bi bi-star-fill star-icon"
+                   [class.active]="s <= puntuacion"
+                   (click)="setPuntuacion(s)"></i>
+              }
+            </div>
           </div>
           <button type="submit" class="btn btn-footer-send rounded-pill w-100"
                   [disabled]="!reviewForm.form.valid">

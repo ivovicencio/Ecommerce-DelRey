@@ -37,7 +37,7 @@ export class Hero implements AfterViewInit, OnInit {
     });
     this.http.get<Resena[]>(`${environment.apiUrl}/contacto/resenas`).subscribe({
       next: (data) => {
-        this.resenas.set(data.slice(0, 6));
+        this.resenas.set(data.filter(r => (r as any).puntuacion >= 4).slice(0, 6));
       }
     });
   }

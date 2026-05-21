@@ -2,13 +2,15 @@ import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ProductoService } from '../../services/producto/producto.service';
 import { PedidoService } from '../../services/pedido/pedido.service';
 import { ProductoResponse } from '../../interfaces/producto.interface';
 import { Pedido, DetallePedido, ResumenPedidos } from '../../interfaces/pedido.interface';
 import { AuthService } from '../../services/auth/auth.service';
+import { environment } from '../../../environments/environment';
 
-type TabAdmin = 'productos' | 'pedidos' | 'estadisticas';
+type TabAdmin = 'productos' | 'pedidos' | 'estadisticas' | 'resenas';
 type VistaProd = 'lista' | 'crear' | 'editar';
 
 const TIPOS = ['urbano', 'deportivo', 'formal', 'botas'] as const;
@@ -22,6 +24,7 @@ const CATEGORIAS = ['masculino', 'femenino', 'unisex'] as const;
   styleUrls: ['./admin.css'],
 })
 export class Admin implements OnInit {
+  private http = inject(HttpClient);
   private productService = inject(ProductoService);
   private pedidoService = inject(PedidoService);
   private route = inject(ActivatedRoute);
@@ -55,6 +58,10 @@ export class Admin implements OnInit {
   pedidoDetalle = signal<Pedido | null>(null);
   pedidoConfirmando = signal<number | null>(null);
 
+  // ─── Reseñas ───
+  resenas = signal<any[]>([]);
+  loadingRes = signal(false);
+
   // ─── Estadísticas ───
   resumen = signal<ResumenPedidos | null>(null);
   loadingEst = signal(false);
@@ -82,6 +89,7 @@ export class Admin implements OnInit {
     window.history.replaceState({}, '', url);
     if (t === 'pedidos') { this.cargarProductos(); this.cargarPedidos(); }
     if (t === 'estadisticas') this.cargarResumen();
+    if (t === 'resenas') this.cargarResenas();
   }
 
   // ════════════════════════════════════════════
@@ -267,6 +275,18 @@ export class Admin implements OnInit {
       error: (err) => {
         this.errorMsg.set(err?.error?.msg || 'Error al cancelar pedido.');
       }
+    });
+  }
+
+  // ════════════════════════════════════════════
+  //  RESEÑAS
+  // ════════════════════════════════════════════
+
+  cargarResenas() {
+    this.loadingRes.set(true);
+    this.http.get<any[]>(`${environment.apiUrl}/contacto/resenas`).subscribe({
+      next: (data) => { this.resenas.set(data); this.loadingRes.set(false); },
+      error: () => { this.loadingRes.set(false); }
     });
   }
 
