@@ -239,6 +239,7 @@
               <tr>
                 <th>Código</th>
                 <th>Cliente</th>
+                <th>Pago</th>
                 <th>Total</th>
                 <th>Estado</th>
                 <th>Fecha</th>
@@ -250,6 +251,7 @@
                 <tr>
                   <td class="fw-semibold small">{{ p.codigo }}</td>
                   <td>{{ p.cliente_nombre }}</td>
+                  <td><span class="badge bg-info">{{ p.metodo_pago }}</span></td>
                   <td>${{ +p.total | number }}</td>
                   <td>
                     @if (p.estado === 'Completado') {
@@ -379,6 +381,7 @@
           <div class="mb-3">
             <strong>Cliente:</strong> {{ pedidoDetalle()!.cliente_nombre || 'Sin especificar' }}<br>
             <strong>Dirección:</strong> {{ pedidoDetalle()!.cliente_direccion || 'Sin especificar' }}<br>
+            <strong>Pago:</strong> {{ pedidoDetalle()!.metodo_pago || 'No especificado' }}<br>
             <strong>Fecha:</strong> {{ pedidoDetalle()!.fecha | date:'medium' }}<br>
             <strong>Estado:</strong>
             @if (pedidoDetalle()!.estado === 'Completado') {

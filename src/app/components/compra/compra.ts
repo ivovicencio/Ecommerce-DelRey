@@ -18,6 +18,7 @@ export class Compra {
 
   nombre = signal('');
   direccion = signal('');
+  metodoPago = signal('Efectivo');
   enviando = signal(false);
   pedidoCreado = signal<{ codigo: string } | null>(null);
   errorMsg = signal('');
@@ -47,7 +48,7 @@ export class Compra {
       precio_unitario: item.precio
     }));
 
-    this.pedidoService.createPedido(this.carrito.totalPagar(), detalleItems, nombre, direccion).subscribe({
+    this.pedidoService.createPedido(this.carrito.totalPagar(), detalleItems, nombre, direccion, this.metodoPago()).subscribe({
       next: (resp) => {
         this.pedidoCreado.set({ codigo: resp.codigo });
         this.enviando.set(false);
@@ -69,6 +70,7 @@ export class Compra {
     });
     mensaje += `\nTotal: $${total}`;
     mensaje += `\nDirección de entrega: ${direccion}`;
+    mensaje += `\nMétodo de pago: ${this.metodoPago()}`;
     mensaje += `\n\nDel Rey Calzados`;
 
     const numeroWhatsApp = environment.whatsappNumber;

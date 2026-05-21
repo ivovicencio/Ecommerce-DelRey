@@ -286,12 +286,12 @@ export class Admin implements OnInit {
     const r = this.resumen();
     if (!r) return;
 
-    let csv = '\uFEFF'; // BOM para Excel
-    csv += 'Código,Cliente,Dirección,Total,Estado,Fecha\n';
+    let csv = '\uFEFF';
+    csv += 'Código,Cliente,Dirección,Pago,Total,Estado,Fecha\n';
     r.pedidos.forEach((p: Pedido) => {
       const nom = p.cliente_nombre || '';
       const dir = p.cliente_direccion || '';
-      csv += `"${p.codigo}","${nom}","${dir}",${Number(p.total).toFixed(2)},"${p.estado}","${new Date(p.fecha).toLocaleDateString()}"\n`;
+      csv += `"${p.codigo}","${nom}","${dir}","${p.metodo_pago || ''}",${Number(p.total).toFixed(2)},"${p.estado}","${new Date(p.fecha).toLocaleDateString()}"\n`;
     });
 
     csv += '\n';

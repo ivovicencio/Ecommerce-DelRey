@@ -65,6 +65,23 @@
             <label for="direccionInput">Dirección de entrega</label>
           </div>
 
+          <!-- Método de pago -->
+          <div class="metodo-pago mb-4">
+            <label class="form-label fw-bold mb-2">Método de pago</label>
+            <div class="d-flex gap-3">
+              <label class="btn-pago" [class.active]="metodoPago() === 'Efectivo'">
+                <input type="radio" name="metodoPago" value="Efectivo" (change)="metodoPago.set('Efectivo')" [checked]="metodoPago() === 'Efectivo'">
+                <i class="bi bi-cash"></i>
+                <span>Efectivo</span>
+              </label>
+              <label class="btn-pago" [class.active]="metodoPago() === 'Transferencia'">
+                <input type="radio" name="metodoPago" value="Transferencia" (change)="metodoPago.set('Transferencia')" [checked]="metodoPago() === 'Transferencia'">
+                <i class="bi bi-bank"></i>
+                <span>Transferencia</span>
+              </label>
+            </div>
+          </div>
+
           <h5 class="fw-bold mb-3">
             <i class="bi bi-bag-check me-2"></i>Resumen del pedido
           </h5>

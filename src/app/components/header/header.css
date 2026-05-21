@@ -8,10 +8,14 @@
 
 /* --- Premium Top Bar --- */
 .navbar {
-  background: #ffffff !important;
-  border-bottom: 2px solid rgba(163, 128, 164, 0.15);
-  box-shadow: 0 2px 16px rgba(74, 48, 77, 0.06);
-  transition: all 0.3s ease;
+  backdrop-filter: blur(15px);
+  background-image: linear-gradient(135deg,
+    rgba(163, 128, 164, 0.95),
+    rgba(242, 235, 242, 0.85)
+  ) !important;
+  border-bottom: 2px solid rgba(163, 128, 164, 0.2);
+  box-shadow: 0 4px 20px rgba(74, 48, 77, 0.08);
+  transition: all 0.4s ease;
 }
 
 /* --- Brand --- */
@@ -29,8 +33,9 @@
 .brand-del-rey {
   font-family: 'Great Vibes', cursive;
   font-size: 2rem;
-  color: var(--plum-dark);
+  color: #ffffff;
   letter-spacing: 0.5px;
+  text-shadow: 0 1px 3px rgba(74, 48, 77, 0.2);
 }
 
 .brand-calzados {
@@ -38,14 +43,15 @@
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 3px;
-  color: var(--mauve-logo);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 700;
 }
 
 .brand-icon {
-  color: var(--plum-dark) !important;
+  color: #ffffff !important;
   font-size: 1.8rem;
-  -webkit-text-fill-color: var(--plum-dark) !important;
+  -webkit-text-fill-color: #ffffff !important;
+  filter: drop-shadow(0 2px 4px rgba(74, 48, 77, 0.2));
   transition: transform 0.3s ease;
 }
 
@@ -222,12 +228,13 @@
 
   .navbar-nav {
     text-align: center;
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 1.2rem;
-    margin-top: 0.8rem;
-    border: 1px solid rgba(163, 128, 164, 0.15);
-    box-shadow: 0 8px 30px rgba(74, 48, 77, 0.08);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+    border: 1px solid rgba(163, 128, 164, 0.3);
+    box-shadow: 0 8px 30px rgba(74, 48, 77, 0.12);
   }
 
   .nav-item {

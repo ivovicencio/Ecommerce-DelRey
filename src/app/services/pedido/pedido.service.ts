@@ -24,8 +24,8 @@ export class PedidoService {
 
   constructor(private http: HttpClient) {}
 
-  createPedido(total: number, items: DetallePedidoRequest[], cliente_nombre: string, cliente_direccion: string): Observable<CreatePedidoResponse> {
-    return this.http.post<CreatePedidoResponse>(`${this.apiUrl}/pedidos`, { total, items, cliente_nombre, cliente_direccion });
+  createPedido(total: number, items: DetallePedidoRequest[], cliente_nombre: string, cliente_direccion: string, metodo_pago: string): Observable<CreatePedidoResponse> {
+    return this.http.post<CreatePedidoResponse>(`${this.apiUrl}/pedidos`, { total, items, cliente_nombre, cliente_direccion, metodo_pago });
   }
 
   getPedidos(estado?: string): Observable<Pedido[]> {

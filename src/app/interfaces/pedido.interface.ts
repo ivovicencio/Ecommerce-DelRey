@@ -12,6 +12,7 @@ export interface Pedido {
   codigo: string;
   cliente_nombre: string;
   cliente_direccion: string;
+  metodo_pago: string;
   total: string | number;
   estado: 'Pendiente' | 'Completado' | 'Cancelado';
   fecha: string;

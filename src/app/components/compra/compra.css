@@ -133,6 +133,52 @@
 
 .plum-text { color: var(--plum-dark); }
 
+/* --- Método de pago --- */
+.metodo-pago .form-label {
+  color: var(--plum-dark);
+}
+
+.btn-pago {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.5rem;
+  border: 2px solid #e0d6e0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex: 1;
+  justify-content: center;
+  font-weight: 600;
+  color: #6c757d;
+  background: white;
+}
+
+.btn-pago input {
+  display: none;
+}
+
+.btn-pago i {
+  font-size: 1.3rem;
+  color: #999;
+  transition: color 0.25s;
+}
+
+.btn-pago:hover {
+  border-color: var(--mauve-logo);
+  background: rgba(163, 128, 164, 0.04);
+}
+
+.btn-pago.active {
+  border-color: var(--plum-dark);
+  background: rgba(74, 48, 77, 0.06);
+  color: var(--plum-dark);
+}
+
+.btn-pago.active i {
+  color: var(--plum-dark);
+}
+
 /* --- WhatsApp Button --- */
 .btn-whatsapp {
   background: linear-gradient(135deg, #25D366, #128C7E);
