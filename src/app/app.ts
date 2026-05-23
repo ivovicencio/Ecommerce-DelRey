@@ -9,9 +9,15 @@ import { Carrito } from './services/carrito/carrito';
 
 const routeFade = trigger('routeFade', [
   transition('* <=> *', [
+    query(':enter, :leave', [
+      style({ position: 'absolute', left: 0, right: 0, top: 0 })
+    ], { optional: true }),
+    query(':leave', [
+      animate('0.2s ease', style({ opacity: 0 }))
+    ], { optional: true }),
     query(':enter', [
-      style({ opacity: 0, transform: 'translateY(12px)' }),
-      animate('0.35s cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1, transform: 'translateY(0)' }))
+      style({ opacity: 0 }),
+      animate('0.35s cubic-bezier(0.4, 0, 0.2, 1)', style({ opacity: 1 }))
     ], { optional: true })
   ])
 ]);

@@ -36,7 +36,12 @@
 }
 
 @media (max-width: 576px) {
-  .scroll-top-btn {
+.route-container {
+  position: relative;
+  min-height: 60vh;
+}
+
+.scroll-top-btn {
     bottom: 20px;
     right: 20px;
     width: 42px;

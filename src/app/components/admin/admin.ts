@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Cropper from 'cropperjs';
 import { ProductoService } from '../../services/producto/producto.service';
 import { PedidoService } from '../../services/pedido/pedido.service';
 import { ProductoResponse } from '../../interfaces/producto.interface';
@@ -30,6 +31,10 @@ export class Admin implements OnInit {
   private route = inject(ActivatedRoute);
   public auth = inject(AuthService);
 
+  private cropper: Cropper | null = null;
+  cropModalOpen = signal(false);
+  cropImageUrl = signal<string | null>(null);
+
   tab = signal<TabAdmin>('productos');
   vistaProd = signal<VistaProd>('lista');
 
@@ -50,6 +55,49 @@ export class Admin implements OnInit {
   enviando = signal(false);
   exito = signal('');
   errorMsg = signal('');
+
+  // ─── Cambiar contraseña ───
+  showPasswordForm = signal(false);
+  newPassword = '';
+  confirmPassword = '';
+  passwordError = signal('');
+  passwordExito = signal('');
+
+  togglePasswordForm() {
+    this.showPasswordForm.update(v => !v);
+    this.passwordError.set('');
+    this.passwordExito.set('');
+    this.newPassword = '';
+    this.confirmPassword = '';
+  }
+
+  cambiarPassword() {
+    this.passwordError.set('');
+    this.passwordExito.set('');
+
+    if (!this.newPassword || this.newPassword.length < 8) {
+      this.passwordError.set('La contraseña debe tener al menos 8 caracteres.');
+      return;
+    }
+    if (this.newPassword !== this.confirmPassword) {
+      this.passwordError.set('Las contraseñas no coinciden.');
+      return;
+    }
+
+    this.http.post(`${environment.apiUrl}/auth/cambiar-password`, {
+      password: this.newPassword
+    }).subscribe({
+      next: () => {
+        this.passwordExito.set('Contraseña actualizada correctamente.');
+        this.newPassword = '';
+        this.confirmPassword = '';
+        setTimeout(() => { this.passwordExito.set(''); this.showPasswordForm.set(false); }, 3000);
+      },
+      error: (err) => {
+        this.passwordError.set(err?.error?.msg || 'Error al cambiar la contraseña.');
+      }
+    });
+  }
 
   // ─── Pedidos ───
   pedidos = signal<Pedido[]>([]);
@@ -152,11 +200,47 @@ export class Admin implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files?.[0];
     if (file) {
-      this.prodImagenFile = file;
       const reader = new FileReader();
-      reader.onload = () => this.prodImagenPreview.set(reader.result as string);
+      reader.onload = () => {
+        this.cropImageUrl.set(reader.result as string);
+        this.cropModalOpen.set(true);
+        setTimeout(() => this.initCropper(), 150);
+      };
       reader.readAsDataURL(file);
     }
+  }
+
+  initCropper() {
+    if (this.cropper) this.cropper.destroy();
+    const img = document.getElementById('crop-image') as HTMLImageElement;
+    if (!img) return;
+    this.cropper = new Cropper(img, {
+      aspectRatio: 1,
+      viewMode: 1,
+      autoCropArea: 1,
+      responsive: true,
+      background: false,
+    });
+  }
+
+  applyCrop() {
+    if (!this.cropper) return;
+    const canvas = this.cropper.getCroppedCanvas({
+      width: 400,
+      height: 400,
+    });
+    canvas.toBlob((blob) => {
+      if (!blob) return;
+      this.prodImagenFile = new File([blob], 'cropped.jpg', { type: 'image/jpeg' });
+      this.prodImagenPreview.set(canvas.toDataURL('image/jpeg'));
+      this.cancelCrop();
+    }, 'image/jpeg', 0.92);
+  }
+
+  cancelCrop() {
+    if (this.cropper) { this.cropper.destroy(); this.cropper = null; }
+    this.cropModalOpen.set(false);
+    this.cropImageUrl.set(null);
   }
 
   guardarProducto() {

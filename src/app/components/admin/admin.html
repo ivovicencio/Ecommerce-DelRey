@@ -10,7 +10,10 @@
         <h4 class="fw-bold mb-0">Panel de Gestión</h4>
         <span class="badge bg-dark rounded-pill">{{ auth.usuario()?.nombre }}</span>
       </div>
-      <div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-warning btn-sm rounded-pill" (click)="togglePasswordForm()" title="Cambiar contraseña">
+          <i class="bi bi-key"></i>
+        </button>
         <button class="btn btn-outline-danger btn-sm rounded-pill" (click)="auth.logout()" title="Cerrar sesión">
           <i class="bi bi-box-arrow-right"></i>
         </button>
@@ -24,6 +27,35 @@
     <div *ngIf="errorMsg()" class="alert alert-danger rounded-3 d-flex align-items-center gap-2 py-2">
       <i class="bi bi-exclamation-triangle-fill"></i> {{ errorMsg() }}
     </div>
+
+    <!-- ============ CAMBIAR CONTRASEÑA ============ -->
+    @if (showPasswordForm()) {
+      <div class="card border-0 shadow rounded-4 p-4 mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-bold mb-0"><i class="bi bi-key me-2"></i>Cambiar contraseña</h5>
+          <button type="button" class="btn-close" (click)="togglePasswordForm()"></button>
+        </div>
+
+        @if (passwordExito()) {
+          <div class="alert alert-success rounded-3 py-2 small"><i class="bi bi-check-circle-fill me-1"></i>{{ passwordExito() }}</div>
+        }
+        @if (passwordError()) {
+          <div class="alert alert-danger rounded-3 py-2 small"><i class="bi bi-exclamation-triangle-fill me-1"></i>{{ passwordError() }}</div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label fw-bold small">Nueva contraseña</label>
+          <input type="password" class="form-control rounded-pill" [(ngModel)]="newPassword" placeholder="Mínimo 8 caracteres">
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-bold small">Confirmar contraseña</label>
+          <input type="password" class="form-control rounded-pill" [(ngModel)]="confirmPassword" placeholder="Repetí la contraseña">
+        </div>
+        <button class="btn btn-success rounded-pill px-4 fw-bold" (click)="cambiarPassword()">
+          <i class="bi bi-check-lg me-1"></i>ACTUALIZAR CONTRASEÑA
+        </button>
+      </div>
+    }
 
     <!-- ============ TABS ============ -->
     <div class="d-flex gap-2 mb-4 admin-tabs">
@@ -424,6 +456,33 @@
 
   </div>
 </section>
+
+<!-- Modal recortar imagen -->
+@if (cropModalOpen()) {
+  <div class="modal fade show d-block" tabindex="-1" style="background:rgba(0,0,0,0.6);z-index:1060;" (click)="cancelCrop()">
+    <div class="modal-dialog modal-dialog-centered modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-content border-0 rounded-4 shadow-lg overflow-hidden">
+        <div class="modal-header border-0 bg-dark text-white py-3">
+          <h5 class="modal-title fw-bold"><i class="bi bi-crop me-2"></i>Recortar imagen</h5>
+          <button type="button" class="btn-close btn-close-white" (click)="cancelCrop()"></button>
+        </div>
+        <div class="modal-body p-0 bg-dark" style="min-height:300px;">
+          @if (cropImageUrl()) {
+            <img id="crop-image" [src]="cropImageUrl()" style="max-width:100%;display:block;">
+          }
+        </div>
+        <div class="modal-footer border-0 d-flex justify-content-center gap-3 p-3">
+          <button class="btn btn-outline-secondary rounded-pill px-4" (click)="cancelCrop()">
+            <i class="bi bi-x-lg me-1"></i> Cancelar
+          </button>
+          <button class="btn btn-success rounded-pill px-4 fw-bold" (click)="applyCrop()">
+            <i class="bi bi-check-lg me-1"></i> APLICAR RECORTE
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
 
 <!-- Modal detalle pedido -->
 @if (pedidoDetalle()) {
